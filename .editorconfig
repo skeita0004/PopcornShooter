@@ -1,0 +1,18 @@
+root = true
+
+# All files
+[*]
+indent_style = space
+charset = utf-8-bom
+
+# HLSL
+[*.hlsl]
+charset = utf-8
+
+# CSV
+[*.csv]
+charset = utf-8
+
+# Xml files
+[*.xml]
+indent_size = 2
