@@ -103,6 +103,10 @@
     <ClCompile Include="TestScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Skybox.cpp" />
+    <ClCompile Include="Oden.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -179,6 +183,18 @@
     </ClInclude>
     <ClInclude Include="Engine\SafeCleaning.h">
       <Filter>Engine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.hpp">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.hpp">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Oden.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
