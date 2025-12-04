@@ -1,4 +1,4 @@
-#include "Transform.h"
+ï»¿#include "Transform.h"
 
 
 
@@ -17,25 +17,25 @@ Transform::~Transform()
 {
 }
 
-void Transform::Calclation()
+void Transform::Calculation()
 {
-	//ˆÚ“®s—ñ
+	//ç§»å‹•è¡Œåˆ—
 	matTranslate_ = XMMatrixTranslation(position_.x, position_.y, position_.z);
 
-	//‰ñ“]s—ñ
+	//å›žè»¢è¡Œåˆ—
 	XMMATRIX rotateX, rotateY, rotateZ;
 	rotateX = XMMatrixRotationX(XMConvertToRadians(rotate_.x));
 	rotateY = XMMatrixRotationY(XMConvertToRadians(rotate_.y));
 	rotateZ = XMMatrixRotationZ(XMConvertToRadians(rotate_.z));
 	matRotate_ = rotateZ * rotateX * rotateY;
 
-	//Šg‘åk¬
+	//æ‹¡å¤§ç¸®å°
 	matScale_ = XMMatrixScaling(scale_.x, scale_.y, scale_.z);
 }
 
 XMMATRIX Transform::GetWorldMatrix() 
 {
-	Calclation();
+	Calculation();
 	if (pParent_)
 	{
 		return  matScale_ * matRotate_ * matTranslate_ * pParent_->GetWorldMatrix();
@@ -43,4 +43,3 @@ XMMATRIX Transform::GetWorldMatrix()
 
 	return  matScale_ * matRotate_ * matTranslate_;
 }
-
