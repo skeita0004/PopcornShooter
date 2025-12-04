@@ -93,7 +93,7 @@ void FbxParts::InitVertex(fbxsdk::FbxMesh * mesh)
 			FbxLayerElementUV * pUV = mesh->GetLayer(0)->GetUVs();
 			int uvIndex = mesh->GetTextureUVIndex(poly, vertex, FbxLayerElement::eTextureDiffuse);
 			FbxVector2  uv = pUV->GetDirectArray().GetAt(uvIndex);
-			pVertexData_[index].uv = XMFLOAT3((float)uv.mData[0], (float)(1.0f - uv.mData[1]), 0.0f);
+			pVertexData_[index].uv = XMFLOAT3((float)uv.mData[0] * 10, (float)(1.0f - uv.mData[1] * 10), 0.0f);
 		}
 	}
 
@@ -106,7 +106,7 @@ void FbxParts::InitVertex(fbxsdk::FbxMesh * mesh)
 		for (int k = 0; k < m_dwNumUV; k++)
 		{
 			FbxVector2 uv = pUV->GetDirectArray().GetAt(k);
-			pVertexData_[k].uv = XMFLOAT3((float)uv.mData[0], (float)(1.0f - uv.mData[1]), 0.0f);
+			pVertexData_[k].uv = XMFLOAT3((float)uv.mData[0] * 10, (float)(1.0f - uv.mData[1] * 10), 0.0f);
 		}
 	}
 
@@ -337,9 +337,6 @@ void FbxParts::InitSkelton(FbxMesh * pMesh)
 		}
 	}
 
-
-
-
 	// それぞれのボーンに影響を受ける頂点を調べる
 	// そこから逆に、頂点ベースでボーンインデックス・重みを整頓する
 	for (int i = 0; i < numBone_; i++)
@@ -349,27 +346,26 @@ void FbxParts::InitSkelton(FbxMesh * pMesh)
 		double * pdWeight = ppCluster_[i]->GetControlPointWeights();     //頂点ごとのウェイト情報
 
 																				 //頂点側からインデックスをたどって、頂点サイドで整理する
-		for (int k = 0; k < numIndex; k++)
+		for (int j = 0; j < numIndex; j++)
 		{
 			// 頂点に関連付けられたウェイト情報がボーン５本以上の場合は、重みの大きい順に４本に絞る
-			for (int m = 0; m < 4; m++)
+			for (int k = 0; k < 4; k++)
 			{
-				if (m >= numBone_)
+				if (k >= numBone_)
 					break;
 
-				if (pdWeight[k] > pWeightArray_[piIndex[k]].pBoneWeight[m])
+				if (pdWeight[j] > pWeightArray_[piIndex[j]].pBoneWeight[k])
 				{
-					for (int n = numBone_ - 1; n > m; n--)
+					for (int m = numBone_ - 1; m > k; m--)
 					{
-						pWeightArray_[piIndex[k]].pBoneIndex[n] = pWeightArray_[piIndex[k]].pBoneIndex[n - 1];
-						pWeightArray_[piIndex[k]].pBoneWeight[n] = pWeightArray_[piIndex[k]].pBoneWeight[n - 1];
+						pWeightArray_[piIndex[j]].pBoneIndex[m]  = pWeightArray_[piIndex[j]].pBoneIndex[m - 1];
+						pWeightArray_[piIndex[j]].pBoneWeight[m] = pWeightArray_[piIndex[j]].pBoneWeight[m - 1];
 					}
-					pWeightArray_[piIndex[k]].pBoneIndex[m] = i;
-					pWeightArray_[piIndex[k]].pBoneWeight[m] = (float)pdWeight[k];
+					pWeightArray_[piIndex[j]].pBoneIndex[k]  = i;
+					pWeightArray_[piIndex[j]].pBoneWeight[k] = (float)pdWeight[j];
 					break;
 				}
 			}
-
 		}
 	}
 
@@ -450,7 +446,7 @@ void FbxParts::Draw(Transform& transform)
 		cb.speculer = pMaterial_[i].specular;
 		cb.shininess = pMaterial_[i].shininess;
 		cb.cameraPosition = XMFLOAT4(Camera::GetPosition().x, Camera::GetPosition().y, Camera::GetPosition().z, 0);
-		cb.lightDirection = XMFLOAT4(1, -1, 1, 0);
+		cb.lightDirection = XMFLOAT4(0, -1, 0, 0);
 		cb.isTexture = pMaterial_[i].pTexture != nullptr;
 
 
@@ -573,9 +569,7 @@ bool FbxParts::GetBonePosition(std::string boneName, XMFLOAT3 * position)
 
 			return true;
 		}
-
 	}
-
 	return false;
 }
 
