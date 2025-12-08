@@ -71,13 +71,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)Engine;C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\include;C:\Program Files\Autodesk\FBX\FBX SDK\2020.0.1\include;C:\Program Files\Autodesk\FBX\FBX SDK\2020.0\include;C:\Program Files\Autodesk\FBX\FBX SDK\2019.5\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Source\Engine;C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\include;C:\Program Files\Autodesk\FBX\FBX SDK\2020.0.1\include;C:\Program Files\Autodesk\FBX\FBX SDK\2020.0\include;C:\Program Files\Autodesk\FBX\FBX SDK\2019.5\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\lib\x64\debug;C:\Program Files\Autodesk\FBX\FBX SDK\2020.0.1\lib\vs2017\x64\debug;C:\Program Files\Autodesk\FBX\FBX SDK\2020.0\lib\vs2017\x64\debug;C:\Program Files\Autodesk\FBX\FBX SDK\2019.5\lib\vs2017\x64\debug;$(LibraryPath)</LibraryPath>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>NativeMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)Engine;C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\include;C:\Program Files\Autodesk\FBX\FBX SDK\2020.0.1\include;C:\Program Files\Autodesk\FBX\FBX SDK\2019.5\include;C:\Program Files\Autodesk\FBX\FBX SDK\2020.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Source\Engine;C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\include;C:\Program Files\Autodesk\FBX\FBX SDK\2020.0.1\include;C:\Program Files\Autodesk\FBX\FBX SDK\2019.5\include;C:\Program Files\Autodesk\FBX\FBX SDK\2020.0\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\lib\x64\release;C:\Program Files\Autodesk\FBX\FBX SDK\2020.0.1\lib\vs2017\x64\release;C:\Program Files\Autodesk\FBX\FBX SDK\2020.0\lib\vs2017\x64\release;C:\Program Files\Autodesk\FBX\FBX SDK\2019.5\lib\vs2017\x64\release;$(LibraryPath)</LibraryPath>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>NativeMinimumRules.ruleset</CodeAnalysisRuleSet>
@@ -135,65 +135,71 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Audio.cpp" />
-    <ClCompile Include="Engine\BillBoard.cpp" />
-    <ClCompile Include="Engine\BoxCollider.cpp" />
-    <ClCompile Include="Engine\Camera.cpp" />
-    <ClCompile Include="Engine\Collider.cpp" />
-    <ClCompile Include="Engine\CsvReader.cpp" />
-    <ClCompile Include="Engine\Debug.cpp" />
-    <ClCompile Include="Engine\Direct3D.cpp" />
-    <ClCompile Include="Engine\Fbx.cpp" />
-    <ClCompile Include="Engine\FbxParts.cpp" />
-    <ClCompile Include="Engine\GameObject.cpp" />
-    <ClCompile Include="Engine\Image.cpp" />
-    <ClCompile Include="Engine\Input.cpp" />
-    <ClCompile Include="Engine\Main.cpp" />
-    <ClCompile Include="Engine\Model.cpp" />
-    <ClCompile Include="Engine\VFX.cpp" />
-    <ClCompile Include="Engine\RootObject.cpp" />
-    <ClCompile Include="Engine\SceneManager.cpp" />
-    <ClCompile Include="Engine\SphereCollider.cpp" />
-    <ClCompile Include="Engine\Sprite.cpp" />
-    <ClCompile Include="Engine\Text.cpp" />
-    <ClCompile Include="Engine\Texture.cpp" />
-    <ClCompile Include="Engine\Transform.cpp" />
-    <ClCompile Include="Oden.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Skybox.cpp" />
-    <ClCompile Include="Stage.cpp" />
-    <ClCompile Include="TestScene.cpp" />
+    <ClCompile Include="Source\Game\ClearScene.cpp" />
+    <ClCompile Include="Source\Engine\Audio.cpp" />
+    <ClCompile Include="Source\Engine\BillBoard.cpp" />
+    <ClCompile Include="Source\Engine\BoxCollider.cpp" />
+    <ClCompile Include="Source\Engine\Camera.cpp" />
+    <ClCompile Include="Source\Engine\Collider.cpp" />
+    <ClCompile Include="Source\Engine\CsvReader.cpp" />
+    <ClCompile Include="Source\Engine\Debug.cpp" />
+    <ClCompile Include="Source\Engine\Direct3D.cpp" />
+    <ClCompile Include="Source\Engine\Fbx.cpp" />
+    <ClCompile Include="Source\Engine\FbxParts.cpp" />
+    <ClCompile Include="Source\Engine\GameObject.cpp" />
+    <ClCompile Include="Source\Engine\Image.cpp" />
+    <ClCompile Include="Source\Engine\Input.cpp" />
+    <ClCompile Include="Source\Engine\Main.cpp" />
+    <ClCompile Include="Source\Engine\Model.cpp" />
+    <ClCompile Include="Source\Engine\VFX.cpp" />
+    <ClCompile Include="Source\Engine\RootObject.cpp" />
+    <ClCompile Include="Source\Engine\SceneManager.cpp" />
+    <ClCompile Include="Source\Engine\SphereCollider.cpp" />
+    <ClCompile Include="Source\Engine\Sprite.cpp" />
+    <ClCompile Include="Source\Engine\Text.cpp" />
+    <ClCompile Include="Source\Engine\Texture.cpp" />
+    <ClCompile Include="Source\Engine\Transform.cpp" />
+    <ClCompile Include="Source\Game\OverScene.cpp" />
+    <ClCompile Include="Source\Game\Player.cpp" />
+    <ClCompile Include="Source\Game\PlayScene.cpp" />
+    <ClCompile Include="Source\Game\Skybox.cpp" />
+    <ClCompile Include="Source\Game\Stage.cpp" />
+    <ClCompile Include="Source\Game\TestScene.cpp" />
+    <ClCompile Include="Source\Game\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Audio.h" />
-    <ClInclude Include="Engine\BillBoard.h" />
-    <ClInclude Include="Engine\BoxCollider.h" />
-    <ClInclude Include="Engine\Camera.h" />
-    <ClInclude Include="Engine\Collider.h" />
-    <ClInclude Include="Engine\CsvReader.h" />
-    <ClInclude Include="Engine\Debug.h" />
-    <ClInclude Include="Engine\Direct3D.h" />
-    <ClInclude Include="Engine\Fbx.h" />
-    <ClInclude Include="Engine\FbxParts.h" />
-    <ClInclude Include="Engine\GameObject.h" />
-    <ClInclude Include="Engine\Global.h" />
-    <ClInclude Include="Engine\Image.h" />
-    <ClInclude Include="Engine\Input.h" />
-    <ClInclude Include="Engine\Model.h" />
-    <ClInclude Include="Engine\VFX.h" />
-    <ClInclude Include="Engine\RootObject.h" />
-    <ClInclude Include="Engine\SceneManager.h" />
-    <ClInclude Include="Engine\SphereCollider.h" />
-    <ClInclude Include="Engine\Sprite.h" />
-    <ClInclude Include="Engine\Text.h" />
-    <ClInclude Include="Engine\Texture.h" />
-    <ClInclude Include="Engine\Transform.h" />
-    <ClInclude Include="Engine\SafeCleaning.h" />
-    <ClInclude Include="Oden.h" />
-    <ClInclude Include="Player.hpp" />
-    <ClInclude Include="Skybox.h" />
-    <ClInclude Include="Stage.hpp" />
-    <ClInclude Include="TestScene.h" />
+    <ClInclude Include="Source\Game\ClearScene.hpp" />
+    <ClInclude Include="Source\Engine\Audio.h" />
+    <ClInclude Include="Source\Engine\BillBoard.h" />
+    <ClInclude Include="Source\Engine\BoxCollider.h" />
+    <ClInclude Include="Source\Engine\Camera.h" />
+    <ClInclude Include="Source\Engine\Collider.h" />
+    <ClInclude Include="Source\Engine\CsvReader.h" />
+    <ClInclude Include="Source\Engine\Debug.h" />
+    <ClInclude Include="Source\Engine\Direct3D.h" />
+    <ClInclude Include="Source\Engine\Fbx.h" />
+    <ClInclude Include="Source\Engine\FbxParts.h" />
+    <ClInclude Include="Source\Engine\GameObject.h" />
+    <ClInclude Include="Source\Engine\Global.h" />
+    <ClInclude Include="Source\Engine\Image.h" />
+    <ClInclude Include="Source\Engine\Input.h" />
+    <ClInclude Include="Source\Engine\Model.h" />
+    <ClInclude Include="Source\Engine\VFX.h" />
+    <ClInclude Include="Source\Engine\RootObject.h" />
+    <ClInclude Include="Source\Engine\SceneManager.h" />
+    <ClInclude Include="Source\Engine\SphereCollider.h" />
+    <ClInclude Include="Source\Engine\Sprite.h" />
+    <ClInclude Include="Source\Engine\Text.h" />
+    <ClInclude Include="Source\Engine\Texture.h" />
+    <ClInclude Include="Source\Engine\Transform.h" />
+    <ClInclude Include="Source\Engine\SafeCleaning.h" />
+    <ClInclude Include="Source\Game\OverScene.hpp" />
+    <ClInclude Include="Source\Game\Player.hpp" />
+    <ClInclude Include="Source\Game\PlayScene.hpp" />
+    <ClInclude Include="Source\Game\Skybox.h" />
+    <ClInclude Include="Source\Game\Stage.hpp" />
+    <ClInclude Include="Source\Game\TestScene.hpp" />
+    <ClInclude Include="Source\Game\TitleScene.hpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\BillBoard.hlsl">

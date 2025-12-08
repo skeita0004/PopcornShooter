@@ -54,10 +54,13 @@ void Player::Update()
         // forwardに対して180°のベクトル
         vMoveDir += XMVectorNegate(vForward);
     }
+
+    XMVectorAdd()
     if (Input::IsKey(DIK_A))
     {
         // forwardから見た左 
         // forwardに対して-90°のベクトルを求める
+        // 以下の方法は悪手なので、即座にやめること。
         vMoveDir += XMVector3TransformCoord(vForward, XMMatrixRotationY(XMConvertToRadians(-90)));
     }
     if (Input::IsKey(DIK_D))
@@ -66,6 +69,7 @@ void Player::Update()
         // forwardに対して、90°のベクトルを求める
         vMoveDir += XMVector3TransformCoord(vForward, XMMatrixRotationY(XMConvertToRadians(90)));
     }
+    // ここでJump
 
     // 正規化する
     XMFLOAT3 stick = XMFLOAT3(Input::GetPadStickL().x, 0, Input::GetPadStickL().y);
@@ -77,15 +81,6 @@ void Player::Update()
 
     // ここで、velocityを求めて代入すればよろしい。
     vMoveDir = { XMVector3Normalize(vMoveDir) }; // 方向ベクトルを正規化する
-
-    // ダッシュ用に変数を分けたが、ダッシュを実装しないのでは意味がない？
-    // 移動速度が遅くなるところでは有効かも。
-    // 沼地、砂地、とか
-
-    // あと、MOVE_SPEEDに慣性をもたせる
-    // 時間ごとにだんだん増えればよい。
-    // 加速度が必要？
-    // 滑らなくていいので、摩擦は考えない。
 
     // 立ち止まっていたら、速度をリセット
     if (XMVector4Equal(vMoveDir, V_DIR_NONE))
@@ -124,8 +119,11 @@ void Player::Update()
 #pragma region Jump
     const float MAX_HEIGHT = 400.f;
     const float GRAVITY = 1.75f;
-    const float initialVelocity = sqrtf(2 * (MAX_HEIGHT * GRAVITY));
-    static float jumpVelocity{0.f};
+    const float INITIAL_VELOCITY_Y = sqrtf(2 * (MAX_HEIGHT * GRAVITY));
+
+    static float jumpVelocityY{0.f}; // ここがベクトルじゃないのがまずおかしい。
+                                     // あとVelocityじゃなくてSpeedだろう。
+                                     // 本来ならば、移動処理とともにやるべきなの
     static float jumpHei{0.f};
     // ジャンプ
     if (not(isJump_))
@@ -133,15 +131,14 @@ void Player::Update()
         if (Input::IsKeyDown(DIK_SPACE))
         {
             isJump_ = true;
-            jumpVelocity = initialVelocity;
+            jumpVelocityY = INITIAL_VELOCITY_Y;
         }
     }
 
     if (isJump_)
     {
-        
-        jumpVelocity -= GRAVITY;
-        jumpHei += jumpVelocity;
+        jumpVelocityY -= GRAVITY;
+        jumpHei += jumpVelocityY;
 
         if (jumpHei <= 0.f)
         {
@@ -165,6 +162,7 @@ void Player::Update()
 
 void Player::Draw()
 {
+    // ここで影を描画したらよいのでは。
 }
 
 void Player::Release()

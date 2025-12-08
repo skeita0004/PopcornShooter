@@ -31,170 +31,196 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\BoxCollider.cpp">
+    <ClCompile Include="Source\Engine\BoxCollider.cpp">
       <Filter>Engine\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Collider.cpp">
+    <ClCompile Include="Source\Engine\Collider.cpp">
       <Filter>Engine\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\SphereCollider.cpp">
+    <ClCompile Include="Source\Engine\SphereCollider.cpp">
       <Filter>Engine\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Direct3D.cpp">
+    <ClCompile Include="Source\Engine\Direct3D.cpp">
       <Filter>Engine\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Fbx.cpp">
+    <ClCompile Include="Source\Engine\Fbx.cpp">
       <Filter>Engine\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\FbxParts.cpp">
+    <ClCompile Include="Source\Engine\FbxParts.cpp">
       <Filter>Engine\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Input.cpp">
+    <ClCompile Include="Source\Engine\Input.cpp">
       <Filter>Engine\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Sprite.cpp">
+    <ClCompile Include="Source\Engine\Sprite.cpp">
       <Filter>Engine\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Camera.cpp">
+    <ClCompile Include="Source\Engine\Camera.cpp">
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\GameObject.cpp">
+    <ClCompile Include="Source\Engine\GameObject.cpp">
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\RootObject.cpp">
+    <ClCompile Include="Source\Engine\RootObject.cpp">
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\CsvReader.cpp">
+    <ClCompile Include="Source\Engine\CsvReader.cpp">
       <Filter>Engine\ResourceManager</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Image.cpp">
+    <ClCompile Include="Source\Engine\Image.cpp">
       <Filter>Engine\ResourceManager</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Model.cpp">
+    <ClCompile Include="Source\Engine\Model.cpp">
       <Filter>Engine\ResourceManager</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Main.cpp">
+    <ClCompile Include="Source\Engine\Main.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\SceneManager.cpp">
+    <ClCompile Include="Source\Engine\SceneManager.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Texture.cpp">
+    <ClCompile Include="Source\Engine\Texture.cpp">
       <Filter>Engine\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Transform.cpp">
+    <ClCompile Include="Source\Engine\Transform.cpp">
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Audio.cpp">
+    <ClCompile Include="Source\Engine\Audio.cpp">
       <Filter>Engine\ResourceManager</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Text.cpp">
+    <ClCompile Include="Source\Engine\Text.cpp">
       <Filter>Engine\ResourceManager</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug.cpp">
+    <ClCompile Include="Source\Engine\Debug.cpp">
       <Filter>Engine\ResourceManager</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\BillBoard.cpp">
+    <ClCompile Include="Source\Engine\BillBoard.cpp">
       <Filter>Engine\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\VFX.cpp">
+    <ClCompile Include="Source\Engine\VFX.cpp">
       <Filter>Engine\ResourceManager</Filter>
     </ClCompile>
-    <ClCompile Include="TestScene.cpp">
+    <ClCompile Include="Source\Game\TestScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Stage.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Skybox.cpp" />
-    <ClCompile Include="Oden.cpp" />
+    <ClCompile Include="Source\Game\Player.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Skybox.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Stage.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\PlayScene.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\ClearScene.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\OverScene.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\TitleScene.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\BoxCollider.h">
+    <ClInclude Include="Source\Engine\BoxCollider.h">
       <Filter>Engine\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Collider.h">
+    <ClInclude Include="Source\Engine\Collider.h">
       <Filter>Engine\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\SphereCollider.h">
+    <ClInclude Include="Source\Engine\SphereCollider.h">
       <Filter>Engine\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Direct3D.h">
+    <ClInclude Include="Source\Engine\Direct3D.h">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Fbx.h">
+    <ClInclude Include="Source\Engine\Fbx.h">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\FbxParts.h">
+    <ClInclude Include="Source\Engine\FbxParts.h">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Input.h">
+    <ClInclude Include="Source\Engine\Input.h">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Sprite.h">
+    <ClInclude Include="Source\Engine\Sprite.h">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Camera.h">
+    <ClInclude Include="Source\Engine\Camera.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\GameObject.h">
+    <ClInclude Include="Source\Engine\GameObject.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\RootObject.h">
+    <ClInclude Include="Source\Engine\RootObject.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\CsvReader.h">
+    <ClInclude Include="Source\Engine\CsvReader.h">
       <Filter>Engine\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Image.h">
+    <ClInclude Include="Source\Engine\Image.h">
       <Filter>Engine\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Model.h">
+    <ClInclude Include="Source\Engine\Model.h">
       <Filter>Engine\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Global.h">
+    <ClInclude Include="Source\Engine\Global.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\SceneManager.h">
+    <ClInclude Include="Source\Engine\SceneManager.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Texture.h">
+    <ClInclude Include="Source\Engine\Texture.h">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Transform.h">
+    <ClInclude Include="Source\Engine\Transform.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Audio.h">
+    <ClInclude Include="Source\Engine\Audio.h">
       <Filter>Engine\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Text.h">
+    <ClInclude Include="Source\Engine\Text.h">
       <Filter>Engine\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug.h">
+    <ClInclude Include="Source\Engine\Debug.h">
       <Filter>Engine\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\BillBoard.h">
+    <ClInclude Include="Source\Engine\BillBoard.h">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\VFX.h">
+    <ClInclude Include="Source\Engine\VFX.h">
       <Filter>Engine\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="TestScene.h">
+    <ClInclude Include="Source\Game\TestScene.hpp">
       <Filter>Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\SafeCleaning.h">
+    <ClInclude Include="Source\Engine\SafeCleaning.h">
       <Filter>Engine\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Stage.hpp">
+    <ClInclude Include="Source\Game\Stage.hpp">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Player.hpp">
+    <ClInclude Include="Source\Game\Player.hpp">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Skybox.h">
+    <ClInclude Include="Source\Game\Skybox.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Oden.h">
-      <Filter>Game</Filter>
+    <ClInclude Include="Source\Game\PlayScene.hpp">
+      <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\TitleScene.hpp">
+      <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\ClearScene.hpp">
+      <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\OverScene.hpp">
+      <Filter>Game\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

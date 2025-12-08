@@ -1,11 +1,11 @@
 ﻿#pragma once
-#include "Engine/GameObject.h"
+#include "GameObject.h"
 
-class Stage : public GameObject
+class Skybox : public GameObject
 {
 public:
-    Stage(GameObject* _pParent);
-    ~Stage();
+    Skybox(GameObject* _pParent);
+    ~Skybox();
 
     //初期化
     void Initialize() override;
@@ -18,8 +18,6 @@ public:
 
     //開放
     void Release() override;
-
-    int GetModelHandle() {return hModel_; }
 
 private:
     int hModel_;
