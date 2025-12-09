@@ -29,6 +29,9 @@
     <Filter Include="Engine\Util">
       <UniqueIdentifier>{8b0b5259-a139-4139-9410-d13a1aa0c86a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{2198382d-6f33-4c86-b8b7-c1a0efb199df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Engine\BoxCollider.cpp">
@@ -124,81 +127,105 @@
     <ClCompile Include="Source\Game\TitleScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\Bullet.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Gun.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\ImGui\imgui.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\ImGui\imgui_draw.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\ImGui\imgui_impl_dx11.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\ImGui\imgui_impl_win32.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\ImGui\imgui_ja_gryph_ranges.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\ImGui\imgui_tables.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\ImGui\imgui_widgets.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Engine\BoxCollider.h">
+    <ClInclude Include="Source\Engine\BoxCollider.hpp">
       <Filter>Engine\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Collider.h">
+    <ClInclude Include="Source\Engine\Collider.hpp">
       <Filter>Engine\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\SphereCollider.h">
+    <ClInclude Include="Source\Engine\SphereCollider.hpp">
       <Filter>Engine\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Direct3D.h">
+    <ClInclude Include="Source\Engine\Direct3D.hpp">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Fbx.h">
+    <ClInclude Include="Source\Engine\Fbx.hpp">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\FbxParts.h">
+    <ClInclude Include="Source\Engine\FbxParts.hpp">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Input.h">
+    <ClInclude Include="Source\Engine\Input.hpp">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Sprite.h">
+    <ClInclude Include="Source\Engine\Sprite.hpp">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Camera.h">
+    <ClInclude Include="Source\Engine\Camera.hpp">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\GameObject.h">
+    <ClInclude Include="Source\Engine\GameObject.hpp">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\RootObject.h">
+    <ClInclude Include="Source\Engine\RootObject.hpp">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\CsvReader.h">
+    <ClInclude Include="Source\Engine\CsvReader.hpp">
       <Filter>Engine\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Image.h">
+    <ClInclude Include="Source\Engine\Image.hpp">
       <Filter>Engine\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Model.h">
+    <ClInclude Include="Source\Engine\Model.hpp">
       <Filter>Engine\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Global.h">
+    <ClInclude Include="Source\Engine\SceneManager.hpp">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\SceneManager.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Texture.h">
+    <ClInclude Include="Source\Engine\Texture.hpp">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Transform.h">
+    <ClInclude Include="Source\Engine\Transform.hpp">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Audio.h">
+    <ClInclude Include="Source\Engine\Audio.hpp">
       <Filter>Engine\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Text.h">
+    <ClInclude Include="Source\Engine\Text.hpp">
       <Filter>Engine\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Debug.h">
+    <ClInclude Include="Source\Engine\Debug.hpp">
       <Filter>Engine\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\BillBoard.h">
+    <ClInclude Include="Source\Engine\BillBoard.hpp">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\VFX.h">
+    <ClInclude Include="Source\Engine\VFX.hpp">
       <Filter>Engine\ResourceManager</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\TestScene.hpp">
       <Filter>Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\SafeCleaning.h">
+    <ClInclude Include="Source\Engine\SafeCleaning.hpp">
       <Filter>Engine\Util</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Stage.hpp">
@@ -207,7 +234,7 @@
     <ClInclude Include="Source\Game\Player.hpp">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Skybox.h">
+    <ClInclude Include="Source\Game\Skybox.hpp">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\PlayScene.hpp">
@@ -221,6 +248,36 @@
     </ClInclude>
     <ClInclude Include="Source\Game\OverScene.hpp">
       <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Gun.hpp">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Bullet.hpp">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\ImGui\imconfig.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\ImGui\imgui.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\ImGui\imgui_impl_dx11.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\ImGui\imgui_impl_win32.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\ImGui\imgui_internal.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\ImGui\imstb_rectpack.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\ImGui\imstb_textedit.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\ImGui\imstb_truetype.h">
+      <Filter>ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

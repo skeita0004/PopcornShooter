@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "GameObject.h"
+#include "GameObject.hpp"
 
 class Skybox : public GameObject
 {
@@ -8,7 +8,7 @@ public:
     ~Skybox();
 
     //初期化
-    void Initialize() override;
+    void Init() override;
 
     //更新
     void Update() override;

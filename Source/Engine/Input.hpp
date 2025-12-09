@@ -1,8 +1,8 @@
 ﻿#pragma once
 #define DIRECTINPUT_VERSION 0x0800
 #include <dInput.h>
+#include <XInput.h>
 #include <DirectXMath.h>
-#include "XInput.h"
 
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "dInput8.lib")

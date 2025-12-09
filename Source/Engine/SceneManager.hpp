@@ -1,6 +1,5 @@
 ﻿#pragma once
-#include "global.h"
-#include "GameObject.h"
+#include "GameObject.hpp"
 
 #include "../Game/TestScene.hpp"
 #include "../Game/TitleScene.hpp"
@@ -10,15 +9,6 @@
 
 #include <array>
 
-//ゲームに登場するシーン
-enum class SceneID : int
-{
-    TEST = 0,
-    TITLE,
-    PLAY,
-    CLEAR,
-    OVER
-};
 
 //-----------------------------------------------------------
 //シーン切り替えを担当するオブジェクト
@@ -31,10 +21,21 @@ public:
 	//引数：parent	親オブジェクト（基本的にゲームマネージャー）
 	SceneManager(GameObject* parent);
 
-	void Initialize() override;
+	void Init() override;
 	void Update() override;
 	void Draw() override;
 	void Release() override;
+
+    //ゲームに登場するシーン
+    enum class SceneID : int
+    {
+        TEST = 0,
+        TITLE,
+        PLAY,
+        CLEAR,
+        OVER,
+        MAX_SCENE_ID
+    };
 
 	//シーン切り替え（実際に切り替わるのはこの次のフレーム）
 	//引数：next	次のシーンのID
@@ -66,7 +67,8 @@ private:
 
     using SceneFactoryFn = GameObject*(SceneManager::*)(GameObject*);
 
-    static const inline std::array<SceneFactoryFn, 5> sceneTable =
+    static inline const size_t sceneNum{static_cast<size_t>(SceneID::MAX_SCENE_ID)};
+    static const inline std::array<SceneFactoryFn, sceneNum> sceneTable =
     {
         &SceneManager::InstantiateByID<SceneID::TEST>,
         &SceneManager::InstantiateByID<SceneID::TITLE>,
