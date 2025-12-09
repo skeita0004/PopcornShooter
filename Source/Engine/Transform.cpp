@@ -30,16 +30,59 @@ void Transform::Calculation()
 	matRotate_ = rotateZ * rotateX * rotateY;
 
 	//拡大縮小
-	matScale_ = XMMatrixScaling(scale_.x, scale_.y, scale_.z);
+	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
 }
 
-XMMATRIX Transform::GetWorldMatrix() 
+const XMMATRIX Transform::GetWorldMatrix()
 {
 	Calculation();
-	if (pParent_)
+	if (pParent)
 	{
-		return  matScale_ * matRotate_ * matTranslate_ * pParent_->GetWorldMatrix();
+		return  matScale * matRotate * matTranslate * pParent->GetWorldMatrix();
 	}
 
-	return  matScale_ * matRotate_ * matTranslate_;
+	return  matScale * matRotate * matTranslate;
 }
+
+const XMMATRIX Transform::GetNormalMatrix()
+{
+    Calculation();
+    if (pParent != nullptr)
+    {
+        return matRotate * XMMatrixInverse(nullptr, matScale) * pParent->GetNormalMatrix();
+    }
+
+    return matRotate * XMMatrixInverse(nullptr, matScale);
+}
+
+const XMMATRIX Transform::GetTranslateMatrix()
+{
+    Calculation();
+    if (pParent)
+    {
+        return matTranslate * pParent->GetTranslateMatrix();
+    }
+
+    return matTranslate;
+}
+
+const XMMATRIX Transform::GetRotateMatrix()
+{
+	Calculation();
+    if (pParent)
+	{
+        return matRotate * pParent->GetRotateMatrix();
+    }
+    return matRotate;
+	}
+
+const XMMATRIX Transform::GetScaleMatrix()
+{
+    Calculation();
+    if (pParent)
+    {
+        return matScale * pParent->GetScaleMatrix();
+    }
+    return matScale;
+}
+
