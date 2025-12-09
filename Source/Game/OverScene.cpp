@@ -3,12 +3,14 @@
 #include "Input.hpp"
 
 OverScene::OverScene(GameObject* _pParent) :
-    GameObject(_pParent, "OverScene")
+    GameObject(_pParent, "OverScene"),
+    pSceneManager_(nullptr)
 {
 }
 
 void OverScene::Init()
 {
+    pSceneManager_ = FindObject<SceneManager>("SceneManager");
 }
 
 void OverScene::Update()

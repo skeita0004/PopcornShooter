@@ -4,12 +4,14 @@
 #include "Input.hpp"
 
 PlayScene::PlayScene(GameObject* _pParent) :
-    GameObject(_pParent, "PlayScene")
+    GameObject(_pParent, "PlayScene"),
+    pSceneManager_(nullptr)
 {
 }
 
 void PlayScene::Init()
 {
+    pSceneManager_ = FindObject<SceneManager>("SceneManager");
     Instantiate<Stage>(this);
 }
 

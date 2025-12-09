@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "GameObject.hpp"
 
+class SceneManager;
+
 class ClearScene : public GameObject
 {
 public:
@@ -10,4 +12,7 @@ public:
     void Update() override;
     void Draw() override;
     void Release() override;
+
+private:
+    SceneManager* pSceneManager_;
 };

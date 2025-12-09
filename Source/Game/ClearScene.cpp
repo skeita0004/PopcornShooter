@@ -3,12 +3,14 @@
 #include "Input.hpp"
 
 ClearScene::ClearScene(GameObject* _pParent) :
-    GameObject(_pParent, "ClearScene")
+    GameObject(_pParent, "ClearScene"),
+    pSceneManager_(nullptr)
 {
 }
 
 void ClearScene::Init()
 {
+    pSceneManager_ = FindObject<SceneManager>("SceneManager");
 }
 
 void ClearScene::Update()
