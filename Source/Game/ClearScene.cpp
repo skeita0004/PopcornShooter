@@ -1,4 +1,6 @@
 ﻿#include "ClearScene.hpp"
+#include "SceneManager.hpp"
+#include "Input.hpp"
 
 ClearScene::ClearScene(GameObject* _pParent) :
     GameObject(_pParent, "ClearScene")

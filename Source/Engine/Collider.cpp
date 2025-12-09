@@ -1,8 +1,8 @@
-﻿#include "BoxCollider.h"
-#include "SphereCollider.h"
-#include "GameObject.h"
-#include "Model.h"
-#include "Transform.h"
+﻿#include "BoxCollider.hpp"
+#include "SphereCollider.hpp"
+#include "GameObject.hpp"
+#include "Model.hpp"
+#include "Transform.hpp"
 
 //コンストラクタ
 Collider::Collider():

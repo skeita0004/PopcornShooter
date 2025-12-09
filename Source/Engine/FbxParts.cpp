@@ -1,8 +1,8 @@
-﻿#include "FbxParts.h"
-#include "Fbx.h"
-#include "Global.h"
-#include "Direct3D.h"
-#include "Camera.h"
+﻿#include "FbxParts.hpp"
+#include "Fbx.hpp"
+#include "SafeCleaning.hpp"
+#include "Direct3D.hpp"
+#include "Camera.hpp"
 
 //コンストラクタ
 FbxParts::FbxParts():

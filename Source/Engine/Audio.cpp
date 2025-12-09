@@ -1,6 +1,7 @@
 ﻿#include <xaudio2.h>
 #include <vector>
-#include "Audio.h"
+#include "Audio.hpp"
+#include "SafeCleaning.hpp"
 
 #define SAFE_DELETE_ARRAY(p) if(p){delete[] p; p = nullptr;}
 

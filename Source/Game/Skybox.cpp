@@ -1,5 +1,7 @@
-﻿#include "Skybox.h"
-#include "Model.h"
+﻿#include "Skybox.hpp"
+#include "Model.hpp"
+#include "Camera.hpp"
+#include <imgui.h>
 
 Skybox::Skybox(GameObject* _pParent) :
     GameObject(_pParent, "Skybox"),

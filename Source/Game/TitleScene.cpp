@@ -1,4 +1,6 @@
 ﻿#include "TitleScene.hpp"
+#include "SceneManager.hpp"
+#include "Input.hpp"
 
 TitleScene::TitleScene(GameObject* _pParent) :
     GameObject(_pParent, "TitleScene")

@@ -1,5 +1,7 @@
 ﻿#include "TestScene.hpp"
+#include "SceneManager.hpp"
 #include "Stage.hpp"
+#include "Input.hpp"
 
 //コンストラクタ
 TestScene::TestScene(GameObject * parent)

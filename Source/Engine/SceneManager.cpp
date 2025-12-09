@@ -1,8 +1,8 @@
-﻿#include "sceneManager.h"
+﻿#include "sceneManager.hpp"
 
-#include "Model.h"
-#include "Image.h"
-#include "Audio.h"
+#include "Model.hpp"
+#include "Image.hpp"
+#include "Audio.hpp"
 
 
 //コンストラクタ

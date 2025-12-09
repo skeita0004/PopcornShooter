@@ -1,5 +1,5 @@
-﻿#include "Input.h"
-#include "Global.h"
+﻿#include "Input.hpp"
+#include "SafeCleaning.hpp"
 
 namespace Input
 {

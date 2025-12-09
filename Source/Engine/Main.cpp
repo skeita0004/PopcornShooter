@@ -9,14 +9,19 @@
 #include <assert.h>
 #include <time.h>
 
-#include "global.h"
-#include "RootObject.h"
-#include "Model.h"
-#include "Image.h"
-#include "Camera.h"
-#include "Input.h"
-#include "Audio.h"
-#include "VFX.h"
+#include "Direct3D.hpp"
+#include "SafeCleaning.hpp"
+#include "RootObject.hpp"
+#include "Model.hpp"
+#include "Image.hpp"
+#include "Camera.hpp"
+#include "Input.hpp"
+#include "Audio.hpp"
+#include "VFX.hpp"
+
+#include <imgui.h>
+#include <imgui_impl_win32.h>
+#include <imgui_impl_dx11.h>
 
 #pragma comment(lib,"Winmm.lib")
 

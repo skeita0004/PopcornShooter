@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "GameObject.h"
+#include "GameObject.hpp"
 
 //テストシーンを管理するクラス
 class TestScene : public GameObject

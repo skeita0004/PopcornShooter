@@ -1,7 +1,7 @@
 ﻿#include <d3dcompiler.h>
-#include "Direct3D.h"
-#include "SafeCleaning.h"
-#include "Transform.h"
+#include "Direct3D.hpp"
+#include "SafeCleaning.hpp"
+#include "Transform.hpp"
 
 //画面の描画に関する処理
 namespace Direct3D

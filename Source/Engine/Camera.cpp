@@ -1,5 +1,6 @@
-﻿#include "camera.h"
-#include "Direct3D.h"
+﻿#include "Camera.hpp"
+#include "Direct3D.hpp"
+#include <imgui.h>
 
 XMFLOAT3 _position;
 XMFLOAT3 _target;

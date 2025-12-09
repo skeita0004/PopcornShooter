@@ -1,5 +1,5 @@
-﻿#include "Global.h"
-#include "Image.h"
+﻿#include "SafeCleaning.hpp"
+#include "Image.hpp"
 
 //3D画像を管理する
 namespace Image

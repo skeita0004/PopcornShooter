@@ -1,5 +1,5 @@
 ﻿#include <windows.h>
-#include "Debug.h"
+#include "Debug.hpp"
 
 void Debug::Log(int value, bool isLineFeed)
 {

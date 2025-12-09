@@ -1,10 +1,12 @@
 ﻿#include "Player.hpp"
-#include "Camera.h"
-#include "Input.h"
+#include "Camera.hpp"
+#include "Input.hpp"
 #include <algorithm>
 #include <format>
 #include "Stage.hpp"
-#include "Model.h"
+#include "Model.hpp"
+#include "Gun.hpp"
+#include <imgui.h>
 
 Player::Player(GameObject* _pParent) :
     GameObject(_pParent, "Player"),

@@ -1,5 +1,7 @@
 ﻿#include "PlayScene.hpp"
+#include "SceneManager.hpp"
 #include "Stage.hpp"
+#include "Input.hpp"
 
 PlayScene::PlayScene(GameObject* _pParent) :
     GameObject(_pParent, "PlayScene")

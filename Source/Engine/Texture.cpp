@@ -1,6 +1,6 @@
-﻿#include "Texture.h"
-#include "Direct3D.h"
-#include "Global.h"
+﻿#include "Texture.hpp"
+#include "Direct3D.hpp"
+#include "SafeCleaning.hpp"
 
 Texture::Texture():
 	pSampleLinear_(nullptr), pTextureSRV_(nullptr), size_(XMFLOAT3(0,0,0))
