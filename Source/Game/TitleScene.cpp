@@ -5,7 +5,7 @@ TitleScene::TitleScene(GameObject* _pParent) :
 {
 }
 
-void TitleScene::Initialize()
+void TitleScene::Init()
 {
 }
 

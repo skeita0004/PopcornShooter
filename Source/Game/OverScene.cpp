@@ -5,7 +5,7 @@ OverScene::OverScene(GameObject* _pParent) :
 {
 }
 
-void OverScene::Initialize()
+void OverScene::Init()
 {
 }
 

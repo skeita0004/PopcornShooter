@@ -14,7 +14,7 @@ SceneManager::SceneManager(GameObject * parent)
 }
 
 //初期化
-void SceneManager::Initialize()
+void SceneManager::Init()
 {
 	//最初のシーンを準備
 	currentSceneID_ = INITIAL_SCENE; // ここもiniから取れるようになればいいのに。

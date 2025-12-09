@@ -13,7 +13,7 @@ Stage::~Stage()
 {
 }
 
-void Stage::Initialize()
+void Stage::Init()
 {
     hModel_ = Model::Load("Models/Stage/terrain.fbx");
     Instantiate<Player>(this);

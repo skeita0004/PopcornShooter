@@ -8,7 +8,7 @@ public:
     ~Stage();
 
     //初期化
-    void Initialize() override;
+    void Init() override;
 
     //更新
     void Update() override;

@@ -6,7 +6,7 @@ class OverScene : public GameObject
 public:
     OverScene(GameObject* _pParent);
 
-    void Initialize() override;
+    void Init() override;
     void Update() override;
     void Draw() override;
     void Release() override;

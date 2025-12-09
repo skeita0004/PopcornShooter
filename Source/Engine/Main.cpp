@@ -66,7 +66,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	//ルートオブジェクト準備
 	//すべてのゲームオブジェクトの親となるオブジェクト
 	RootObject* pRootObject = new RootObject;
-	pRootObject->Initialize();
+    pRootObject->Init();
 
 
 	//メッセージループ（何か起きるのを待つ）

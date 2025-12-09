@@ -7,8 +7,7 @@ TestScene::TestScene(GameObject * parent)
 {
 }
 
-//初期化
-void TestScene::Initialize()
+void TestScene::Init()
 {
     Instantiate<Stage>(this);
 }

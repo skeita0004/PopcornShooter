@@ -17,7 +17,7 @@ Player::~Player()
 {
 }
 
-void Player::Initialize()
+void Player::Init()
 {
     Stage* pStage = (Stage*)FindObject("Stage");
     hGround_ = pStage->GetModelHandle();

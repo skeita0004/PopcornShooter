@@ -6,7 +6,7 @@ PlayScene::PlayScene(GameObject* _pParent) :
 {
 }
 
-void PlayScene::Initialize()
+void PlayScene::Init()
 {
     Instantiate<Stage>(this);
 }

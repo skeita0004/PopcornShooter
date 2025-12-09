@@ -5,7 +5,7 @@ ClearScene::ClearScene(GameObject* _pParent) :
 {
 }
 
-void ClearScene::Initialize()
+void ClearScene::Init()
 {
 }
 

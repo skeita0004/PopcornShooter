@@ -11,7 +11,7 @@ Skybox::~Skybox()
 {
 }
 
-void Skybox::Initialize()
+void Skybox::Init()
 {
     hModel_ = Model::Load("Models/Skybox/sky.fbx");
     SetScale(10.f, 10.f, 10.f);

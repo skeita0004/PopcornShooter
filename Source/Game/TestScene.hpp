@@ -9,10 +9,7 @@ public:
 	//引数：parent  親オブジェクト（SceneManager）
 	TestScene(GameObject* _pParent);
 
-	//初期化
-	void Initialize() override;
-
-	//更新
+	void Init() override;
 	void Update() override;
 
 	//描画
