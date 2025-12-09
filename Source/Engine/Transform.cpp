@@ -1,15 +1,11 @@
 ﻿#include "Transform.hpp"
 
-
-
-Transform::Transform(): pParent_(nullptr)
+Transform::Transform() :
+    pParent(nullptr)
 {
-	position_ = XMFLOAT3(0, 0, 0);
-	rotate_ = XMFLOAT3(0, 0, 0);
-	scale_ = XMFLOAT3(1, 1, 1);
-	matTranslate_ = XMMatrixIdentity();
-	matRotate_ = XMMatrixIdentity();
-	matScale_ = XMMatrixIdentity();
+	position = XMFLOAT3(0, 0, 0);
+	rotate = XMFLOAT3(0, 0, 0);
+	scale = XMFLOAT3(1, 1, 1);
 }
 
 
@@ -20,14 +16,14 @@ Transform::~Transform()
 void Transform::Calculation()
 {
 	//移動行列
-	matTranslate_ = XMMatrixTranslation(position_.x, position_.y, position_.z);
+	matTranslate = XMMatrixTranslation(position.x, position.y, position.z);
 
 	//回転行列
 	XMMATRIX rotateX, rotateY, rotateZ;
-	rotateX = XMMatrixRotationX(XMConvertToRadians(rotate_.x));
-	rotateY = XMMatrixRotationY(XMConvertToRadians(rotate_.y));
-	rotateZ = XMMatrixRotationZ(XMConvertToRadians(rotate_.z));
-	matRotate_ = rotateZ * rotateX * rotateY;
+	rotateX = XMMatrixRotationX(XMConvertToRadians(rotate.x));
+	rotateY = XMMatrixRotationY(XMConvertToRadians(rotate.y));
+	rotateZ = XMMatrixRotationZ(XMConvertToRadians(rotate.z));
+	matRotate = rotateZ * rotateX * rotateY;
 
 	//拡大縮小
 	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
