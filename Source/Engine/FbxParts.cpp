@@ -15,35 +15,36 @@ FbxParts::FbxParts():
 //デストラクタ
 FbxParts::~FbxParts()
 {
-	SAFE_DELETE_ARRAY(pBoneArray_);
-	SAFE_DELETE_ARRAY(ppCluster_);
+    using namespace SafeCleaning;
+	SafeDeleteArray(pBoneArray_);
+	SafeDeleteArray(ppCluster_);
 
 	if (pWeightArray_ != nullptr)
 	{
 		for (DWORD i = 0; i < vertexCount_; i++)
 		{
-			SAFE_DELETE_ARRAY(pWeightArray_[i].pBoneIndex);
-			SAFE_DELETE_ARRAY(pWeightArray_[i].pBoneWeight);
+			SafeDeleteArray(pWeightArray_[i].pBoneIndex);
+			SafeDeleteArray(pWeightArray_[i].pBoneWeight);
 		}
-		SAFE_DELETE_ARRAY(pWeightArray_);
+		SafeDeleteArray(pWeightArray_);
 	}
 
 
 
-	SAFE_DELETE_ARRAY(pVertexData_);
+	SafeDeleteArray(pVertexData_);
 	for (DWORD i = 0; i < materialCount_; i++)
 	{
-		SAFE_RELEASE(ppIndexBuffer_[i]);
-		SAFE_DELETE(ppIndexData_[i]);
-		SAFE_DELETE(pMaterial_[i].pTexture);
+		SafeRelease(ppIndexBuffer_[i]);
+		SafeDelete(ppIndexData_[i]);
+		SafeDelete(pMaterial_[i].pTexture);
 
 	}
-	SAFE_DELETE_ARRAY(ppIndexBuffer_);
-	SAFE_DELETE_ARRAY(ppIndexData_);
-	SAFE_DELETE_ARRAY(pMaterial_);
+	SafeDeleteArray(ppIndexBuffer_);
+	SafeDeleteArray(ppIndexData_);
+	SafeDeleteArray(pMaterial_);
 
-	SAFE_RELEASE(pVertexBuffer_);
-	SAFE_RELEASE(pConstantBuffer_);
+	SafeRelease(pVertexBuffer_);
+	SafeRelease(pConstantBuffer_);
 }
 
 //FBXファイルから情報をロードして諸々準備する
@@ -209,6 +210,8 @@ void FbxParts::InitTexture(fbxsdk::FbxSurfaceMaterial * pMaterial, const DWORD &
 //インデックスバッファ準備
 void FbxParts::InitIndex(fbxsdk::FbxMesh * mesh)
 {
+    using namespace SafeCleaning;
+
 	// マテリアルの数だけインデックスバッファーを作成
 	ppIndexBuffer_ = new ID3D11Buffer*[materialCount_];
 	ppIndexData_ = new DWORD*[materialCount_];
@@ -260,7 +263,7 @@ void FbxParts::InitIndex(fbxsdk::FbxMesh * mesh)
 		pMaterial_[i].polygonCount = count / 3;
 		ppIndexData_[i] = new DWORD[count];
 		memcpy(ppIndexData_[i], pIndex, sizeof(DWORD) * count);
-		SAFE_DELETE_ARRAY(pIndex);
+		SafeDeleteArray(pIndex);
 	}
 
 }
@@ -268,6 +271,8 @@ void FbxParts::InitIndex(fbxsdk::FbxMesh * mesh)
 //骨の情報を準備
 void FbxParts::InitSkelton(FbxMesh * pMesh)
 {
+    using namespace SafeCleaning;
+
 	// デフォーマ情報（ボーンとモデルの関連付け）の取得
 	FbxDeformer *   pDeformer = pMesh->GetDeformer(0);
 	if (pDeformer == nullptr)
@@ -392,10 +397,10 @@ void FbxParts::InitSkelton(FbxMesh * pMesh)
 	// 一時的なメモリ領域を解放する
 	for (DWORD i = 0; i < vertexCount_; i++)
 	{
-		SAFE_DELETE_ARRAY(polyTable[i].polyIndex);
-		SAFE_DELETE_ARRAY(polyTable[i].vertexIndex);
+		SafeDeleteArray(polyTable[i].polyIndex);
+		SafeDeleteArray(polyTable[i].vertexIndex);
 	}
-	SAFE_DELETE_ARRAY(polyTable);
+	SafeDeleteArray(polyTable);
 
 }
 

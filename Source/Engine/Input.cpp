@@ -77,9 +77,11 @@ namespace Input
 	//開放
 	void Release()
 	{
-		SAFE_RELEASE(pMouseDevice_);
-		SAFE_RELEASE(pKeyDevice_);
-		SAFE_RELEASE(pDInput_);
+        using namespace SafeCleaning;
+
+		SafeRelease(pMouseDevice_);
+		SafeRelease(pKeyDevice_);
+		SafeRelease(pDInput_);
 	}
 
 

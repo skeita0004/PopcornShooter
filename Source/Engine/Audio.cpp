@@ -3,7 +3,7 @@
 #include "Audio.hpp"
 #include "SafeCleaning.hpp"
 
-#define SAFE_DELETE_ARRAY(p) if(p){delete[] p; p = nullptr;}
+using namespace SafeCleaning;
 
 namespace Audio
 {
@@ -187,7 +187,7 @@ void Audio::Release()
 		{
 			audioDatas[i].pSourceVoice[j]->DestroyVoice();
 		}
-		SAFE_DELETE_ARRAY(audioDatas[i].buf.pAudioData);
+		SafeDeleteArray(audioDatas[i].buf.pAudioData);
 	}
 	audioDatas.clear();
 }

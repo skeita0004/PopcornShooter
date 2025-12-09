@@ -1,6 +1,8 @@
 ﻿#include "SafeCleaning.hpp"
 #include "Image.hpp"
 
+using namespace SafeCleaning;
+
 //3D画像を管理する
 namespace Image
 {
@@ -38,8 +40,8 @@ namespace Image
 			if (FAILED(pData->pSprite->Load(fileName)))
 			{
 				//開けなかった
-				SAFE_DELETE(pData->pSprite);
-				SAFE_DELETE(pData);
+				SafeDelete(pData->pSprite);
+				SafeDelete(pData);
 				return -1;
 			}
 
@@ -108,10 +110,10 @@ namespace Image
 		//使ってなければモデル解放
 		if (isExist == false)
 		{
-			SAFE_DELETE(_datas[handle]->pSprite);
+			SafeDelete(_datas[handle]->pSprite);
 		}
 
-		SAFE_DELETE(_datas[handle]);
+		SafeDelete(_datas[handle]);
 	}
 
 

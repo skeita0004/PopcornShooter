@@ -25,6 +25,8 @@
 
 #pragma comment(lib,"Winmm.lib")
 
+using namespace SafeCleaning;
+
 //定数宣言
 const wchar_t* WIN_CLASS_NAME = L"SampleGame";	//ウィンドウクラス名
 
@@ -167,7 +169,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	Model::AllRelease();
 	Image::AllRelease();
 	pRootObject->ReleaseSub();
-	SAFE_DELETE(pRootObject);
+    SafeDelete(pRootObject);
 	Direct3D::Release();
 
 	return 0;

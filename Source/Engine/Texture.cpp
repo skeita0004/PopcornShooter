@@ -9,8 +9,10 @@ Texture::Texture():
 
 Texture::~Texture()
 {
-	SAFE_RELEASE(pSampleLinear_);
-	SAFE_RELEASE(pTextureSRV_);
+    using namespace SafeCleaning;
+
+	SafeRelease(pSampleLinear_);
+	SafeRelease(pTextureSRV_);
 }
 
 HRESULT Texture::Load(std::string fileName)

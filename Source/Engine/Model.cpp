@@ -1,6 +1,8 @@
 ﻿#include "SafeCleaning.hpp"
 #include "Model.hpp"
 
+using namespace SafeCleaning;
+
 //3Dモデル（FBXファイル）を管理する
 namespace Model
 {
@@ -38,8 +40,8 @@ namespace Model
 			if (FAILED(pData->pFbx->Load(fileName)))
 			{
 				//開けなかった
-				SAFE_DELETE(pData->pFbx);
-				SAFE_DELETE(pData);
+				SafeDelete(pData->pFbx);
+				SafeDelete(pData);
 				return -1;
 			}
 
@@ -107,10 +109,10 @@ namespace Model
 		//使ってなければモデル解放
 		if (isExist == false )
 		{
-			SAFE_DELETE(_datas[handle]->pFbx);
+			SafeDelete(_datas[handle]->pFbx);
 		}
 
-		SAFE_DELETE(_datas[handle]);
+		SafeDelete(_datas[handle]);
 	}
 
 	//全てのモデルを解放

@@ -306,7 +306,7 @@ void GameObject::UpdateSub()
 		if ((*it)->IsDead() == true)
 		{
 			(*it)->ReleaseSub();
-			SAFE_DELETE(*it);
+			SafeDelete(*it);
 			it = childList_.erase(it);
 		}
 		else
@@ -348,7 +348,7 @@ void GameObject::ReleaseSub()
 	for (auto it = childList_.begin(); it != childList_.end(); it++)
 	{
 		(*it)->ReleaseSub();
-		SAFE_DELETE(*it);
+		SafeDelete(*it);
 	}
 
 	Release();
