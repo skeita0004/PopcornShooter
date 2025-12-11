@@ -1,6 +1,7 @@
 ﻿#include "Gun.hpp"
 #include "Model.hpp"
 #include <imgui.h>
+#include "CameraSet.hpp"
 
 Gun::Gun(GameObject* _pParent) :
     GameObject(_pParent, "Gun"),
@@ -21,6 +22,10 @@ void Gun::Init()
 
 void Gun::Update()
 {
+    static CameraSet cameraSet{};
+    transform.position = cameraSet.GetCurrent()->GetTransform().position;
+    transform.position.z += 10;
+    transform.position.y -= 10;
     ImGui::Begin("GunPosition");
 
     ImGui::InputFloat("X: ", &transform.position.x);
@@ -28,8 +33,6 @@ void Gun::Update()
     ImGui::InputFloat("Z: ", &transform.position.z);
 
     ImGui::End();
-    // アニメーション
-    // 弾のVelocityはここで決める
 }
 
 void Gun::Draw()
