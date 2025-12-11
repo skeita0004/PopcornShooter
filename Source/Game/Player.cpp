@@ -71,7 +71,13 @@ void Player::Update()
         // forwardに対して、90°のベクトルを求める
         vMoveDir += XMVector3TransformCoord(vForward, XMMatrixRotationY(XMConvertToRadians(90)));
     }
-    // ここでJump
+    if (not(isJump_)) // <- 二段ジャンプを禁ずる（禁固5年に処す）
+    {
+        if (Input::IsKeyDown(DIK_SPACE))
+        {
+            isJump_ = true;
+        }
+    }
 
     // 正規化する
     XMFLOAT3 stick = XMFLOAT3(Input::GetPadStickL().x, 0, Input::GetPadStickL().y);
@@ -119,34 +125,10 @@ void Player::Update()
     Model::RayCast(hGround_, &rayCastData);
 
 #pragma region Jump
-    const float MAX_HEIGHT = 400.f;
-    const float GRAVITY = 1.75f;
-    const float INITIAL_VELOCITY_Y = sqrtf(2 * (MAX_HEIGHT * GRAVITY));
-
-    static float jumpVelocityY{0.f}; // ここがベクトルじゃないのがまずおかしい。
-                                     // あとVelocityじゃなくてSpeedだろう。
-                                     // 本来ならば、移動処理とともにやるべきなの
-    static float jumpHei{0.f};
-    // ジャンプ
-    if (not(isJump_))
-    {
-        if (Input::IsKeyDown(DIK_SPACE))
-        {
-            isJump_ = true;
-            jumpVelocityY = INITIAL_VELOCITY_Y;
-        }
-    }
-
+    static float jumpHei{};
     if (isJump_)
     {
-        jumpVelocityY -= GRAVITY;
-        jumpHei += jumpVelocityY;
-
-        if (jumpHei <= 0.f)
-        {
-            jumpHei = 0.0f;
-            isJump_ = false;
-        }
+        jumpHei = Jump();
     }
 
 #pragma endregion 
@@ -179,9 +161,37 @@ void Player::Release()
 {
 }
 
-void Player::Jump()
+float Player::Jump()
 {
+    static int callCount{0};
+    const float MAX_HEIGHT        {400.f};
+    const float GRAVITY           {1.75f};
+    const float INITIAL_VELOCITY_Y{sqrtf(2 * (MAX_HEIGHT * GRAVITY))};
 
+    static float jumpVelocityY{ 0.f }; // ここがベクトルじゃないのがまずおかしいわよ。
+    // あとVelocityじゃなくてSpeedじゃないかしら？
+    // ママ、本来ならば、移動処理とともにやるべきだと思うの。
+    // (西麻布のママより)
+    static float jumpHei{ 0.f };
+
+    if (callCount == 0)
+    {
+        jumpVelocityY = INITIAL_VELOCITY_Y;
+        callCount = 1;
+}
+
+    // ジャンプ
+    jumpVelocityY -= GRAVITY;
+    jumpHei += jumpVelocityY;
+
+    if (jumpHei <= 0.f)
+{
+        jumpHei = 0.0f;
+        isJump_ = false;
+        callCount = 0;
+    }
+
+    return jumpHei;
 }
 
 void Player::GetCamForwardRenew(XMMATRIX& _rotXMat,

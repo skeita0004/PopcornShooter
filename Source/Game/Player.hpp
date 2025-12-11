@@ -20,7 +20,7 @@ public:
     void Release() override;
 
 private:
-    void Jump();
+    float Jump();
     void GetCamForwardRenew(XMMATRIX& _rotXMat,
                             XMMATRIX& _rotYMat,
                             XMVECTOR& _vCamForward);
@@ -31,7 +31,6 @@ private:
     static const inline float MAX_SPEED{6.0f};
     static const inline float ACCELARATION{0.05f};
 
-    int   hModel_;
     float moveSpeed_;
     int   hGround_;
     bool  isJump_;
