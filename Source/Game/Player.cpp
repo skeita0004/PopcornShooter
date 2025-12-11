@@ -22,6 +22,8 @@ void Player::Init()
 {
     Stage* pStage = (Stage*)FindObject("Stage");
     hGround_ = pStage->GetModelHandle();
+    Gun* pGun = static_cast<Gun*>(Instantiate<Gun>(this));
+    pGun->GetTransform()->position.y += 20;
 }
 
 void Player::Update()
