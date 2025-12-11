@@ -10,7 +10,6 @@
 
 Player::Player(GameObject* _pParent) :
     GameObject(_pParent, "Player"),
-    hModel_(-1),
     isJump_(false)
 {
 }
@@ -39,25 +38,18 @@ void Player::Update()
     XMVECTOR vForward{XMVectorSet(0, 0, 1, 0)};
     XMVECTOR vMoveDir{V_DIR_NONE};
     XMVECTOR vPos{};
-    vPos = XMLoadFloat3(&transform_.position_);
+    vPos = XMLoadFloat3(&transform.position);
 
     vForward = XMVector3TransformCoord(vForward, rotYMat);
     
-    // forwardベースでやらないとダメ
-    // この中でベクトルの足し算を行う
     if (Input::IsKey(DIK_W))
     {
-        // forward
         vMoveDir += vForward;
     }
     if (Input::IsKey(DIK_S))
     {
-        // forwardの逆ベクトル
-        // forwardに対して180°のベクトル
         vMoveDir += XMVectorNegate(vForward);
     }
-
-    XMVectorAdd()
     if (Input::IsKey(DIK_A))
     {
         // forwardから見た左 
@@ -198,16 +190,16 @@ void Player::GetCamForwardRenew(XMMATRIX& _rotXMat,
                                 XMMATRIX& _rotYMat,
                                 XMVECTOR& _vCamForward)
 {
-    transform_.rotate_.x += Input::GetMouseMove().y;
-    transform_.rotate_.y += Input::GetMouseMove().x;
+    transform.rotate.x += Input::GetMouseMove().y;
+    transform.rotate.y += Input::GetMouseMove().x;
 
-    transform_.rotate_.x -= Input::GetPadStickR(7.5f).y;
-    transform_.rotate_.y += Input::GetPadStickR(7.5f).x;
+    transform.rotate.x -= Input::GetPadStickR(7.5f).y;
+    transform.rotate.y += Input::GetPadStickR(7.5f).x;
 
-    transform_.rotate_.x = std::clamp(transform_.rotate_.x, -30.f, 30.f);
+    transform.rotate.x = std::clamp(transform.rotate.x, -30.f, 30.f);
 
-    _rotXMat = XMMatrixRotationX(XMConvertToRadians(transform_.rotate_.x));
-    _rotYMat = XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y));
+    _rotXMat = XMMatrixRotationX(XMConvertToRadians(transform.rotate.x));
+    _rotYMat = XMMatrixRotationY(XMConvertToRadians(transform.rotate.y));
 
     _vCamForward = XMVector3TransformCoord(_vCamForward, _rotXMat * _rotYMat);
 }
