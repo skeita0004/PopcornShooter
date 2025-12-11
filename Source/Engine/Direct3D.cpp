@@ -379,13 +379,18 @@ namespace Direct3D
 	void BeginDraw()
 	{
 		//何か準備できてないものがあったら諦める
+
+        // ここ、比較演算子と代入演算子の間違いによるエラーを防止する目的でこうしてるんでしょうけれど、
+        // バカみたいだからやめたほうがいいわよ。
+        // あと、ただ戻るだけだと描画されない原因がわからなくなっちゃうんじゃないかしら。
+        // (西麻布のママより)
 		if (NULL == pDevice_) return;
 		if (NULL == pContext_) return;
 		if (NULL == pRenderTargetView_) return;
 		if (NULL == pSwapChain_) return;
 
 		//背景の色
-		const float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };//R,G,B,A
+		const float clearColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };//R,G,B,A
 
 		//画面をクリア
 		pContext_->ClearRenderTargetView(pRenderTargetView_, clearColor);
