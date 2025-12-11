@@ -1,11 +1,12 @@
-﻿#include "Skybox.hpp"
+﻿#include "SkyDome.hpp"
 #include "Model.hpp"
-#include "Camera.hpp"
+#include "CameraSet.hpp"
 #include <imgui.h>
 
 Skybox::Skybox(GameObject* _pParent) :
     GameObject(_pParent, "Skybox"),
-    hModel_(-1)
+    hModel_(-1),
+    pCameraSet_(nullptr)
 {
 }
 
@@ -16,20 +17,22 @@ Skybox::~Skybox()
 void Skybox::Init()
 {
     hModel_ = Model::Load("Models/Skybox/sky.fbx");
+    pCameraSet_ = new CameraSet();
+
     transform.scale = { 1000.f, 1000.f, 1000.f };
 }
 
 void Skybox::Update()
 {
-    transform.position = Camera::GetPosition();
+    transform.position = pCameraSet_->GetCurrent()->GetTransform().position;
 
-    ImGui::Begin("SkyboxPosition");
+    ImGui::Begin("SkyDomePosition");
     ImGui::InputFloat("X: ", &transform.position.x);
     ImGui::InputFloat("Y: ", &transform.position.y);
     ImGui::InputFloat("Z: ", &transform.position.z);
     ImGui::End();
 
-    ImGui::Begin("SkyboxScale");
+    ImGui::Begin("SkyDomeScale");
     ImGui::InputFloat("X: ", &transform.scale.x);
     ImGui::InputFloat("Y: ", &transform.scale.y);
     ImGui::InputFloat("Z: ", &transform.scale.z);

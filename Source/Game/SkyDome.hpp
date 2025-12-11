@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "GameObject.hpp"
 
+class CameraSet;
+
 class Skybox : public GameObject
 {
 public:
@@ -21,4 +23,5 @@ public:
 
 private:
     int hModel_;
+    CameraSet* pCameraSet_;
 };
