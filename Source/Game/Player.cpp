@@ -1,5 +1,5 @@
 ﻿#include "Player.hpp"
-#include "Camera.hpp"
+#include "CameraSet.hpp"
 #include "Input.hpp"
 #include <algorithm>
 #include <format>
@@ -22,8 +22,7 @@ void Player::Init()
 {
     Stage* pStage = FindObject<Stage>("Stage");
     hGround_ = pStage->GetModelHandle();
-    Gun* pGun = static_cast<Gun*>(Instantiate<Gun>(this));
-    pGun->GetTransform()->position.y += 20;
+    Gun* pGun = static_cast<Gun*>(Instantiate<Gun>(GetParent()->GetParent()));
 }
 
 void Player::Update()
@@ -209,17 +208,18 @@ void Player::GetCamForwardRenew(XMMATRIX& _rotXMat,
 void Player::CamRenew(const XMVECTOR& _vPos,
                       const XMVECTOR& _vCamForward)
 {
+    static CameraSet cameraSet{};
     // カメラ位置についての処理
     XMFLOAT3 camPos{};
     XMVECTOR vCamPos{};
     vCamPos = XMVectorAdd(_vPos, XMVectorSet( 0, 20, 0, 0 ));
     XMStoreFloat3(&camPos, vCamPos);
-    Camera::SetPosition(camPos);
+    cameraSet.GetCurrent()->GetTransform().position = camPos;
 
     // 注視点についての処理
     XMFLOAT3 camTarget{};
     XMVECTOR vCamTarget{};
     vCamTarget = vCamPos + _vCamForward;
     XMStoreFloat3(&camTarget, vCamTarget);
-    Camera::SetTarget(camTarget);
+    cameraSet.GetCurrent()->GetTargetTransform().position = camTarget;
 }
