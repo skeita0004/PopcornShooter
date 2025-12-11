@@ -8,7 +8,9 @@
 #include "RootObject.hpp"
 #include "Model.hpp"
 #include "Image.hpp"
-#include "Camera.hpp"
+
+#include "CameraSet.hpp"
+
 #include "Input.hpp"
 #include "Audio.hpp"
 #include "VFX.hpp"
@@ -29,6 +31,10 @@ const wchar_t* WIN_CLASS_NAME = L"SampleGame";	//ウィンドウクラス名
 HWND InitApp(HINSTANCE hInstance, int screenWidth, int screenHeight, int nCmdShow);
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+namespace
+{
+    CameraSet* pCameraSet{nullptr};
+}
 
 // エントリーポイント
 int WINAPI WinMain(_In_     HINSTANCE hInstance,
@@ -53,7 +59,8 @@ int WINAPI WinMain(_In_     HINSTANCE hInstance,
     Direct3D::Initialize(hWnd, screenWidth, screenHeight);
 
     //カメラを準備
-    Camera::Initialize();
+    pCameraSet = new CameraSet();
+    pCameraSet->Init();
 
     //入力処理（キーボード、マウス、コントローラー）の準備
     Input::Initialize(hWnd);
@@ -124,9 +131,6 @@ int WINAPI WinMain(_In_     HINSTANCE hInstance,
                 lastUpdateTime = nowTime;	//現在の時間（最後に画面を更新した時間）を覚えておく
                 FPS++;						//画面更新回数をカウントする
 
-
-
-
                 //入力（キーボード、マウス、コントローラー）情報を更新
                 Input::Update();
 
@@ -134,12 +138,10 @@ int WINAPI WinMain(_In_     HINSTANCE hInstance,
                 //ルートオブジェクトのUpdateを呼んだあと、自動的に子、孫のUpdateが呼ばれる
                 pRootObject->UpdateSub();
 
-                //カメラを更新
-                Camera::Update();
+                pCameraSet->GetCurrent()->Update();
 
                 //エフェクトの更新
                 VFX::Update();
-
 
                 //このフレームの描画開始
                 Direct3D::BeginDraw();
@@ -173,6 +175,9 @@ int WINAPI WinMain(_In_     HINSTANCE hInstance,
     pRootObject->ReleaseSub();
     SafeDelete(pRootObject);
     Direct3D::Release();
+
+    pCameraSet->Release();
+    SafeDelete(pCameraSet);
 
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
