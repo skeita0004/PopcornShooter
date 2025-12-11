@@ -64,13 +64,13 @@ const XMMATRIX Transform::GetTranslateMatrix()
 
 const XMMATRIX Transform::GetRotateMatrix()
 {
-	Calculation();
+    Calculation();
     if (pParent)
-	{
+    {
         return matRotate * pParent->GetRotateMatrix();
     }
     return matRotate;
-	}
+}
 
 const XMMATRIX Transform::GetScaleMatrix()
 {

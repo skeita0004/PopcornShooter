@@ -16,18 +16,18 @@ Skybox::~Skybox()
 void Skybox::Init()
 {
     hModel_ = Model::Load("Models/Skybox/sky.fbx");
-    SetScale(10.f, 10.f, 10.f);
+    transform.scale = { 1000.f, 1000.f, 1000.f };
 }
 
 void Skybox::Update()
 {
+    transform.position = Camera::GetPosition();
 }
 
 void Skybox::Draw()
 {
-    Model::SetTransform(hModel_, transform_);
+    Model::SetTransform(hModel_, transform);
     Model::Draw(hModel_);
-
 }
 
 void Skybox::Release()

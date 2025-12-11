@@ -21,9 +21,12 @@ Collider::~Collider()
 //戻値：接触していればtrue
 bool Collider::IsHitBoxVsBox(BoxCollider* boxA, BoxCollider* boxB)
 {
-
-	XMFLOAT3 boxPosA = Transform::Float3Add(boxA->pGameObject_->GetWorldPosition(), boxA->center_);
-	XMFLOAT3 boxPosB = Transform::Float3Add(boxB->pGameObject_->GetWorldPosition(), boxB->center_);
+	XMFLOAT3 boxPosA = Transform::Float3Add(
+        boxA->pGameObject_->GetTransform()->position,
+        boxA->center_);
+	XMFLOAT3 boxPosB = Transform::Float3Add(
+        boxB->pGameObject_->GetTransform()->position,
+        boxB->center_);
 
 
 	if ((boxPosA.x + boxA->size_.x / 2) > (boxPosB.x - boxB->size_.x / 2) &&
@@ -44,8 +47,12 @@ bool Collider::IsHitBoxVsBox(BoxCollider* boxA, BoxCollider* boxB)
 //戻値：接触していればtrue
 bool Collider::IsHitBoxVsCircle(BoxCollider* box, SphereCollider* sphere)
 {
-	XMFLOAT3 circlePos = Transform::Float3Add(sphere->pGameObject_->GetWorldPosition(), sphere->center_);
-	XMFLOAT3 boxPos = Transform::Float3Add(box->pGameObject_->GetWorldPosition(), box->center_);
+	XMFLOAT3 circlePos = Transform::Float3Add(
+        sphere->pGameObject_->GetTransform()->position,
+        sphere->center_);
+	XMFLOAT3 boxPos = Transform::Float3Add(
+        box->pGameObject_->GetTransform()->position,
+        box->center_);
 
 
 
@@ -69,9 +76,9 @@ bool Collider::IsHitBoxVsCircle(BoxCollider* box, SphereCollider* sphere)
 bool Collider::IsHitCircleVsCircle(SphereCollider* circleA, SphereCollider* circleB)
 {
 	XMFLOAT3 centerA = circleA->center_;
-	XMFLOAT3 positionA = circleA->pGameObject_->GetWorldPosition();
+	XMFLOAT3 positionA = circleA->pGameObject_->GetTransform()->position;
 	XMFLOAT3 centerB = circleB->center_;
-	XMFLOAT3 positionB = circleB->pGameObject_->GetWorldPosition();
+	XMFLOAT3 positionB = circleB->pGameObject_->GetTransform()->position;
 
 	XMVECTOR v = (XMLoadFloat3(&centerA) + XMLoadFloat3(&positionA))
 		- (XMLoadFloat3(&centerB) + XMLoadFloat3(&positionB));
@@ -89,8 +96,8 @@ bool Collider::IsHitCircleVsCircle(SphereCollider* circleA, SphereCollider* circ
 void Collider::Draw(XMFLOAT3 position)
 {
 	Transform transform;
-	transform.position_ = XMFLOAT3(position.x + center_.x, position.y + center_.y, position.z + center_.z);
-	transform.scale_ = size_;
+	transform.position = XMFLOAT3(position.x + center_.x, position.y + center_.y, position.z + center_.z);
+	transform.scale = size_;
 	transform.Calculation();
 	Model::SetTransform(hDebugModel_, transform);
 	Model::Draw(hDebugModel_);

@@ -18,7 +18,7 @@ void Stage::Init()
     hModel_ = Model::Load("Models/Stage/terrain.fbx");
     Instantiate<Player>(this);
     Instantiate<Skybox>(this);
-    SetScale(100.f, 100.f, 100.f);
+    transform.scale = { 100.f, 100.f, 100.f };
 }
 
 void Stage::Update()
@@ -27,7 +27,7 @@ void Stage::Update()
 
 void Stage::Draw()
 {
-    Model::SetTransform(hModel_, transform_);
+    Model::SetTransform(hModel_, transform);
     Model::Draw(hModel_);
 }
 
