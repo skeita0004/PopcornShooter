@@ -37,6 +37,6 @@ public:
     VirtualCamera* GetCurrent();
 
 private:
-    inline static int hCurrent_{0};
-    static std::vector<VirtualCamera*> instances_;
+    inline static int hCurrent_{ 0 };
+    inline static std::vector<VirtualCamera*> instances_{};
 };
