@@ -1,7 +1,7 @@
 ﻿#include "Stage.hpp"
 #include "Model.hpp"
 #include "Player.hpp"
-#include "Skybox.hpp"
+#include "SkyDome.hpp"
 
 Stage::Stage(GameObject* _pParent) :
     GameObject(_pParent, "Stage"),
