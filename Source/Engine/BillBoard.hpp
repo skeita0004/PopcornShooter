@@ -19,15 +19,11 @@ struct VERTEX
 	XMFLOAT3 uv;
 };
 
+class CameraSet;
 
 //常にカメラの方を向く四角形ポリゴン
 class BillBoard
 {
-	ID3D11Buffer* pVertexBuffer_;	//頂点バッファ
-	ID3D11Buffer* pIndexBuffer_;	//インデックスバッファ
-	ID3D11Buffer* pConstantBuffer_;	//コンスタントバッファ
-
-	Texture* pTexture_;	//画像
 
 public:
 	BillBoard();
@@ -45,4 +41,13 @@ public:
 
 	//解放
 	void Release();
+
+private:
+	ID3D11Buffer* pVertexBuffer_;	//頂点バッファ
+	ID3D11Buffer* pIndexBuffer_;	//インデックスバッファ
+	ID3D11Buffer* pConstantBuffer_;	//コンスタントバッファ
+
+	Texture* pTexture_;	//画像
+
+    CameraSet* pCameraSet_;
 };
