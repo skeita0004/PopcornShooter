@@ -135,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Engine\CameraSet.cpp" />
     <ClCompile Include="Library\ImGui\imgui.cpp" />
     <ClCompile Include="Library\ImGui\imgui_draw.cpp" />
     <ClCompile Include="Library\ImGui\imgui_impl_dx11.cpp" />
@@ -171,12 +172,14 @@
     <ClCompile Include="Source\Game\OverScene.cpp" />
     <ClCompile Include="Source\Game\Player.cpp" />
     <ClCompile Include="Source\Game\PlayScene.cpp" />
-    <ClCompile Include="Source\Game\Skybox.cpp" />
+    <ClCompile Include="Source\Game\SkyDome.cpp" />
     <ClCompile Include="Source\Game\Stage.cpp" />
     <ClCompile Include="Source\Game\TestScene.cpp" />
     <ClCompile Include="Source\Game\TitleScene.cpp" />
+    <ClCompile Include="Source\Engine\VirtualCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Engine\CameraSet.hpp" />
     <ClInclude Include="Library\ImGui\imconfig.h" />
     <ClInclude Include="Library\ImGui\imgui.h" />
     <ClInclude Include="Library\ImGui\imgui_impl_dx11.h" />
@@ -185,6 +188,7 @@
     <ClInclude Include="Library\ImGui\imstb_rectpack.h" />
     <ClInclude Include="Library\ImGui\imstb_textedit.h" />
     <ClInclude Include="Library\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Source\Engine\Screen.hpp" />
     <ClInclude Include="Source\Game\Bullet.hpp" />
     <ClInclude Include="Source\Game\Gun.hpp" />
     <ClInclude Include="Source\Game\ClearScene.hpp" />
@@ -214,10 +218,11 @@
     <ClInclude Include="Source\Game\OverScene.hpp" />
     <ClInclude Include="Source\Game\Player.hpp" />
     <ClInclude Include="Source\Game\PlayScene.hpp" />
-    <ClInclude Include="Source\Game\Skybox.hpp" />
+    <ClInclude Include="Source\Game\SkyDome.hpp" />
     <ClInclude Include="Source\Game\Stage.hpp" />
     <ClInclude Include="Source\Game\TestScene.hpp" />
     <ClInclude Include="Source\Game\TitleScene.hpp" />
+    <ClInclude Include="Source\Engine\VirtualCamera.hpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\BillBoard.hlsl">

@@ -109,7 +109,7 @@
     <ClCompile Include="Source\Game\Player.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Skybox.cpp">
+    <ClCompile Include="Source\Game\SkyDome.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Stage.cpp">
@@ -154,6 +154,10 @@
     <ClCompile Include="Library\ImGui\imgui_widgets.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\VirtualCamera.cpp">
+      <Filter>Engine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\CameraSet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\BoxCollider.hpp">
@@ -234,7 +238,7 @@
     <ClInclude Include="Source\Game\Player.hpp">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Skybox.hpp">
+    <ClInclude Include="Source\Game\SkyDome.hpp">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\PlayScene.hpp">
@@ -278,6 +282,15 @@
     </ClInclude>
     <ClInclude Include="Library\ImGui\imstb_truetype.h">
       <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\CameraSet.hpp">
+      <Filter>Engine\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\VirtualCamera.hpp">
+      <Filter>Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Screen.hpp">
+      <Filter>Engine\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
