@@ -20,7 +20,7 @@ Player::~Player()
 
 void Player::Init()
 {
-    Stage* pStage = (Stage*)FindObject("Stage");
+    Stage* pStage = FindObject<Stage>("Stage");
     hGround_ = pStage->GetModelHandle();
     Gun* pGun = static_cast<Gun*>(Instantiate<Gun>(this));
     pGun->GetTransform()->position.y += 20;
@@ -172,14 +172,14 @@ float Player::Jump()
     {
         jumpVelocityY = INITIAL_VELOCITY_Y;
         callCount = 1;
-}
+    }
 
     // ジャンプ
     jumpVelocityY -= GRAVITY;
     jumpHei += jumpVelocityY;
 
     if (jumpHei <= 0.f)
-{
+    {
         jumpHei = 0.0f;
         isJump_ = false;
         callCount = 0;
