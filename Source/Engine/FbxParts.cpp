@@ -2,7 +2,7 @@
 #include "Fbx.hpp"
 #include "SafeCleaning.hpp"
 #include "Direct3D.hpp"
-#include "Camera.hpp"
+#include "CameraSet.hpp"
 
 //コンストラクタ
 FbxParts::FbxParts():
@@ -421,6 +421,7 @@ void FbxParts::IntConstantBuffer()
 //描画
 void FbxParts::Draw(Transform& transform)
 {
+    static CameraSet cameraSet{};
 	//今から描画する頂点情報をシェーダに伝える
 	UINT stride = sizeof(VERTEX);
 	UINT offset = 0;
@@ -443,14 +444,17 @@ void FbxParts::Draw(Transform& transform)
 		// パラメータの受け渡し
 		D3D11_MAPPED_SUBRESOURCE pdata;
 		CONSTANT_BUFFER cb;
-		cb.worldVewProj =	XMMatrixTranspose(transform.GetWorldMatrix() * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());						// リソースへ送る値をセット
+		cb.worldVewProj =	XMMatrixTranspose(transform.GetWorldMatrix() * cameraSet.GetCurrent()->GetViewMat() * cameraSet.GetCurrent()->GetProjectionMat());						// リソースへ送る値をセット
 		cb.world =		XMMatrixTranspose(transform.GetWorldMatrix());
 		cb.normalTrans =	XMMatrixTranspose(transform.GetRotateMatrix() * XMMatrixInverse(nullptr, transform.GetScaleMatrix()));
 		cb.ambient = pMaterial_[i].ambient;
 		cb.diffuse = pMaterial_[i].diffuse;
 		cb.speculer = pMaterial_[i].specular;
 		cb.shininess = pMaterial_[i].shininess;
-		cb.cameraPosition = XMFLOAT4(Camera::GetPosition().x, Camera::GetPosition().y, Camera::GetPosition().z, 0);
+		cb.cameraPosition = XMFLOAT4(cameraSet.GetCurrent()->GetTransform().position.x,
+                                     cameraSet.GetCurrent()->GetTransform().position.y,
+                                     cameraSet.GetCurrent()->GetTransform().position.z,
+                                     0);
 		cb.lightDirection = XMFLOAT4(0, -1, 0, 0);
 		cb.isTexture = pMaterial_[i].pTexture != nullptr;
 
