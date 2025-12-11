@@ -29,7 +29,14 @@ void Camera::Update()
 	//ビュー行列
 	_view = XMMatrixLookAtLH(XMVectorSet(_position.x, _position.y, _position.z, 0),
 		XMVectorSet(_target.x, _target.y, _target.z, 0), XMVectorSet(0, 1, 0, 0));
+    
+    ImGui::Begin("CamPos");
 
+    ImGui::InputFloat("X: ", &_position.x);
+    ImGui::InputFloat("Y: ", &_position.y);
+    ImGui::InputFloat("Z: ", &_position.z);
+
+    ImGui::End();
 
 	//ビルボード行列
 	//（常にカメラの方を向くように回転させる行列。パーティクルでしか使わない）

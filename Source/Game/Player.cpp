@@ -159,7 +159,15 @@ void Player::Update()
 
     CamRenew(vPos, vCamForward);
    
-    XMStoreFloat3(&transform_.position_, vPos);
+    ImGui::Begin("PlayerPosition");
+
+    ImGui::InputFloat("X: ", &transform.position.x);
+    ImGui::InputFloat("Y: ", &transform.position.y);
+    ImGui::InputFloat("Z: ", &transform.position.z);
+
+    ImGui::End();
+
+    XMStoreFloat3(&transform.position, vPos);
 } // End Update
 
 void Player::Draw()
