@@ -1,5 +1,5 @@
 ﻿#include "VFX.hpp"
-#include "Camera.hpp"
+#include "CameraSet.hpp"
 
 namespace VFX
 {
@@ -190,6 +190,7 @@ void VFX::CreateParticle(std::list<VFX::Emitter*>::iterator& emitter)
 //パーティクル描画
 void VFX::Draw()
 {
+    static CameraSet cameraSet{};
     Direct3D::SetShader(Direct3D::SHADER_BILLBOARD);
     Direct3D::SetBlendMode(Direct3D::BLEND_ADD);
 
@@ -208,7 +209,7 @@ void VFX::Draw()
 
         if ((*particle)->pEmitter->data.isBillBoard)
         {
-            matWorld = matScale * matRotate * Camera::GetBillboardMatrix() * matTrans;
+            matWorld = matScale * matRotate * cameraSet.GetCurrent()->GetBillboardMat() * matTrans;
         }
         else
         {
