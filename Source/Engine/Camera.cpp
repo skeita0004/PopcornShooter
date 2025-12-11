@@ -4,6 +4,7 @@
 
 XMFLOAT3 _position;
 XMFLOAT3 _target;
+float    fovAngle;
 XMMATRIX _view;
 XMMATRIX _proj;
 XMMATRIX _billBoard;
@@ -15,13 +16,16 @@ void Camera::Initialize()
 	_position = XMFLOAT3(0, 3, -10);	//カメラの位置
 	_target = XMFLOAT3( 0, 0, 0);	//カメラの焦点
 
+    fovAngle = VIEW_ANGLE_DEG;
 	//プロジェクション行列
-	_proj = XMMatrixPerspectiveFovLH(XMConvertToRadians(VIEW_ANGLE_DEG), (FLOAT)Direct3D::screenWidth_ / (FLOAT)Direct3D::screenHeight_, 0.1f, 10000.0f);
+	_proj = XMMatrixPerspectiveFovLH(XMConvertToRadians(VIEW_ANGLE_DEG), (FLOAT)Direct3D::screenWidth_ / (FLOAT)Direct3D::screenHeight_, 0.1f, 1000000.0f);
 }
 
 //更新（ビュー行列作成）
 void Camera::Update()
 {
+    _proj = XMMatrixPerspectiveFovLH(XMConvertToRadians(fovAngle), (FLOAT)Direct3D::screenWidth_ / (FLOAT)Direct3D::screenHeight_, 0.1f, 1000000.0f);
+
 	//ビュー行列
 	_view = XMMatrixLookAtLH(XMVectorSet(_position.x, _position.y, _position.z, 0),
 		XMVectorSet(_target.x, _target.y, _target.z, 0), XMVectorSet(0, 1, 0, 0));
@@ -36,6 +40,11 @@ void Camera::Update()
 
 //焦点を設定
 void Camera::SetTarget(XMFLOAT3 target) { _target = target; }
+
+//float Camera::Zoom(float _fovAngle)
+//{
+//    return _fovAngle = ;
+//}
 
 //位置を設定
 void Camera::SetPosition(XMFLOAT3 position) { _position = position; }
