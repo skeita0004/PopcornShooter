@@ -58,9 +58,6 @@
     <ClCompile Include="Source\Engine\Sprite.cpp">
       <Filter>Engine\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Camera.cpp">
-      <Filter>Engine\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\GameObject.cpp">
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
@@ -183,9 +180,6 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Sprite.hpp">
       <Filter>Engine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Camera.hpp">
-      <Filter>Engine\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\GameObject.hpp">
       <Filter>Engine\GameObject</Filter>

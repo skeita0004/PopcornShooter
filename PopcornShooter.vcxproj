@@ -149,7 +149,6 @@
     <ClCompile Include="Source\Engine\Audio.cpp" />
     <ClCompile Include="Source\Engine\BillBoard.cpp" />
     <ClCompile Include="Source\Engine\BoxCollider.cpp" />
-    <ClCompile Include="Source\Engine\Camera.cpp" />
     <ClCompile Include="Source\Engine\Collider.cpp" />
     <ClCompile Include="Source\Engine\CsvReader.cpp" />
     <ClCompile Include="Source\Engine\Debug.cpp" />
@@ -195,7 +194,6 @@
     <ClInclude Include="Source\Engine\Audio.hpp" />
     <ClInclude Include="Source\Engine\BillBoard.hpp" />
     <ClInclude Include="Source\Engine\BoxCollider.hpp" />
-    <ClInclude Include="Source\Engine\Camera.hpp" />
     <ClInclude Include="Source\Engine\Collider.hpp" />
     <ClInclude Include="Source\Engine\CsvReader.hpp" />
     <ClInclude Include="Source\Engine\Debug.hpp" />
