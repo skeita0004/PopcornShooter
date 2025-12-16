@@ -23,6 +23,7 @@ public:
     //ワールド行列を取得
     const XMMATRIX GetWorldMatrix();
     const XMMATRIX GetNormalMatrix();
+    const XMMATRIX GetCameraMatrix();
 
     const XMMATRIX GetTranslateMatrix();
     const XMMATRIX GetRotateMatrix();

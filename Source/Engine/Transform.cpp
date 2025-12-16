@@ -51,6 +51,11 @@ const XMMATRIX Transform::GetNormalMatrix()
     return matRotate * XMMatrixInverse(nullptr, matScale);
 }
 
+const XMMATRIX Transform::GetCameraMatrix()
+{
+    return matRotate * matTranslate;
+}
+
 const XMMATRIX Transform::GetTranslateMatrix()
 {
     Calculation();
