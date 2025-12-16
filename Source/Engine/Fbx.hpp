@@ -16,7 +16,7 @@ struct RayCastData
 	BOOL        hit;	//レイが当たったか
 	XMFLOAT3 normal;	//法線
 
-	RayCastData() { dist = 99999.0f; }
+	RayCastData() { dist = INFINITY; }
 };
 
 //-----------------------------------------------------------
