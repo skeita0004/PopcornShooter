@@ -19,7 +19,7 @@ void Skybox::Init()
     hModel_ = Model::Load("Models/Skybox/sky.fbx");
     pCameraSet_ = new CameraSet();
 
-    transform.scale = { 1000.f, 1000.f, 1000.f };
+    transform.scale = { 10000.f, 10000.f, 10000.f };
 }
 
 void Skybox::Update()
