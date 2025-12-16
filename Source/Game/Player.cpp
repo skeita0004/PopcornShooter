@@ -32,17 +32,16 @@ void Player::Update()
     static XMMATRIX rotYMat{XMMatrixIdentity()};
 
     XMVECTOR vCamForward{ XMVectorSet(0, 0, 1, 0) };
+    XMVECTOR vForward{XMVectorSet(0, 0, 1, 0)};
+
+    XMVECTOR vMoveDir{V_DIR_NONE};
+    XMVECTOR vPos{XMLoadFloat3(&transform.position)};
 
     GetCamForwardRenew(rotXMat, rotYMat, vCamForward);
-    
-    // 移動
-    XMVECTOR vForward{XMVectorSet(0, 0, 1, 0)};
-    XMVECTOR vMoveDir{V_DIR_NONE};
-    XMVECTOR vPos{};
-    vPos = XMLoadFloat3(&transform.position);
-
     vForward = XMVector3TransformCoord(vForward, rotYMat);
-    
+    XMVECTOR vRight{ XMVector3TransformCoord(vForward, XMMatrixRotationY(XMConvertToRadians(-90))) };
+
+#pragma region GetInput
     if (Input::IsKey(DIK_W))
     {
         vMoveDir += vForward;
@@ -53,28 +52,26 @@ void Player::Update()
     }
     if (Input::IsKey(DIK_A))
     {
-        // forwardから見た左 
-        // forwardに対して-90°のベクトルを求める
-        // 以下の方法は悪手なので、即座にやめること。
-        vMoveDir += XMVector3TransformCoord(vForward, XMMatrixRotationY(XMConvertToRadians(-90)));
+        vMoveDir += vRight;
     }
     if (Input::IsKey(DIK_D))
     {
-        // forwardから見た右
-        // forwardに対して、90°のベクトルを求める
-        vMoveDir += XMVector3TransformCoord(vForward, XMMatrixRotationY(XMConvertToRadians(90)));
+        vMoveDir += XMVectorNegate(vRight);
     }
-    if (not(isJump_)) // <- 二段ジャンプを禁ずる（禁固5年に処す）
+    if (Input::IsKeyDown(DIK_SPACE))
     {
-        if (Input::IsKeyDown(DIK_SPACE))
+        if (not(isJump_)) //二段ジャンプを禁ずる（禁固5年に処す）
         {
             isJump_ = true;
         }
     }
 
-    // 正規化する
     XMFLOAT3 stick = XMFLOAT3(Input::GetPadStickL().x, 0, Input::GetPadStickL().y);
     XMVECTOR vStick = XMLoadFloat3(&stick);
+#pragma endregion
+
+#pragma region ComputeMove
+    // 正規化する
     XMVector3Normalize(vStick);
     vStick = XMVector3TransformCoord(vStick, rotYMat);
 
@@ -105,11 +102,12 @@ void Player::Update()
 
     vPos = XMVectorAdd(vPos, velocity);
     vPos = XMVectorAdd(vPos, padVelocity);
-    // 移動_
+#pragma endregion
 
     // 地面との当たり判定(読みにくい)
     const XMFLOAT3 OFFSET{0, 100.f, 0};
-    RayCastData rayCastData;
+
+    RayCastData rayCastData{};
     XMFLOAT3 rayCastStart{};
     XMVECTOR vRayCastStart = XMVectorAdd(vPos, XMLoadFloat3(&OFFSET)); // プレイヤーの高さ + 100する
     XMStoreFloat3(&rayCastStart, vRayCastStart); // 変換
@@ -122,25 +120,33 @@ void Player::Update()
     if (isJump_)
     {
         jumpHei = Jump();
+        XMStoreFloat3(&transform.position, vPos);
+        transform.position.y += jumpHei;
+        vPos = XMLoadFloat3(&transform.position);
     }
-
 #pragma endregion 
-    XMVECTOR vDist = XMVectorSet(0.f, rayCastData.dist - OFFSET.y - jumpHei, 0.f, 0.f);
 
-    if (rayCastData.hit)
+    // 地面との当たり判定
+    XMVECTOR vDist = XMVectorSet(0.f, rayCastData.dist - OFFSET.y, 0.f, 0.f);
+
+    if (not(isJump_))
     {
-        vPos = XMVectorSubtract(vPos, vDist);
+        if (rayCastData.hit)
+        {
+            vPos = XMVectorSubtract(vPos, vDist);
+        }
     }
 
     CamRenew(vPos, vCamForward);
    
+#pragma region DebugPrint
     ImGui::Begin("PlayerPosition");
-
     ImGui::InputFloat("X: ", &transform.position.x);
     ImGui::InputFloat("Y: ", &transform.position.y);
     ImGui::InputFloat("Z: ", &transform.position.z);
-
+    ImGui::InputFloat("jumpHei", &jumpHei);
     ImGui::End();
+#pragma endregion
 
     XMStoreFloat3(&transform.position, vPos);
 } // End Update
@@ -159,7 +165,7 @@ float Player::Jump()
     static int callCount{0};
     const float MAX_HEIGHT        {400.f};
     const float GRAVITY           {1.75f};
-    const float INITIAL_VELOCITY_Y{sqrtf(2 * (MAX_HEIGHT * GRAVITY))};
+    const float INITIAL_SPEED_Y{sqrtf(2 * (MAX_HEIGHT * GRAVITY))};
 
     static float jumpVelocityY{ 0.f }; // ここがベクトルじゃないのがまずおかしいわよ。
     // あとVelocityじゃなくてSpeedじゃないかしら？
@@ -169,7 +175,7 @@ float Player::Jump()
 
     if (callCount == 0)
     {
-        jumpVelocityY = INITIAL_VELOCITY_Y;
+        jumpVelocityY = INITIAL_SPEED_Y;
         callCount = 1;
     }
 
@@ -184,7 +190,7 @@ float Player::Jump()
         callCount = 0;
     }
 
-    return jumpHei;
+    return jumpVelocityY;
 }
 
 void Player::GetCamForwardRenew(XMMATRIX& _rotXMat,
@@ -212,14 +218,14 @@ void Player::CamRenew(const XMVECTOR& _vPos,
     // カメラ位置についての処理
     XMFLOAT3 camPos{};
     XMVECTOR vCamPos{};
-    vCamPos = XMVectorAdd(_vPos, XMVectorSet( 0, 20, 0, 0 ));
+    vCamPos = XMVectorAdd(_vPos, XMVectorSet( 0, 50, 0, 0 ));
     XMStoreFloat3(&camPos, vCamPos);
     cameraSet.GetCurrent()->GetTransform().position = camPos;
 
     // 注視点についての処理
     XMFLOAT3 camTarget{};
     XMVECTOR vCamTarget{};
-    vCamTarget = vCamPos + _vCamForward;
+    vCamTarget = vCamPos + _vCamForward * 2;
     XMStoreFloat3(&camTarget, vCamTarget);
     cameraSet.GetCurrent()->GetTargetTransform().position = camTarget;
 }
