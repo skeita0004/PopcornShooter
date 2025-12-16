@@ -1,6 +1,7 @@
 ﻿#include "VirtualCamera.hpp"
 #include "Screen.hpp"
-#include <windows.h>
+//#include <windows.h>
+#include <imgui.h>
 
 VirtualCamera::VirtualCamera(const XMFLOAT3& _upDir,
                              const float     _fovAngleDeg,
@@ -30,24 +31,32 @@ void VirtualCamera::Update()
                                               nearClip_,
                                               farClip_);
 
+    // ここで回転行列をかけてやればいい?
+    // カメラに回転行列をかけてはいけない！
+    XMVECTOR vTargetPos{XMLoadFloat3(&targetTransform_.position)};
+    vTargetPos = XMVector3TransformCoord(vTargetPos, targetTransform_.GetCameraMatrix());
+    XMStoreFloat3(&targetTransform_.position, vTargetPos);
     matView_       = XMMatrixLookAtLH(XMLoadFloat3(&transform_.position),
                                       XMLoadFloat3(&targetTransform_.position),
                                       XMLoadFloat3(&upDir_));
 
     //ビルボード行列
     //（常にカメラの方を向くように回転させる行列。パーティクルでしか使わない）
-    //http://marupeke296.com/DXG_No11_ComeOnBillboard.html
+    http://marupeke296.com/DXG_No11_ComeOnBillboard.html
     matBillboard_ = XMMatrixLookAtLH(XMVectorSet(0, 0, 0, 0),
                                      XMLoadFloat3(&targetTransform_.position) - XMLoadFloat3(&transform_.position),
                                      XMLoadFloat3(&upDir_));
     matBillboard_ = XMMatrixInverse(nullptr, matBillboard_);
-    //ImGui::Begin("CamPos");
 
-    //ImGui::InputFloat("X: ", &_position.x);
-    //ImGui::InputFloat("Y: ", &_position.y);
-    //ImGui::InputFloat("Z: ", &_position.z);
+    ImGui::Begin("CameraProperty");
 
-    //ImGui::End();
+    ImGui::InputFloat("X: ", &transform_.position.x);
+    ImGui::InputFloat("Y: ", &transform_.position.y);
+    ImGui::InputFloat("Z: ", &transform_.position.z);
+    ImGui::InputFloat("Near Clip:", &nearClip_);
+    ImGui::InputFloat("Far Clip:", &farClip_);
+
+    ImGui::End();
 
 }
 
