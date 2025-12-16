@@ -28,7 +28,7 @@ private:
     void CamRenew(const XMVECTOR& _vPos,
                   const XMVECTOR& _vCamForward);
 
-    static const inline float MAX_SPEED{6.0f};
+    static const inline float MAX_SPEED{9.0f};
     static const inline float ACCELARATION{0.05f};
 
     float moveSpeed_;
