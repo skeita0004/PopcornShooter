@@ -7,6 +7,7 @@
 #include "Model.hpp"
 #include "Gun.hpp"
 #include <imgui.h>
+#include <cstdarg>
 
 Player::Player(GameObject* _pParent) :
     GameObject(_pParent, "Player"),
@@ -22,7 +23,7 @@ void Player::Init()
 {
     Stage* pStage = FindObject<Stage>("Stage");
     hGround_ = pStage->GetModelHandle();
-    Gun* pGun = static_cast<Gun*>(Instantiate<Gun>(GetParent()->GetParent()));
+    pGun_ = static_cast<Gun*>(Instantiate<Gun>(GetParent()->GetParent()));
 }
 
 void Player::Update()

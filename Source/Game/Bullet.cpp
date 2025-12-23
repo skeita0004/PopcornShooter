@@ -19,6 +19,24 @@ void Bullet::Init()
 
 void Bullet::Update()
 {
+    if (not(isAvailable_))
+    {
+        static int lifeTime = 0;
+
+        XMVECTOR vPos{XMLoadFloat3(&transform.position)};
+
+        vPos = vDir_ * speed_;
+
+        XMStoreFloat3(&transform.position, vPos);
+
+        if (lifeTime >= (60 * 3))
+        {
+            lifeTime = 0;
+            isAvailable_ = true;
+            transform.position = {0, 0, 0};
+        }
+        lifeTime++;
+    }
 }
 
 void Bullet::Draw()

@@ -2,6 +2,7 @@
 #include "Model.hpp"
 #include "Player.hpp"
 #include "SkyDome.hpp"
+#include "CameraSet.hpp"
 
 Stage::Stage(GameObject* _pParent) :
     GameObject(_pParent, "Stage"),
@@ -20,10 +21,17 @@ void Stage::Init()
     Instantiate<Skybox>(GetParent());
     const float SCALE{20.f};
     transform.scale = { SCALE, SCALE, SCALE };
+
+    //CameraSet camera{};
+    //int hCam = camera.Create({0, -1, 0}, 120, 0.1f, 100000.f);
+    //camera.SetCurrent(hCam);
 }
 
 void Stage::Update()
 {
+    //CameraSet camera{};
+    //camera.GetCurrent()->GetTransform().position = { 0, 100, 0 };
+    //camera.GetCurrent()->GetTargetTransform().position = {0, 0, 0};
 }
 
 void Stage::Draw()

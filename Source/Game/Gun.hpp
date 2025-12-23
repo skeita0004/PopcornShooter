@@ -16,4 +16,5 @@ public:
 
 private:
     int hModel_;
+    float temperature_;
 };

@@ -15,7 +15,20 @@ public:
     void Shoot();
     bool IsAvailable();
 
+    float& GetSpeed()
+    {
+        return speed_;
+    }
+
+    XMVECTOR& GetVDir()
+    {
+        return vDir_;
+    }
+
 private:
     int  hModel_;
     bool isAvailable_;
+
+    XMVECTOR vDir_;
+    float    speed_;
 };

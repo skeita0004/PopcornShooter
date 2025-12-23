@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "GameObject.hpp"
 
+class Gun;
+
 class Player : public GameObject
 {
 public:
@@ -34,4 +36,6 @@ private:
     float moveSpeed_;
     int   hGround_;
     bool  isJump_;
+
+    Gun* pGun_;
 };
