@@ -16,7 +16,7 @@ Stage::~Stage()
 
 void Stage::Init()
 {
-    hModel_ = Model::Load("Models/Stage/terrain.fbx");
+    hModel_ = Model::Load("Models/Stage/StagePlane.fbx");
     Instantiate<Player>(GetParent());
     Instantiate<Skybox>(GetParent());
     const float SCALE{20.f};
