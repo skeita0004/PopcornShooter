@@ -3,6 +3,7 @@
 #include "Player.hpp"
 #include "SkyDome.hpp"
 #include "CameraSet.hpp"
+#include "Enemy.hpp"
 
 Stage::Stage(GameObject* _pParent) :
     GameObject(_pParent, "Stage"),
@@ -18,9 +19,11 @@ void Stage::Init()
 {
     hModel_ = Model::Load("Models/Stage/StagePlane.fbx");
     Instantiate<Player>(GetParent());
+    Instantiate<Enemy>(GetParent());
     Instantiate<Skybox>(GetParent());
-    const float SCALE{20.f};
+    const float SCALE{5.f};
     transform.scale = { SCALE, SCALE, SCALE };
+    transform.position = {0.f, 0.f, 0.f};
 
     //CameraSet camera{};
     //int hCam = camera.Create({0, -1, 0}, 120, 0.1f, 100000.f);

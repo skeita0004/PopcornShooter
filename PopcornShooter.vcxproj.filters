@@ -155,6 +155,7 @@
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\CameraSet.cpp" />
+    <ClCompile Include="Source\Game\Enemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\BoxCollider.hpp">
@@ -285,6 +286,9 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Screen.hpp">
       <Filter>Engine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy.hpp">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "GameObject.hpp"
+#include "BoxCollider.hpp"
 
 class Gun;
 
@@ -30,12 +31,16 @@ private:
     void CamRenew(const XMVECTOR& _vPos,
                   const XMVECTOR& _vCamForward);
 
-    static const inline float MAX_SPEED{9.0f};
-    static const inline float ACCELARATION{0.05f};
+    static const inline float MAX_SPEED{0.6f};
+    static const inline float ACCELARATION{0.02f};
 
     float moveSpeed_;
     int   hGround_;
     bool  isJump_;
 
     Gun* pGun_;
+    BoxCollider* pBoxCollider_;
+    XMFLOAT3 velocity_;
+
+    void OnCollision(GameObject* _pTarget) override;
 };

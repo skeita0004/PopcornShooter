@@ -94,7 +94,7 @@ void FbxParts::InitVertex(fbxsdk::FbxMesh * mesh)
 			FbxLayerElementUV * pUV = mesh->GetLayer(0)->GetUVs();
 			int uvIndex = mesh->GetTextureUVIndex(poly, vertex, FbxLayerElement::eTextureDiffuse);
 			FbxVector2  uv = pUV->GetDirectArray().GetAt(uvIndex);
-			pVertexData_[index].uv = XMFLOAT3((float)uv.mData[0] * 10, (float)(1.0f - uv.mData[1] * 10), 0.0f);
+			pVertexData_[index].uv = XMFLOAT3((float)uv.mData[0], (float)(1.0f - uv.mData[1]), 0.0f);
 		}
 	}
 
@@ -107,7 +107,7 @@ void FbxParts::InitVertex(fbxsdk::FbxMesh * mesh)
 		for (int k = 0; k < m_dwNumUV; k++)
 		{
 			FbxVector2 uv = pUV->GetDirectArray().GetAt(k);
-			pVertexData_[k].uv = XMFLOAT3((float)uv.mData[0] * 10, (float)(1.0f - uv.mData[1] * 10), 0.0f);
+			pVertexData_[k].uv = XMFLOAT3((float)uv.mData[0], (float)(1.0f - uv.mData[1]), 0.0f);
 		}
 	}
 

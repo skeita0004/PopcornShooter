@@ -1,4 +1,4 @@
-root = true
+﻿root = true
 
 # All files
 [*]
@@ -7,6 +7,9 @@ charset = utf-8-bom
 
 # HLSL
 [*.hlsl]
+charset = utf-8
+
+[*.ini]
 charset = utf-8
 
 # CSV

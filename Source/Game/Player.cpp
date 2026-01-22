@@ -6,8 +6,13 @@
 #include "Stage.hpp"
 #include "Model.hpp"
 #include "Gun.hpp"
+#include "Bullet.hpp"
 #include <imgui.h>
 #include <cstdarg>
+#include <algorithm>
+
+#undef min
+#undef max
 
 Player::Player(GameObject* _pParent) :
     GameObject(_pParent, "Player"),
@@ -24,6 +29,8 @@ void Player::Init()
     Stage* pStage = FindObject<Stage>("Stage");
     hGround_ = pStage->GetModelHandle();
     pGun_ = static_cast<Gun*>(Instantiate<Gun>(GetParent()->GetParent()));
+    pBoxCollider_ = new BoxCollider(XMFLOAT3(0, 0, 0), XMFLOAT3(1, 8, 1));
+    AddCollider(pBoxCollider_);
 }
 
 void Player::Update()
@@ -101,6 +108,8 @@ void Player::Update()
     XMVECTOR velocity{vMoveDir * moveSpeed_};
     XMVECTOR padVelocity{ vStick * moveSpeed_ };
 
+    XMStoreFloat3(&velocity_, velocity);
+
     vPos = XMVectorAdd(vPos, velocity);
     vPos = XMVectorAdd(vPos, padVelocity);
 #pragma endregion
@@ -164,8 +173,8 @@ void Player::Release()
 float Player::Jump()
 {
     static int callCount{0};
-    const float MAX_HEIGHT        {400.f};
-    const float GRAVITY           {1.75f};
+    const float MAX_HEIGHT        {4.0f};
+    const float GRAVITY           {0.025f};
     const float INITIAL_SPEED_Y{sqrtf(2 * (MAX_HEIGHT * GRAVITY))};
 
     static float jumpVelocityY{ 0.f }; // ここがベクトルじゃないのがまずおかしいわよ。
@@ -219,7 +228,7 @@ void Player::CamRenew(const XMVECTOR& _vPos,
     // カメラ位置についての処理
     XMFLOAT3 camPos{};
     XMVECTOR vCamPos{};
-    vCamPos = XMVectorAdd(_vPos, XMVectorSet( 0, 50, 0, 0 ));
+    vCamPos = XMVectorAdd(_vPos, XMVectorSet( 0, 2.5, 0, 0 ));
     XMStoreFloat3(&camPos, vCamPos);
     cameraSet.GetCurrent()->GetTransform().position = camPos;
 
@@ -229,4 +238,85 @@ void Player::CamRenew(const XMVECTOR& _vPos,
     vCamTarget = vCamPos + _vCamForward * 2;
     XMStoreFloat3(&camTarget, vCamTarget);
     cameraSet.GetCurrent()->GetTargetTransform().position = camTarget;
+}
+
+void Player::OnCollision(GameObject* _pTarget)
+{
+    if (_pTarget->GetObjectName() == "Enemy") // 相手のコライダーの種類を取得できるようにする)
+    {
+        XMFLOAT3 targetPos = _pTarget->GetTransform()->position;
+        XMFLOAT3 targetSize = _pTarget->GetBoxColliderSize();
+        XMFLOAT3 size = GetBoxColliderSize();
+
+        XMVECTOR vTargetPos{XMLoadFloat3(&targetPos)};
+        XMVECTOR vPos{XMLoadFloat3(&transform.position)};
+        XMVECTOR vTargetSize{ XMLoadFloat3(&targetSize) };
+        XMVECTOR vSize{ XMLoadFloat3(&size) };
+
+        XMVECTOR vDelta = vPos - vTargetPos;
+        XMFLOAT3 delta{};
+        XMStoreFloat3(&delta, vDelta);
+
+        XMFLOAT3 overlap{};
+        overlap.x = (size.x * 0.5 + targetSize.x * 0.5) - fabsf(delta.x);
+        overlap.y = (size.y * 0.5 + targetSize.y * 0.5) - fabsf(delta.y);
+        overlap.z = (size.z * 0.5 + targetSize.z * 0.5) - fabsf(delta.z);
+
+        XMVECTOR dir;
+        float penetration;
+
+        if (overlap.x <= overlap.y && overlap.x <= overlap.z)
+        {
+            penetration = overlap.x;
+            if (transform.position.x < targetPos.x)
+            {
+                dir = XMVectorSet(-1, 0, 0, 0);
+            }
+            else
+            {
+                dir = XMVectorSet(1, 0, 0, 0);
+            }
+        }
+        else if (overlap.y <= overlap.z)
+        {
+            penetration = overlap.y;
+            if (transform.position.y < targetPos.y)
+            {
+                dir = XMVectorSet(0, -1, 0, 0);
+            }
+            else
+            {
+                dir = XMVectorSet(0, 1, 0, 0);
+            }
+        }
+        else
+        {
+            penetration = overlap.z;
+            if (transform.position.z < targetPos.z)
+            {
+                dir = XMVectorSet(0, 0, -1, 0);
+            }
+            else
+            {
+                dir = XMVectorSet(0, 0, 1, 0);
+            }
+        }
+
+        const float SLOP {0.1f};
+
+        vPos += dir * ((penetration - SLOP) * 0.5);
+        vTargetPos += -dir * ((penetration - SLOP) * 0.5);
+
+        // 速度も殺さねば
+        XMVECTOR velocity = XMLoadFloat3(&velocity_);
+
+        XMVECTOR vn = XMVector3Dot(velocity, dir);
+        if (XMVectorGetX(vn) < 0)
+        {
+            velocity -= dir * XMVectorGetX(vn);
+        }
+
+        XMStoreFloat3(&_pTarget->GetTransform()->position, vTargetPos);
+        XMStoreFloat3(&transform.position, vPos);
+    }
 }

@@ -108,6 +108,11 @@ public:
 	//コライダー（衝突判定）を追加する
 	void AddCollider(Collider * collider);
 
+    XMFLOAT3 GetBoxColliderSize(int _index = 0)
+    {
+        return colliderList[_index]->GetBoxSize();
+    }
+
 	//何かと衝突した場合に呼ばれる（オーバーライド用）
 	//引数：pTarget	衝突した相手
 	virtual void OnCollision(GameObject* pTarget) {};
@@ -132,7 +137,7 @@ protected:
 	std::string				objectName;
 
 	//衝突判定リスト
-	std::list<Collider*>	colliderList;	
+	std::vector<Collider*>	colliderList;	
 
     /// @brief ゲームオブジェクトの子クラスをインスタンスするテンプレート
     /// @param T ゲームオブジェクトの子クラス型

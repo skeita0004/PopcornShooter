@@ -13,6 +13,7 @@ cbuffer global
 	float4x4	g_matWVP;			// ワールド・ビュー・プロジェクションの合成行列
 	float4x4	g_matNormalTrans;	// 法線の変換行列（回転行列と拡大の逆行列）
 	float4x4	g_matWorld;			// ワールド変換行列
+    
 	float4		g_vecLightDir;		// ライトの方向ベクトル
 	float4		g_vecDiffuse;		// ディフューズカラー（マテリアルの色）
 	float4		g_vecAmbient;		// アンビエントカラー（影の色）
@@ -44,7 +45,7 @@ VS_OUT VS(float4 pos : POSITION, float4 Normal : NORMAL, float2 Uv : TEXCOORD)
 
 	//ローカル座標に、ワールド・ビュー・プロジェクション行列をかけて
 	//スクリーン座標に変換し、ピクセルシェーダーへ
-	outData.pos = mul(pos, g_matWVP);		
+	outData.pos = mul(pos, g_matWVP);
 
 	//法線の変形
 	Normal.w = 0;					//4次元目は使わないので0
@@ -72,7 +73,7 @@ float4 PS(VS_OUT inData) : SV_Target
 	float4 lightDir = g_vecLightDir;	//グルーバル変数は変更できないので、いったんローカル変数へ
 	lightDir = normalize(lightDir);	//向きだけが必要なので正規化
     
-    float4 light2Dir = { 0, 1, 0, 0 };
+    float4 light2Dir = { 0, 0, 1, 0 };
     light2Dir = normalize(light2Dir);
 
 	//法線はピクセルシェーダーに持ってきた時点で補完され長さが変わっている

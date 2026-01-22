@@ -106,6 +106,7 @@ void Sprite::Draw(Transform& transform, RECT rect, float alpha)
 {
 	//いろいろ設定
 	Direct3D::SetShader(Direct3D::SHADER_2D);
+
 	UINT stride = sizeof(VERTEX);
 	UINT offset = 0;
 	Direct3D::pContext_->IASetVertexBuffers(0, 1, &pVertexBuffer_, &stride, &offset);
@@ -128,7 +129,9 @@ void Sprite::Draw(Transform& transform, RECT rect, float alpha)
 	XMMATRIX cut = XMMatrixScaling((float)rect.right, (float)rect.bottom ,1);
 
 	//画面に合わせる
-	XMMATRIX view = XMMatrixScaling(1.0f / Direct3D::screenWidth_, 1.0f / Direct3D::screenHeight_, 1.0f);
+	XMMATRIX view = XMMatrixScaling(1.0f / Direct3D::screenWidth_,
+                                    1.0f / Direct3D::screenHeight_,
+                                    1.0f);
 
 	//最終的な行列
 	XMMATRIX world = cut * transform.GetScaleMatrix() * transform.GetRotateMatrix() * view * transform.GetTranslateMatrix();
@@ -137,8 +140,10 @@ void Sprite::Draw(Transform& transform, RECT rect, float alpha)
 	// テクスチャ座標変換行列を渡す
 	XMMATRIX mTexTrans = XMMatrixTranslation((float)rect.left / (float)pTexture_->GetSize().x,
 		(float)rect.top / (float)pTexture_->GetSize().y, 0.0f);
+
 	XMMATRIX mTexScale = XMMatrixScaling((float)rect.right / (float)pTexture_->GetSize().x,
 		(float)rect.bottom / (float)pTexture_->GetSize().y, 1.0f);
+
 	XMMATRIX mTexel = mTexScale * mTexTrans;
 	cb.uvTrans = XMMatrixTranspose(mTexel);
 	

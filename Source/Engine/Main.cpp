@@ -47,7 +47,7 @@ int WINAPI WinMain(_In_     HINSTANCE hInstance,
 
     //初期化ファイル（setup.ini）から必要な情報を取得
     int screenWidth = GetPrivateProfileInt(L"SCREEN", L"Width", 800, L".\\setup.ini");		//スクリーンの幅
-    int screenHeight = GetPrivateProfileInt(L"SCREEN", L"Height", 600, L".\\setup.ini");	//スクリーンの高さ
+    int screenHeight = GetPrivateProfileInt(L"SCREEN", L"Height", 450, L".\\setup.ini");	//スクリーンの高さ
     int fpsLimit = GetPrivateProfileInt(L"GAME", L"Fps", 60, L".\\setup.ini");				//FPS（画面更新速度）
     int isDrawFps = GetPrivateProfileInt(L"DEBUG", L"ViewFps", 0, L".\\setup.ini");		//キャプションに現在のFPSを表示するかどうか
 

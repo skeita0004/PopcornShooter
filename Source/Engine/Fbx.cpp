@@ -64,8 +64,6 @@ HRESULT Fbx::Load(std::string fileName)
 		CheckNode(rootNode->GetChild(i), &parts_);
 	}
 
-
-
 	//カレントディレクトリを元の位置に戻す
 	SetCurrentDirectory(defaultCurrentDir);
 
