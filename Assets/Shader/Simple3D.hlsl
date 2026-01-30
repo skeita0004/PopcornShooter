@@ -19,7 +19,9 @@ cbuffer global
 	float4		g_vecAmbient;		// アンビエントカラー（影の色）
 	float4		g_vecSpeculer;		// スペキュラーカラー（ハイライトの色）
 	float4		g_vecCameraPosition;// 視点（カメラの位置）
+    
 	float		g_shuniness;		// ハイライトの強さ（テカリ具合）
+    
 	bool		g_isTexture;		// テクスチャ貼ってあるかどうか
 
 };

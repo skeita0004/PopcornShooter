@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "GameObject.hpp"
+#include "SphereCollider.hpp"
 
 class Bullet : public GameObject
 {
@@ -15,12 +16,22 @@ public:
     void Shoot();
     bool IsAvailable();
 
-    float& GetSpeed()
+    void SetSpeed(float _speed)
+    {
+        speed_ = _speed;
+    }
+
+    float GetSpeed()
     {
         return speed_;
     }
 
-    XMVECTOR& GetVDir()
+    void     SetDir(XMVECTOR _vDir)
+    {
+        vDir_ = _vDir;
+    }
+
+    XMVECTOR GetVDir()
     {
         return vDir_;
     }
@@ -31,4 +42,6 @@ private:
 
     XMVECTOR vDir_;
     float    speed_;
+
+    SphereCollider* pCollider_;
 };

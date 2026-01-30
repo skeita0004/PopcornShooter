@@ -20,6 +20,7 @@ void Gun::Init()
     hModel_ = Model::Load("Models/Weapon/gun.fbx");
     transform.scale = {5.f, 5.f, 5.f};
 
+    // どういう場所なのかを割り出す
     CameraSet camera;
     transform.pParent = &camera.GetCurrent()->GetTransform();
 }

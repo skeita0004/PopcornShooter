@@ -16,6 +16,13 @@ using namespace DirectX;
 //-----------------------------------------------------------
 namespace Input
 {
+    enum MOUSE : int
+    {
+        LEFT = 0,
+        RIGHT,
+        MIDDLE,
+    };
+
 	//初期化
 	//引数：hWnd	ウィンドウハンドル
 	void Initialize(HWND hWnd);

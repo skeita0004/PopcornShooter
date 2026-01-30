@@ -38,6 +38,9 @@ private:
     int hModel_;
     BoxCollider* pBoxCollider_;
 
+    int32_t hp_;
+
+    EnemyAnimation eaState_;
 
     void OnCollision(GameObject* _pTarget) override;
     void ChangeAnimation(EnemyAnimation _enemyAnimation);

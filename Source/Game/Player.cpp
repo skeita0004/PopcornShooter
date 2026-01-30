@@ -28,28 +28,43 @@ void Player::Init()
 {
     Stage* pStage = FindObject<Stage>("Stage");
     hGround_ = pStage->GetModelHandle();
-    pGun_ = static_cast<Gun*>(Instantiate<Gun>(GetParent()->GetParent()));
+
+    pGun_ = static_cast<Gun*>(Instantiate<Gun>(nullptr));
+
     pBoxCollider_ = new BoxCollider(XMFLOAT3(0, 0, 0), XMFLOAT3(1, 8, 1));
     AddCollider(pBoxCollider_);
 }
 
 void Player::Update()
 {
+    // 比較演算用ゼロベクトル
     const  XMVECTOR V_DIR_NONE{XMVectorSet(0, 0, 0, 0)};
+    
+    // 回転行列たち
     static XMMATRIX rotXMat{XMMatrixIdentity()};
     static XMMATRIX rotYMat{XMMatrixIdentity()};
 
+    // カメラの正面
     XMVECTOR vCamForward{ XMVectorSet(0, 0, 1, 0) };
+    
+    // プレイヤーの正面
     XMVECTOR vForward{XMVectorSet(0, 0, 1, 0)};
 
+    // プレイヤーの移動方向
     XMVECTOR vMoveDir{V_DIR_NONE};
+    
+    // プレイヤーの位置ベクトル
     XMVECTOR vPos{XMLoadFloat3(&transform.position)};
 
     GetCamForwardRenew(rotXMat, rotYMat, vCamForward);
+
     vForward = XMVector3TransformCoord(vForward, rotYMat);
+
+    // プレイヤーの右を表すベクトル
     XMVECTOR vRight{ XMVector3TransformCoord(vForward, XMMatrixRotationY(XMConvertToRadians(-90))) };
 
 #pragma region GetInput
+    // 入力取得
     if (Input::IsKey(DIK_W))
     {
         vMoveDir += vForward;
@@ -72,6 +87,16 @@ void Player::Update()
         {
             isJump_ = true;
         }
+    }
+
+    if (Input::IsMouseButton(Input::MOUSE::LEFT))
+    {
+        Bullet* pBullet = (Bullet*)Instantiate<Bullet>(GetParent());
+        pBullet->GetTransform()->position = XMFLOAT3(transform.position.x,
+                                                     transform.position.y + 2.f,
+                                                     transform.position.z);
+        pBullet->SetDir(vCamForward);
+        pBullet->SetSpeed(1.00f);
     }
 
     XMFLOAT3 stick = XMFLOAT3(Input::GetPadStickL().x, 0, Input::GetPadStickL().y);
