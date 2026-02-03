@@ -18,32 +18,36 @@ void Enemy::Init()
     AddCollider(pBoxCollider_);
     hModel_ = Model::Load("Models/Enemy/ps_enemy.fbx");
     transform.position = {0.f, 0.f, 0.f};
-    Model::SetAnimFrame(hModel_, 1, 60, 1.0f);
+    SetAnimation(EA_IDLE);
     hp_ = 100;
 }
 
 void Enemy::Update()
 {
+    // 
+
     Model::SetTransform(hModel_, transform);
     int currAnimFrame = Model::GetAnimFrame(hModel_);
 
     if (currAnimFrame == 224)
     {
-        ChangeAnimation(EA_IDLE);
+        SetAnimation(EA_IDLE);
     }
 
-    if (hp_ < 0)
+    if (hp_ < 0 && currAnimFrame == 224)
     {
-        ChangeAnimation(EA_DEAD);
+        SetAnimation(EA_DEAD);
+        DeleteCollider();
     }
 
-    if (currAnimFrame == 313)
+    if (currAnimFrame == (313 + 180))
     {
         DeleteMe();
     }
 
     ImGui::Begin("Enemy Info");
     ImGui::Value("HP", hp_);
+    ImGui::InputInt("AnimFrame", &currAnimFrame);
     ImGui::End();
 }
 
@@ -64,15 +68,18 @@ void Enemy::OnCollision(GameObject* _pTarget)
         int currAnimFrame{ Model::GetAnimFrame(hModel_) };
         if ((eaState_ != EA_HIT and eaState_ != EA_DEAD))
         {
-            ChangeAnimation(EA_HIT);
+            SetAnimation(EA_HIT);
         }
         hp_ -= 1;
     }
 }
 
-void Enemy::ChangeAnimation(EnemyAnimation _enemyAnimation)
+void Enemy::SetAnimation(EnemyAnimation _enemyAnimation)
 {
     eaState_ = _enemyAnimation;
+
+    // アニメーションのフレーム数がハードコーディングされているので、
+    // csvから読み込むようにすること。
     switch (_enemyAnimation)
     {
         case Enemy::EA_IDLE:
@@ -96,7 +103,7 @@ void Enemy::ChangeAnimation(EnemyAnimation _enemyAnimation)
             break;
 
         case Enemy::EA_DEAD:
-            Model::SetAnimFrame(hModel_, 225, 313, 1.0f);
+            Model::SetAnimFrame(hModel_, 225, 313 + 180, 1.0f);
             break;
 
         case Enemy::MAX_ANIMATION:

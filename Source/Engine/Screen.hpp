@@ -2,8 +2,8 @@
 
 namespace Screen
 {
-    const int WIDTH{1280};
-    const int HEIGHT{720};
+    const int WIDTH{1920};
+    const int HEIGHT{1080};
 
     inline float GetAspectRatio()
     {

@@ -43,5 +43,5 @@ private:
     EnemyAnimation eaState_;
 
     void OnCollision(GameObject* _pTarget) override;
-    void ChangeAnimation(EnemyAnimation _enemyAnimation);
+    void SetAnimation(EnemyAnimation _enemyAnimation);
 };

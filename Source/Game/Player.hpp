@@ -58,6 +58,9 @@ private:
     /// @brief プレイヤジャンプフラグ
     bool  isJump_;
 
+    float gunTemp_; // 銃温度（一時的にここで持つ）
+    bool  isOverHeat_;
+
     /// @brief 銃
     Gun* pGun_;
 

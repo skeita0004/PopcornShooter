@@ -33,6 +33,8 @@ void Player::Init()
 
     pBoxCollider_ = new BoxCollider(XMFLOAT3(0, 0, 0), XMFLOAT3(1, 8, 1));
     AddCollider(pBoxCollider_);
+
+    gunTemp_ = 0.0f;
 }
 
 void Player::Update()
@@ -96,7 +98,21 @@ void Player::Update()
                                                      transform.position.y + 2.f,
                                                      transform.position.z);
         pBullet->SetDir(vCamForward);
-        pBullet->SetSpeed(1.00f);
+        pBullet->SetSpeed(10.00f);
+
+        gunTemp_ += 0.5f;
+        if (gunTemp_ >= 10.f)
+        {
+            isOverHeat_ = true;
+            // pBullet->SetModel(B_POPCORN);
+        }
+    }
+    gunTemp_ -= 0.1f / 60;
+
+    if (gunTemp_ <= 0.0f)
+    {
+        isOverHeat_ = false;
+        //pBullet->SetModel(B_CORN);
     }
 
     XMFLOAT3 stick = XMFLOAT3(Input::GetPadStickL().x, 0, Input::GetPadStickL().y);
