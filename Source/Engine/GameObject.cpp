@@ -139,6 +139,13 @@ GameObject * GameObject::FindChildObject(const std::string & name)
 	return nullptr;
 }
 
+
+
+void GameObject::SetObjectName(const std::string& _name)
+{
+    objectName = _name;
+}
+
 //オブジェクトの名前を取得
 const std::string& GameObject::GetObjectName(void) const
 {

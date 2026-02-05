@@ -1,6 +1,7 @@
 ﻿#include "Enemy.hpp"
 #include "Model.hpp"
 #include <imgui.h>
+#include "Player.hpp"
 
 Enemy::Enemy(GameObject* _pParent) :
     GameObject(_pParent, "Enemy"),
@@ -20,11 +21,26 @@ void Enemy::Init()
     transform.position = {0.f, 0.f, 0.f};
     SetAnimation(EA_IDLE);
     hp_ = 100;
+
+    pPlayer_ = static_cast<Player*>(FindObject<Player>("Player"));
 }
 
 void Enemy::Update()
 {
-    // 
+    // 常にプレイヤーの方向を向く処理(最終的には、視界内に一度入った後に追従する形にする)
+    if (pPlayer_ != nullptr)
+    {
+        XMVECTOR vPlayerPos{ XMLoadFloat3(&pPlayer_->GetTransform()->position) };
+        XMVECTOR vPos{XMLoadFloat3(&transform.position)};
+        XMVECTOR vForward{transform.rotate.y};
+        vForward = XMVector3Normalize(vForward);
+
+        XMVECTOR toPlayerDir{vPlayerPos - vPos};
+        //toPlayerDir = XMVector3Normalize(toPlayerDir);
+        //float    diffRad = XMVectorGetY(XMVector3Dot(vForward, toPlayerDir));
+        transform.rotate.y = XMConvertToDegrees(-atan2f(XMVectorGetY(toPlayerDir), XMVectorGetX(toPlayerDir)));
+
+    }
 
     Model::SetTransform(hModel_, transform);
     int currAnimFrame = Model::GetAnimFrame(hModel_);

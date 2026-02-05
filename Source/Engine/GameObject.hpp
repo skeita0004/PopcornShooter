@@ -98,6 +98,8 @@ public:
         return static_cast<T*>(GetRootJob()->FindChildObject(_name));
     }
 
+
+    void  SetObjectName(const std::string& _name);
 	const std::string& GetObjectName(void) const;
 
 	void PushBackChild(GameObject* obj);

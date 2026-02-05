@@ -130,12 +130,9 @@ void FbxParts::InitVertex(fbxsdk::FbxMesh * mesh)
 //マテリアル準備
 void FbxParts::InitMaterial(fbxsdk::FbxNode * pNode)
 {
-
 	// マテリアルバッファの生成
 	materialCount_ = pNode->GetMaterialCount();
 	pMaterial_ = new MATERIAL[materialCount_];
-
-
 
 	for (DWORD i = 0; i < materialCount_; i++)
 	{
@@ -151,8 +148,6 @@ void FbxParts::InitMaterial(fbxsdk::FbxNode * pNode)
 		FbxDouble3  specular = FbxDouble3(0, 0, 0);
 		ambient = pPhong->Ambient;
 		diffuse = pPhong->Diffuse;
-
-
 
 		// 環境光＆拡散反射光＆鏡面反射光の反射成分値をマテリアルバッファにコピー
 		pMaterial_[i].ambient = XMFLOAT4((float)ambient[0], (float)ambient[1], (float)ambient[2], 1.0f);

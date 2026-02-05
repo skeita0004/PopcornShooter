@@ -46,6 +46,11 @@ public:
         return vDir_;
     }
 
+    void SetState(BulletState _state)
+    {
+        state_ = _state;
+    }
+
 private:
     int  hModel_;
     std::map<BulletState, int> hModels_;
@@ -58,4 +63,8 @@ private:
     float    speed_;
 
     SphereCollider* pCollider_;
+
+    bool isTouchDown_;
+    int  lifeTime_;
+    float deceleration_;
 };

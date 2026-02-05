@@ -8,7 +8,10 @@
 Bullet::Bullet(GameObject* _pParent) :
     GameObject(_pParent, "Bullet"),
     hModel_(-1),
-    isAvailable_(true)
+    isAvailable_(true),
+    isTouchDown_(false),
+    lifeTime_(0),
+    deceleration_(0.0f)
 {
 }
 
@@ -21,7 +24,7 @@ void Bullet::Init()
 
 
     hModel_ = Model::Load("Models/Weapon/bullet.fbx");
-    pCollider_ = new SphereCollider(XMFLOAT3(0, 0, 0), 1.f);
+    pCollider_ = new SphereCollider(XMFLOAT3(0, 0, 0), 0.5f);
     AddCollider(pCollider_);
 
 }
@@ -56,12 +59,8 @@ void Bullet::Release()
 
 void Bullet::UpdateCorn()
 {
-    static bool isTouchdown = false;
-
     //if (not(isAvailable_))
     {
-        static int lifeTime = 0;
-
         ImGui::Begin("Bullet Info");
         ImGui::InputFloat("BulletX", &transform.position.x);
         ImGui::InputFloat("BulletY", &transform.position.y);
@@ -79,21 +78,21 @@ void Bullet::UpdateCorn()
 
         XMStoreFloat3(&transform.position, vPos);
 
-        if (lifeTime >= (60 * 2))
+        if (lifeTime_ >= (60 * 2))
         {
-            lifeTime = 0;
+            lifeTime_ = 0;
             isAvailable_ = true;
             DeleteMe();
         }
         if (transform.position.y < 0.0f)
         {
-            isTouchdown = true;
+            isTouchDown_ = true;
             speed_ = 0;
             transform.position.y = 0;
             //   DeleteMe();
         }
 
-        lifeTime++;
+        lifeTime_++;
 
         XMFLOAT3 dir;
         XMStoreFloat3(&dir, vDir_);
@@ -101,13 +100,11 @@ void Bullet::UpdateCorn()
         dir.y -= 0.01f;
 
         vDir_ = XMLoadFloat3(&dir);
+        deceleration_ = -0.2f;
 
-        static float deceleration{ -0.02f };
-
-
-        if (isTouchdown == false)
+        if (isTouchDown_ == false)
         {
-            speed_ += deceleration;
+            speed_ += deceleration_;
 
             speed_ = std::max(speed_, 0.1f);
         }
@@ -119,12 +116,9 @@ void Bullet::UpdateCorn()
 
 void Bullet::UpdatePopCorn()
 {
-    static bool isTouchdown = false;
-
+    DeleteCollider();
     //if (not(isAvailable_))
     {
-        static int lifeTime = 0;
-
         ImGui::Begin("Bullet Info");
         ImGui::InputFloat("BulletX", &transform.position.x);
         ImGui::InputFloat("BulletY", &transform.position.y);
@@ -142,37 +136,36 @@ void Bullet::UpdatePopCorn()
 
         XMStoreFloat3(&transform.position, vPos);
 
-        if (lifeTime >= (60 * 2))
+        if (lifeTime_ >= (60 * 2))
         {
-            lifeTime = 0;
+            lifeTime_ = 0;
             isAvailable_ = true;
             DeleteMe();
         }
         if (transform.position.y < 0.0f)
         {
-            isTouchdown = true;
+            isTouchDown_ = true;
             speed_ = 0;
-            transform.position.y = 0;
-            //   DeleteMe();
+            vPos = XMVectorSetY(vPos, 0.5f);
+            DeleteCollider();
         }
 
-        lifeTime++;
+        lifeTime_++;
 
         XMFLOAT3 dir;
         XMStoreFloat3(&dir, vDir_);
 
-        dir.y -= 0.05f;
+        dir.y -= 0.8f;
 
         vDir_ = XMLoadFloat3(&dir);
 
-        static float deceleration{ -0.05f };
+        deceleration_ = -0.9f;
 
-
-        if (isTouchdown == false)
+        if (isTouchDown_ == false)
         {
-            speed_ += deceleration;
+            speed_ += deceleration_;
 
-            speed_ = std::max(speed_, 0.1f);
+            speed_ = std::max(speed_, 0.05f);
         }
 
         XMStoreFloat3(&transform.position, vPos);

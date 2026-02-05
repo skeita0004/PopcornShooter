@@ -9,7 +9,6 @@
 #include "Bullet.hpp"
 #include <imgui.h>
 #include <cstdarg>
-#include <algorithm>
 
 #undef min
 #undef max
@@ -40,23 +39,23 @@ void Player::Init()
 void Player::Update()
 {
     // 比較演算用ゼロベクトル
-    const  XMVECTOR V_DIR_NONE{XMVectorSet(0, 0, 0, 0)};
-    
+    const  XMVECTOR V_DIR_NONE{ XMVectorSet(0, 0, 0, 0) };
+
     // 回転行列たち
-    static XMMATRIX rotXMat{XMMatrixIdentity()};
-    static XMMATRIX rotYMat{XMMatrixIdentity()};
+    static XMMATRIX rotXMat{ XMMatrixIdentity() };
+    static XMMATRIX rotYMat{ XMMatrixIdentity() };
 
     // カメラの正面
     XMVECTOR vCamForward{ XMVectorSet(0, 0, 1, 0) };
-    
+
     // プレイヤーの正面
-    XMVECTOR vForward{XMVectorSet(0, 0, 1, 0)};
+    XMVECTOR vForward{ XMVectorSet(0, 0, 1, 0) };
 
     // プレイヤーの移動方向
-    XMVECTOR vMoveDir{V_DIR_NONE};
-    
+    XMVECTOR vMoveDir{ V_DIR_NONE };
+
     // プレイヤーの位置ベクトル
-    XMVECTOR vPos{XMLoadFloat3(&transform.position)};
+    XMVECTOR vPos{ XMLoadFloat3(&transform.position) };
 
     GetCamForwardRenew(rotXMat, rotYMat, vCamForward);
 
@@ -98,22 +97,28 @@ void Player::Update()
                                                      transform.position.y + 2.f,
                                                      transform.position.z);
         pBullet->SetDir(vCamForward);
-        pBullet->SetSpeed(10.00f);
+        pBullet->SetSpeed(2.00f);
 
-        gunTemp_ += 0.5f;
-        if (gunTemp_ >= 10.f)
+        gunTemp_ += 0.5f / 60.f;
+
+        isOverHeat_ = false;
+        pBullet->SetState(Bullet::B_CORN);
+
+        if (gunTemp_ >= 2.f)
         {
+            gunTemp_ = std::min(gunTemp_, 3.0f);
+
             isOverHeat_ = true;
-            // pBullet->SetModel(B_POPCORN);
+            pBullet->SetObjectName("PopcornBullet");
+            pBullet->SetState(Bullet::B_POPCORN);
         }
     }
-    gunTemp_ -= 0.1f / 60;
-
-    if (gunTemp_ <= 0.0f)
+    if (not(Input::IsMouseButton(Input::MOUSE::LEFT)))
     {
-        isOverHeat_ = false;
-        //pBullet->SetModel(B_CORN);
+        gunTemp_ -= 0.3f / 60;
+        gunTemp_ = std::max(gunTemp_, 0.0f);
     }
+
 
     XMFLOAT3 stick = XMFLOAT3(Input::GetPadStickL().x, 0, Input::GetPadStickL().y);
     XMVECTOR vStick = XMLoadFloat3(&stick);
@@ -146,7 +151,7 @@ void Player::Update()
         moveSpeed_ = MAX_SPEED;
     }
 
-    XMVECTOR velocity{vMoveDir * moveSpeed_};
+    XMVECTOR velocity{ vMoveDir * moveSpeed_ };
     XMVECTOR padVelocity{ vStick * moveSpeed_ };
 
     XMStoreFloat3(&velocity_, velocity);
@@ -156,14 +161,14 @@ void Player::Update()
 #pragma endregion
 
     // 地面との当たり判定(読みにくい)
-    const XMFLOAT3 OFFSET{0, 100.f, 0};
+    const XMFLOAT3 OFFSET{ 0, 100.f, 0 };
 
     RayCastData rayCastData{};
     XMFLOAT3 rayCastStart{};
     XMVECTOR vRayCastStart = XMVectorAdd(vPos, XMLoadFloat3(&OFFSET)); // プレイヤーの高さ + 100する
     XMStoreFloat3(&rayCastStart, vRayCastStart); // 変換
     rayCastData.start = rayCastStart;            // プレイヤーの高さ + 100のところを始点とする
-    rayCastData.dir   = XMFLOAT3(0.f, -1.f, 0.f);
+    rayCastData.dir = XMFLOAT3(0.f, -1.f, 0.f);
     Model::RayCast(hGround_, &rayCastData);
 
 #pragma region Jump
@@ -189,12 +194,14 @@ void Player::Update()
     }
 
     CamRenew(vPos, vCamForward);
-   
+
 #pragma region DebugPrint
     ImGui::Begin("PlayerPosition");
     ImGui::InputFloat("X: ", &transform.position.x);
     ImGui::InputFloat("Y: ", &transform.position.y);
     ImGui::InputFloat("Z: ", &transform.position.z);
+
+    ImGui::InputFloat("GunTemp: ", &gunTemp_);
     ImGui::InputFloat("jumpHei", &jumpHei);
     ImGui::End();
 #pragma endregion
@@ -213,10 +220,10 @@ void Player::Release()
 
 float Player::Jump()
 {
-    static int callCount{0};
-    const float MAX_HEIGHT        {4.0f};
-    const float GRAVITY           {0.025f};
-    const float INITIAL_SPEED_Y{sqrtf(2 * (MAX_HEIGHT * GRAVITY))};
+    static int callCount{ 0 };
+    const float MAX_HEIGHT{ 4.0f };
+    const float GRAVITY{ 0.025f };
+    const float INITIAL_SPEED_Y{ sqrtf(2 * (MAX_HEIGHT * GRAVITY)) };
 
     static float jumpVelocityY{ 0.f }; // ここがベクトルじゃないのがまずおかしいわよ。
     // あとVelocityじゃなくてSpeedじゃないかしら？
@@ -269,7 +276,7 @@ void Player::CamRenew(const XMVECTOR& _vPos,
     // カメラ位置についての処理
     XMFLOAT3 camPos{};
     XMVECTOR vCamPos{};
-    vCamPos = XMVectorAdd(_vPos, XMVectorSet( 0, 2.5, 0, 0 ));
+    vCamPos = XMVectorAdd(_vPos, XMVectorSet(0, 2.5, 0, 0));
     XMStoreFloat3(&camPos, vCamPos);
     cameraSet.GetCurrent()->GetTransform().position = camPos;
 
@@ -289,8 +296,8 @@ void Player::OnCollision(GameObject* _pTarget)
         XMFLOAT3 targetSize = _pTarget->GetBoxColliderSize();
         XMFLOAT3 size = GetBoxColliderSize();
 
-        XMVECTOR vTargetPos{XMLoadFloat3(&targetPos)};
-        XMVECTOR vPos{XMLoadFloat3(&transform.position)};
+        XMVECTOR vTargetPos{ XMLoadFloat3(&targetPos) };
+        XMVECTOR vPos{ XMLoadFloat3(&transform.position) };
         XMVECTOR vTargetSize{ XMLoadFloat3(&targetSize) };
         XMVECTOR vSize{ XMLoadFloat3(&size) };
 
@@ -343,7 +350,7 @@ void Player::OnCollision(GameObject* _pTarget)
             }
         }
 
-        const float SLOP {0.1f};
+        const float SLOP{ 0.1f };
 
         vPos += dir * ((penetration - SLOP) * 0.5);
         vTargetPos += -dir * ((penetration - SLOP) * 0.5);

@@ -2,6 +2,8 @@
 #include "GameObject.hpp"
 #include "BoxCollider.hpp"
 
+class Player;
+
 class Enemy : public GameObject
 {
 public:
@@ -44,4 +46,6 @@ private:
 
     void OnCollision(GameObject* _pTarget) override;
     void SetAnimation(EnemyAnimation _enemyAnimation);
+
+    Player* pPlayer_;
 };
