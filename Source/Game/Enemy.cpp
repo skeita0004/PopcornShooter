@@ -2,6 +2,7 @@
 #include "Model.hpp"
 #include <imgui.h>
 #include "Player.hpp"
+#include <algorithm>
 
 Enemy::Enemy(GameObject* _pParent) :
     GameObject(_pParent, "Enemy"),
@@ -21,50 +22,39 @@ void Enemy::Init()
     transform.position = {0.f, 0.f, 0.f};
     SetAnimation(EA_IDLE);
     hp_ = 100;
+    isAlive_ = true;
 
     pPlayer_ = static_cast<Player*>(FindObject<Player>("Player"));
 }
 
 void Enemy::Update()
 {
-    // 常にプレイヤーの方向を向く処理(最終的には、視界内に一度入った後に追従する形にする)
-    if (pPlayer_ != nullptr)
+    switch (state_)
     {
-        XMVECTOR vPlayerPos{ XMLoadFloat3(&pPlayer_->GetTransform()->position) };
-        XMVECTOR vPos{XMLoadFloat3(&transform.position)};
-        XMVECTOR vForward{transform.rotate.y};
-        vForward = XMVector3Normalize(vForward);
-
-        XMVECTOR toPlayerDir{vPlayerPos - vPos};
-        //toPlayerDir = XMVector3Normalize(toPlayerDir);
-        //float    diffRad = XMVectorGetY(XMVector3Dot(vForward, toPlayerDir));
-        transform.rotate.y = XMConvertToDegrees(-atan2f(XMVectorGetY(toPlayerDir), XMVectorGetX(toPlayerDir)));
-
+        case Enemy::IDLE:
+            UpdateIdle();
+            break;
+        case Enemy::CHASE:
+            UpdateChase();
+            break;
+        case Enemy::ATTACK:
+            UpdateAttack();
+            break;
+        case Enemy::DEAD:
+            UpdateDead();
+            break;
+        default:
+            break;
     }
 
-    Model::SetTransform(hModel_, transform);
-    int currAnimFrame = Model::GetAnimFrame(hModel_);
+    UpdateCommon();
 
-    if (currAnimFrame == 224)
-    {
-        SetAnimation(EA_IDLE);
-    }
-
-    if (hp_ < 0 && currAnimFrame == 224)
-    {
-        SetAnimation(EA_DEAD);
-        DeleteCollider();
-    }
-
-    if (currAnimFrame == (313 + 180))
-    {
-        DeleteMe();
-    }
-
+#ifdef _DEBUG
     ImGui::Begin("Enemy Info");
     ImGui::Value("HP", hp_);
-    ImGui::InputInt("AnimFrame", &currAnimFrame);
+    ImGui::InputInt("AnimFrame", &currAnimFrame_);
     ImGui::End();
+#endif
 }
 
 void Enemy::Draw()
@@ -75,6 +65,94 @@ void Enemy::Draw()
 
 void Enemy::Release()
 {
+}
+
+void Enemy::UpdateIdle()
+{
+    if (true) // プレイヤーが視界内に入ったら
+    {
+        state_ = CHASE;
+    }
+}
+
+void Enemy::UpdateChase()
+{
+    if (true) // プレイヤーが視界内から消えたら
+    {
+        state_ = IDLE;
+    }
+}
+
+void Enemy::UpdateAttack()
+{
+    if (true) // プレイヤーが射程距離から離れたら
+    {
+        state_ = CHASE;
+    }
+}
+
+void Enemy::UpdateDead()
+{
+    if (currAnimFrame_ == (313 + 180))
+    {
+        DeleteMe();
+    }
+}
+
+void Enemy::UpdateCommon()
+{
+    currAnimFrame_ = Model::GetAnimFrame(hModel_);
+
+    // 常にプレイヤーの方向を向く処理(最終的には、視界内に一度入った後に追従する形にする)
+    if (pPlayer_ != nullptr and isAlive_)
+    {
+        RotateToPlayer();
+    }
+
+    if (currAnimFrame_ == 224)
+    {
+        SetAnimation(EA_IDLE);
+    }
+
+    if (hp_ < 0 && currAnimFrame_ == 224)
+    {
+        isAlive_ = false;
+        SetAnimation(EA_DEAD);
+        state_ = DEAD;
+        DeleteCollider();
+    }
+}
+
+void Enemy::RotateToPlayer()
+{
+    XMVECTOR vPlayerPos{ XMLoadFloat3(&pPlayer_->GetTransform()->position) };
+    XMVECTOR vPos{ XMLoadFloat3(&transform.position) };
+
+    XMMATRIX rotYMat = XMMatrixRotationY(XMConvertToRadians(transform.rotate.y));
+    XMVECTOR vForward{ XMVectorSet(0, 0, 1.0f, 0) };
+
+    vForward = XMVector3TransformNormal(vForward, rotYMat);
+    vForward = XMVector3Normalize(vForward);
+
+    XMVECTOR toPlayerDir{ vPlayerPos - vPos };
+    toPlayerDir = XMVector3Normalize(toPlayerDir);
+
+    float diffRad = XMVectorGetX(XMVector3Dot(vForward, toPlayerDir));
+
+    diffRad = std::clamp(diffRad, -1.0f, 1.0f);
+    diffRad = acosf(diffRad);
+
+    float sign = XMVectorGetY(XMVector3Cross(vForward, toPlayerDir));
+    if (sign >= 0.0f)
+    {
+        sign = 1.0f;
+    }
+    else
+    {
+        sign = -1.0f;
+    }
+
+    transform.rotate.y += XMConvertToDegrees(diffRad * sign);
 }
 
 void Enemy::OnCollision(GameObject* _pTarget)

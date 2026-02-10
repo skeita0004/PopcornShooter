@@ -32,20 +32,28 @@ private:
         IDLE,
         CHASE,
         ATTACK,
-        RETURN,
         DEAD,
         MAX_STATE
     };
 
-    int hModel_;
-    BoxCollider* pBoxCollider_;
+    void UpdateIdle();
+    void UpdateChase();
+    void UpdateAttack();
+    void UpdateDead();
+    void UpdateCommon();
 
-    int32_t hp_;
-
-    EnemyAnimation eaState_;
-
+    void RotateToPlayer();
     void OnCollision(GameObject* _pTarget) override;
     void SetAnimation(EnemyAnimation _enemyAnimation);
+
+    int hModel_;
+    BoxCollider* pBoxCollider_;
+    int currAnimFrame_;
+
+    int32_t hp_;
+    EnemyAnimation eaState_;
+    EnemyState     state_;
+    bool isAlive_;
 
     Player* pPlayer_;
 };
