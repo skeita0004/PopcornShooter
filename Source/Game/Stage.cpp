@@ -4,6 +4,7 @@
 #include "SkyDome.hpp"
 #include "CameraSet.hpp"
 #include "Enemy.hpp"
+#include "Reticle.hpp"
 
 Stage::Stage(GameObject* _pParent) :
     GameObject(_pParent, "Stage"),
@@ -21,6 +22,7 @@ void Stage::Init()
     Instantiate<Player>(GetParent());
     Instantiate<Enemy>(GetParent());
     Instantiate<Skybox>(GetParent());
+    Instantiate<Reticle>(GetParent());
     const float SCALE{5.f};
     transform.scale = { SCALE, SCALE, SCALE };
     transform.position = {0.f, 0.f, 0.f};

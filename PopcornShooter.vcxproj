@@ -172,6 +172,7 @@
     <ClCompile Include="Source\Game\OverScene.cpp" />
     <ClCompile Include="Source\Game\Player.cpp" />
     <ClCompile Include="Source\Game\PlayScene.cpp" />
+    <ClCompile Include="Source\Game\Reticle.cpp" />
     <ClCompile Include="Source\Game\SkyDome.cpp" />
     <ClCompile Include="Source\Game\Stage.cpp" />
     <ClCompile Include="Source\Game\TestScene.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="Source\Game\OverScene.hpp" />
     <ClInclude Include="Source\Game\Player.hpp" />
     <ClInclude Include="Source\Game\PlayScene.hpp" />
+    <ClInclude Include="Source\Game\Reticle.hpp" />
     <ClInclude Include="Source\Game\SkyDome.hpp" />
     <ClInclude Include="Source\Game\Stage.hpp" />
     <ClInclude Include="Source\Game\TestScene.hpp" />

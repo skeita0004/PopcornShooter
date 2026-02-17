@@ -50,6 +50,8 @@ private:
     BoxCollider* pBoxCollider_;
     int currAnimFrame_;
 
+    inline static const float SPEED{0.57899999f};
+
     int32_t hp_;
     EnemyAnimation eaState_;
     EnemyState     state_;

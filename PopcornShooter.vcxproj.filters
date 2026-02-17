@@ -156,6 +156,7 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\CameraSet.cpp" />
     <ClCompile Include="Source\Game\Enemy.cpp" />
+    <ClCompile Include="Source\Game\Reticle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\BoxCollider.hpp">
@@ -290,6 +291,7 @@
     <ClInclude Include="Source\Game\Enemy.hpp">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Reticle.hpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

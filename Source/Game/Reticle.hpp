@@ -3,10 +3,10 @@
 
 class SceneManager;
 
-class PlayScene : public GameObject
+class Reticle : public GameObject
 {
 public:
-    PlayScene(GameObject* _pParent);
+    Reticle(GameObject* _pParent);
 
     void Init() override;
     void Update() override;
@@ -14,6 +14,5 @@ public:
     void Release() override;
 
 private:
-    SceneManager* pSceneManager_;
     int hReticle_;
 };

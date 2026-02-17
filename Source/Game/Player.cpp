@@ -94,7 +94,7 @@ void Player::Update()
     {
         Bullet* pBullet = (Bullet*)Instantiate<Bullet>(GetParent());
         pBullet->GetTransform()->position = XMFLOAT3(transform.position.x,
-                                                     transform.position.y + 2.f,
+                                                     transform.position.y + 2.25f,
                                                      transform.position.z);
         pBullet->SetDir(vCamForward);
         pBullet->SetSpeed(2.00f);
@@ -113,7 +113,7 @@ void Player::Update()
             pBullet->SetState(Bullet::B_POPCORN);
         }
     }
-    if (not(Input::IsMouseButton(Input::MOUSE::LEFT)))
+    if (not(Input::IsMouseButton(Input::MOUSE::LEFT))) // 発射時、ここは通らない
     {
         gunTemp_ -= 0.3f / 60;
         gunTemp_ = std::max(gunTemp_, 0.0f);

@@ -20,7 +20,8 @@ void Enemy::Init()
     AddCollider(pBoxCollider_);
     hModel_ = Model::Load("Models/Enemy/ps_enemy.fbx");
     transform.position = {0.f, 0.f, 0.f};
-    SetAnimation(EA_IDLE);
+    state_ = CHASE;
+    SetAnimation(EA_RUN);
     hp_ = 100;
     isAlive_ = true;
 
@@ -53,6 +54,7 @@ void Enemy::Update()
     ImGui::Begin("Enemy Info");
     ImGui::Value("HP", hp_);
     ImGui::InputInt("AnimFrame", &currAnimFrame_);
+    ImGui::Value("eaState", (uint32_t)eaState_);
     ImGui::End();
 #endif
 }
@@ -77,10 +79,36 @@ void Enemy::UpdateIdle()
 
 void Enemy::UpdateChase()
 {
-    if (true) // プレイヤーが視界内から消えたら
+    XMVECTOR vPlayerPos{XMLoadFloat3(&pPlayer_->GetTransform()->position)};
+    XMVECTOR vPos{XMLoadFloat3(&transform.position)};
+    XMVECTOR vDir{vPlayerPos - vPos};
+
+    float toPlayerDist{XMVectorGetX(XMVector3Length(vDir))};
+
+    if (toPlayerDist >= 3.0f and eaState_ != EA_HIT)
     {
-        state_ = IDLE;
+        if (eaState_ != EA_RUN)
+        {
+            SetAnimation(EA_RUN);
+        }
+
+        vDir = XMVector3Normalize(vDir);
+        vPos = vPos + vDir * SPEED;
+        XMStoreFloat3(&transform.position, vPos);
     }
+    else
+    {
+        if (eaState_ != EA_IDLE)
+        {
+            // 一定時間STATEがCHASEなのにEA_IDLEだったら、STATEをIDLEにする
+            SetAnimation(EA_IDLE);
+        }
+    }
+
+    //if (true) // プレイヤーが視界内から消えたら
+    //{
+    //    state_ = IDLE;
+    //}
 }
 
 void Enemy::UpdateAttack()
@@ -114,7 +142,7 @@ void Enemy::UpdateCommon()
         SetAnimation(EA_IDLE);
     }
 
-    if (hp_ < 0 && currAnimFrame_ == 224)
+    if (hp_ < 0 && eaState_ != EA_DEAD)
     {
         isAlive_ = false;
         SetAnimation(EA_DEAD);
@@ -125,23 +153,30 @@ void Enemy::UpdateCommon()
 
 void Enemy::RotateToPlayer()
 {
+    // 双方の位置をXMVECTORにする
     XMVECTOR vPlayerPos{ XMLoadFloat3(&pPlayer_->GetTransform()->position) };
     XMVECTOR vPos{ XMLoadFloat3(&transform.position) };
 
+    // 方向の計算時、Yは考慮しない
+    vPlayerPos = XMVectorSetY(vPlayerPos, 0.0f);
+    vPos = XMVectorSetY(vPos, 0.0f);
+
+    // 正面ベクトルを求める
     XMMATRIX rotYMat = XMMatrixRotationY(XMConvertToRadians(transform.rotate.y));
     XMVECTOR vForward{ XMVectorSet(0, 0, 1.0f, 0) };
-
     vForward = XMVector3TransformNormal(vForward, rotYMat);
     vForward = XMVector3Normalize(vForward);
 
+    // プレイヤーへの方向
     XMVECTOR toPlayerDir{ vPlayerPos - vPos };
     toPlayerDir = XMVector3Normalize(toPlayerDir);
 
+    // プレイヤーの方を向くために必要な回転角を算出
     float diffRad = XMVectorGetX(XMVector3Dot(vForward, toPlayerDir));
-
     diffRad = std::clamp(diffRad, -1.0f, 1.0f);
     diffRad = acosf(diffRad);
-
+    
+    // 回転方向の指定
     float sign = XMVectorGetY(XMVector3Cross(vForward, toPlayerDir));
     if (sign >= 0.0f)
     {
@@ -173,7 +208,7 @@ void Enemy::SetAnimation(EnemyAnimation _enemyAnimation)
     eaState_ = _enemyAnimation;
 
     // アニメーションのフレーム数がハードコーディングされているので、
-    // csvから読み込むようにすること。
+    // csvから読み込むようにしたいよなあ。
     switch (_enemyAnimation)
     {
         case Enemy::EA_IDLE:

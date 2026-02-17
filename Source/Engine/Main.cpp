@@ -34,6 +34,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 namespace
 {
     CameraSet* pCameraSet{nullptr};
+
+    int centerX;
+    int centerY;
 }
 
 // エントリーポイント
@@ -42,6 +45,8 @@ int WINAPI WinMain(_In_     HINSTANCE hInstance,
                    _In_     LPSTR lpCmdLine,
                    _In_     int nCmdShow)
 {
+    ShowCursor(FALSE);
+
     srand((unsigned)time(NULL));
     SetCurrentDirectory(L"Assets");
 
@@ -51,7 +56,8 @@ int WINAPI WinMain(_In_     HINSTANCE hInstance,
     int fpsLimit = GetPrivateProfileInt(L"GAME", L"Fps", 60, L".\\setup.ini");				//FPS（画面更新速度）
     int isDrawFps = GetPrivateProfileInt(L"DEBUG", L"ViewFps", 0, L".\\setup.ini");		//キャプションに現在のFPSを表示するかどうか
 
-
+    centerX = screenWidth / 2;
+    centerY = screenHeight / 2;
     //ウィンドウを作成
     HWND hWnd = InitApp(hInstance, screenWidth, screenHeight, nCmdShow);
 
@@ -182,6 +188,7 @@ int WINAPI WinMain(_In_     HINSTANCE hInstance,
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
+    ShowCursor(TRUE);
 
     return 0;
 }
@@ -258,6 +265,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     //マウスが動いた
     case WM_MOUSEMOVE:
         Input::SetMousePosition(LOWORD(lParam), HIWORD(lParam));
+
+        SetCursorPos(centerX, centerY);
         return 0;
     }
     return DefWindowProc(hWnd, msg, wParam, lParam);
