@@ -20,6 +20,9 @@ void VirtualCamera::Init()
     matView_       = XMMatrixIdentity();
     matBillboard_  = XMMatrixIdentity();
 
+    transform_.position = XMFLOAT3(0, 0, 0);
+    targetTransform_.position = XMFLOAT3(0, 1, 0);
+
     nearClip_ = 0.1f;
     farClip_  = 1000000.0f;
 }

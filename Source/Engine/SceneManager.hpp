@@ -80,7 +80,7 @@ private:
     GameObject* InstantiateScene(SceneID _sid,
                                  GameObject* _pParent);
 
-    static const inline SceneID INITIAL_SCENE{SceneID::PLAY};
+    static const inline SceneID INITIAL_SCENE{SceneID::TITLE};
 
 	SceneID currentSceneID_;	//現在のシーン
 	SceneID nextSceneID_;		//次のシーン

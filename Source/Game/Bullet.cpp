@@ -24,7 +24,7 @@ void Bullet::Init()
 
 
     hModel_ = Model::Load("Models/Weapon/bullet.fbx");
-    pCollider_ = new SphereCollider(XMFLOAT3(0, 0, 0), 0.5f);
+    pCollider_ = new SphereCollider(XMFLOAT3(0, 0.25, 0), 0.25f);
     AddCollider(pCollider_);
 
 }
@@ -88,7 +88,8 @@ void Bullet::UpdateCorn()
         {
             isTouchDown_ = true;
             speed_ = 0;
-            transform.position.y = 0;
+            vPos = XMVectorSetY(vPos, 0.5f);
+            DeleteCollider();
             //   DeleteMe();
         }
 
@@ -147,7 +148,6 @@ void Bullet::UpdatePopCorn()
             isTouchDown_ = true;
             speed_ = 0;
             vPos = XMVectorSetY(vPos, 0.5f);
-            DeleteCollider();
         }
 
         lifeTime_++;

@@ -295,11 +295,14 @@ GameObject * GameObject::GetRootJob()
 void GameObject::UpdateSub()
 {
 	Update();
-	Transform();
+	//Transform();
 
 	for (auto it = childList_.begin(); it != childList_.end(); it++)
 	{
-		(*it)->UpdateSub();
+        if ((*it)->IsEnableUpdate())
+        {
+		    (*it)->UpdateSub();
+        }
 	}
 
 	for (auto it = childList_.begin(); it != childList_.end();)
@@ -321,7 +324,10 @@ void GameObject::UpdateSub()
 
 void GameObject::DrawSub()
 {
-	Draw();
+    if (IsEnableDraw())
+    {
+	    Draw();
+    }
 
 
 	//リリース時は削除
@@ -336,7 +342,10 @@ void GameObject::DrawSub()
 	//その子オブジェクトの描画処理
 	for (auto it = childList_.begin(); it != childList_.end(); it++)
 	{
-		(*it)->DrawSub();
+        if ((*it)->IsEnableDraw())
+        {
+		    (*it)->DrawSub();
+        }
 	}
 }
 

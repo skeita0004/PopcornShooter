@@ -81,24 +81,30 @@ void Enemy::UpdateChase()
 {
     XMVECTOR vPlayerPos{XMLoadFloat3(&pPlayer_->GetTransform()->position)};
     XMVECTOR vPos{XMLoadFloat3(&transform.position)};
+
+    vPlayerPos = XMVectorSetY(vPlayerPos, 0);
+    vPos = XMVectorSetY(vPos, 0);
+
     XMVECTOR vDir{vPlayerPos - vPos};
 
     float toPlayerDist{XMVectorGetX(XMVector3Length(vDir))};
 
-    if (toPlayerDist >= 3.0f and eaState_ != EA_HIT)
+    if (eaState_ != EA_RUN)
     {
-        if (eaState_ != EA_RUN)
-        {
-            SetAnimation(EA_RUN);
-        }
+        SetAnimation(EA_RUN);
+    }
 
-        vDir = XMVector3Normalize(vDir);
-        vPos = vPos + vDir * SPEED;
-        XMStoreFloat3(&transform.position, vPos);
+    vDir = XMVector3Normalize(vDir);
+    vPos = vPos + vDir * SPEED;
+    XMStoreFloat3(&transform.position, vPos);
+
+    if (toPlayerDist >= 3.0f and toPlayerDist <= 8.0f)
+    {
+        state_ = ATTACK;
     }
     else
     {
-        if (eaState_ != EA_IDLE)
+        if (eaState_ != EA_IDLE and eaState_ != EA_HIT)
         {
             // 一定時間STATEがCHASEなのにEA_IDLEだったら、STATEをIDLEにする
             SetAnimation(EA_IDLE);
@@ -113,9 +119,33 @@ void Enemy::UpdateChase()
 
 void Enemy::UpdateAttack()
 {
-    if (true) // プレイヤーが射程距離から離れたら
+    attackInterval_++;
+
+    XMVECTOR vPlayerPos{ XMLoadFloat3(&pPlayer_->GetTransform()->position) };
+    XMVECTOR vPos{ XMLoadFloat3(&transform.position) };
+
+    vPlayerPos = XMVectorSetY(vPlayerPos, 0);
+    vPos = XMVectorSetY(vPos, 0);
+
+    XMVECTOR vDir{ vPlayerPos - vPos };
+
+    float toPlayerDist{ XMVectorGetX(XMVector3Length(vDir)) };
+
+    if (toPlayerDist >= 12.0f) // プレイヤーが射程距離から離れたら
     {
+        //SetAnimation(EA_RUN);
         state_ = CHASE;
+    }
+
+    if (attackInterval_ == ATTACK_INTERVAL_TIME)
+    {
+        attackInterval_ = 0;
+        SetAnimation(EA_ATTACK);
+    }
+
+    if (currAnimFrame_ == 189)
+    {
+        SetAnimation(EA_IDLE);
     }
 }
 
@@ -201,6 +231,88 @@ void Enemy::OnCollision(GameObject* _pTarget)
         }
         hp_ -= 1;
     }
+
+    if (_pTarget->GetObjectName() == "Enemy") // 相手のコライダーの種類を取得できるようにする)
+    {
+        XMFLOAT3 targetPos = _pTarget->GetTransform()->position;
+        XMFLOAT3 targetSize = _pTarget->GetBoxColliderSize();
+        XMFLOAT3 size = GetBoxColliderSize();
+
+        XMVECTOR vTargetPos{ XMLoadFloat3(&targetPos) };
+        XMVECTOR vPos{ XMLoadFloat3(&transform.position) };
+        XMVECTOR vTargetSize{ XMLoadFloat3(&targetSize) };
+        XMVECTOR vSize{ XMLoadFloat3(&size) };
+
+        vTargetPos = XMVectorSetY(vTargetPos, 0.f);
+        vPos = XMVectorSetY(vPos, 0.f);
+
+        XMVECTOR vDelta = vPos - vTargetPos;
+        XMFLOAT3 delta{};
+        XMStoreFloat3(&delta, vDelta);
+
+        XMFLOAT3 overlap{};
+        overlap.x = (size.x * 0.5 + targetSize.x * 0.5) - fabsf(delta.x);
+        overlap.y = (size.y * 0.5 + targetSize.y * 0.5) - fabsf(delta.y);
+        overlap.z = (size.z * 0.5 + targetSize.z * 0.5) - fabsf(delta.z);
+
+        XMVECTOR dir;
+        float penetration;
+
+        if (overlap.x <= overlap.y && overlap.x <= overlap.z)
+        {
+            penetration = overlap.x;
+            if (transform.position.x < targetPos.x)
+            {
+                dir = XMVectorSet(-1, 0, 0, 0);
+            }
+            else
+            {
+                dir = XMVectorSet(1, 0, 0, 0);
+            }
+        }
+        else if (overlap.y <= overlap.z)
+        {
+            penetration = overlap.y;
+            if (transform.position.y < targetPos.y)
+            {
+                dir = XMVectorSet(0, -1, 0, 0);
+            }
+            else
+            {
+                dir = XMVectorSet(0, 1, 0, 0);
+            }
+        }
+        else
+        {
+            penetration = overlap.z;
+            if (transform.position.z < targetPos.z)
+            {
+                dir = XMVectorSet(0, 0, -1, 0);
+            }
+            else
+            {
+                dir = XMVectorSet(0, 0, 1, 0);
+            }
+        }
+
+        const float SLOP{ 0.1f };
+
+        vPos += dir * ((penetration - SLOP) * 0.5);
+        vTargetPos += -dir * ((penetration - SLOP) * 0.5);
+
+        // 速度も殺さねば
+        //XMVECTOR velocity = XMLoadFloat3(&velocity_);
+
+        //XMVECTOR vn = XMVector3Dot(velocity, dir);
+        //if (XMVectorGetX(vn) < 0)
+        //{
+        //    velocity -= dir * XMVectorGetX(vn);
+        //}
+
+        XMStoreFloat3(&_pTarget->GetTransform()->position, vTargetPos);
+        XMStoreFloat3(&transform.position, vPos);
+    }
+
 }
 
 void Enemy::SetAnimation(EnemyAnimation _enemyAnimation)
@@ -240,5 +352,10 @@ void Enemy::SetAnimation(EnemyAnimation _enemyAnimation)
         default:
             break;
     }
+}
+
+float Enemy::GetToPlayerDist()
+{
+    return 0.0f;
 }
 

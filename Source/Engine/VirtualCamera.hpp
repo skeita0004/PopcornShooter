@@ -33,5 +33,5 @@ private:
     XMMATRIX  matBillboard_;
 
     inline static const float DEFAULT_NEAR_CLIP{ 0.1f };
-    inline static const float DEFAULT_FAR_CLIP{1000000.f};
+    inline static const float DEFAULT_FAR_CLIP{1000.f};
 };

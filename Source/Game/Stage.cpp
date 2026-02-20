@@ -21,15 +21,26 @@ void Stage::Init()
     hModel_ = Model::Load("Models/Stage/StagePlane.fbx");
     Instantiate<Player>(GetParent());
     Instantiate<Enemy>(GetParent());
+    Instantiate<Enemy>(GetParent());
+    Instantiate<Enemy>(GetParent());
+    Instantiate<Enemy>(GetParent());
+    Instantiate<Enemy>(GetParent());
+    Instantiate<Enemy>(GetParent());
+    Instantiate<Enemy>(GetParent());
+    Instantiate<Enemy>(GetParent());
+    Instantiate<Enemy>(GetParent());
+    Instantiate<Enemy>(GetParent());
     Instantiate<Skybox>(GetParent());
     Instantiate<Reticle>(GetParent());
-    const float SCALE{5.f};
-    transform.scale = { SCALE, SCALE, SCALE };
+    const float SCALE{0.75f};
+    transform.scale = { SCALE, 0.5, SCALE };
     transform.position = {0.f, 0.f, 0.f};
 
     //CameraSet camera{};
     //int hCam = camera.Create({0, -1, 0}, 120, 0.1f, 100000.f);
     //camera.SetCurrent(hCam);
+
+
 }
 
 void Stage::Update()
