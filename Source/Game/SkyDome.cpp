@@ -26,6 +26,7 @@ void Skybox::Update()
 {
     transform.position = pCameraSet_->GetCurrent()->GetTransform().position;
 
+#if false
     ImGui::Begin("SkyDomePosition");
     ImGui::InputFloat("X: ", &transform.position.x);
     ImGui::InputFloat("Y: ", &transform.position.y);
@@ -37,6 +38,7 @@ void Skybox::Update()
     ImGui::InputFloat("Y: ", &transform.scale.y);
     ImGui::InputFloat("Z: ", &transform.scale.z);
     ImGui::End();
+#endif
 }
 
 void Skybox::Draw()

@@ -154,9 +154,15 @@
     <ClCompile Include="Source\Engine\VirtualCamera.cpp">
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\CameraSet.cpp" />
-    <ClCompile Include="Source\Game\Enemy.cpp" />
-    <ClCompile Include="Source\Game\Reticle.cpp" />
+    <ClCompile Include="Source\Game\Enemy.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Reticle.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\CameraSet.cpp">
+      <Filter>Engine\ResourceManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\BoxCollider.hpp">
@@ -291,7 +297,9 @@
     <ClInclude Include="Source\Game\Enemy.hpp">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Reticle.hpp" />
+    <ClInclude Include="Source\Game\Reticle.hpp">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

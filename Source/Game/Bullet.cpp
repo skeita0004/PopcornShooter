@@ -61,6 +61,7 @@ void Bullet::UpdateCorn()
 {
     //if (not(isAvailable_))
     {
+    #ifdef _DEBUG
         ImGui::Begin("Bullet Info");
         ImGui::InputFloat("BulletX", &transform.position.x);
         ImGui::InputFloat("BulletY", &transform.position.y);
@@ -71,6 +72,8 @@ void Bullet::UpdateCorn()
         ImGui::Text("BulletDirZ:%f", XMVectorGetZ(vDir_));
 
         ImGui::End();
+    #endif
+
 
         XMVECTOR vPos{ XMLoadFloat3(&transform.position) };
 

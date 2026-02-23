@@ -198,6 +198,7 @@ void Player::Update()
     CamRenew(vPos, vCamForward);
 
 #pragma region DebugPrint
+#ifdef _DEBUG
     ImGui::Begin("PlayerPosition");
     ImGui::InputFloat("X: ", &transform.position.x);
     ImGui::InputFloat("Y: ", &transform.position.y);
@@ -206,7 +207,9 @@ void Player::Update()
     ImGui::InputFloat("GunTemp: ", &gunTemp_);
     ImGui::InputFloat("jumpHei", &jumpHei);
     ImGui::End();
+#endif
 #pragma endregion
+
 
     XMStoreFloat3(&transform.position, vPos);
 } // End Update

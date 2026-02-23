@@ -43,6 +43,7 @@ void Gun::Update()
     XMVECTOR pos{XMLoadFloat3(&pPlayer->GetTransform()->position) + offset};
     XMStoreFloat3(&transform.position, pos);
 
+#ifdef _DEBUG
    ImGui::Begin("GunPosition");
 
     ImGui::InputFloat("X: ", &transform.position.x);
@@ -50,6 +51,7 @@ void Gun::Update()
     ImGui::InputFloat("Z: ", &transform.position.z);
 
     ImGui::End();
+#endif
 }
 
 void Gun::Draw()

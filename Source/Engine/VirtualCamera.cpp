@@ -51,6 +51,7 @@ void VirtualCamera::Update()
                                      XMLoadFloat3(&upDir_));
     matBillboard_ = XMMatrixInverse(nullptr, matBillboard_);
 
+#ifdef _DEBUG
     ImGui::Begin("CameraProperty");
 
     ImGui::InputFloat("X: ", &transform_.position.x);
@@ -60,7 +61,7 @@ void VirtualCamera::Update()
     ImGui::InputFloat("Far Clip:", &farClip_);
 
     ImGui::End();
-
+#endif
 }
 
 Transform& VirtualCamera::GetTransform()
