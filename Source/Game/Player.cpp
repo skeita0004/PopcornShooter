@@ -34,6 +34,8 @@ void Player::Init()
     AddCollider(pBoxCollider_);
 
     gunTemp_ = 0.0f;
+
+    transform.position = XMFLOAT3( 75.f, 0.f, -75.f );
 }
 
 void Player::Update()

@@ -65,6 +65,6 @@ private:
     SphereCollider* pCollider_;
 
     bool isTouchDown_;
-    int  lifeTime_;
+    int  lifeLimitCounter_;
     float deceleration_;
 };

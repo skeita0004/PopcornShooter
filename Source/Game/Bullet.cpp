@@ -10,7 +10,7 @@ Bullet::Bullet(GameObject* _pParent) :
     hModel_(-1),
     isAvailable_(true),
     isTouchDown_(false),
-    lifeTime_(0),
+    lifeLimitCounter_(0),
     deceleration_(0.0f)
 {
 }
@@ -78,9 +78,9 @@ void Bullet::UpdateCorn()
 
         XMStoreFloat3(&transform.position, vPos);
 
-        if (lifeTime_ >= (60 * 2))
+        if (lifeLimitCounter_ >= (60 * 2))
         {
-            lifeTime_ = 0;
+            lifeLimitCounter_ = 0;
             isAvailable_ = true;
             DeleteMe();
         }
@@ -93,7 +93,7 @@ void Bullet::UpdateCorn()
             //   DeleteMe();
         }
 
-        lifeTime_++;
+        lifeLimitCounter_++;
 
         XMFLOAT3 dir;
         XMStoreFloat3(&dir, vDir_);
@@ -101,7 +101,7 @@ void Bullet::UpdateCorn()
         dir.y -= 0.01f;
 
         vDir_ = XMLoadFloat3(&dir);
-        deceleration_ = -0.2f;
+        deceleration_ = -0.02f;
 
         if (isTouchDown_ == false)
         {
@@ -137,9 +137,9 @@ void Bullet::UpdatePopCorn()
 
         XMStoreFloat3(&transform.position, vPos);
 
-        if (lifeTime_ >= (60 * 2))
+        if (lifeLimitCounter_ >= (60 * 2))
         {
-            lifeTime_ = 0;
+            lifeLimitCounter_ = 0;
             isAvailable_ = true;
             DeleteMe();
         }
@@ -150,7 +150,7 @@ void Bullet::UpdatePopCorn()
             vPos = XMVectorSetY(vPos, 0.5f);
         }
 
-        lifeTime_++;
+        lifeLimitCounter_++;
 
         XMFLOAT3 dir;
         XMStoreFloat3(&dir, vDir_);
@@ -159,13 +159,12 @@ void Bullet::UpdatePopCorn()
 
         vDir_ = XMLoadFloat3(&dir);
 
-        deceleration_ = -0.9f;
-
+        deceleration_ = -0.8f;
         if (isTouchDown_ == false)
         {
             speed_ += deceleration_;
 
-            speed_ = std::max(speed_, 0.05f);
+            speed_ = std::max(speed_, 0.005f);
         }
 
         XMStoreFloat3(&transform.position, vPos);

@@ -20,16 +20,16 @@ void Stage::Init()
 {
     hModel_ = Model::Load("Models/Stage/StagePlane.fbx");
     Instantiate<Player>(GetParent());
-    Instantiate<Enemy>(GetParent());
-    Instantiate<Enemy>(GetParent());
-    Instantiate<Enemy>(GetParent());
-    Instantiate<Enemy>(GetParent());
-    Instantiate<Enemy>(GetParent());
-    Instantiate<Enemy>(GetParent());
-    Instantiate<Enemy>(GetParent());
-    Instantiate<Enemy>(GetParent());
-    Instantiate<Enemy>(GetParent());
-    Instantiate<Enemy>(GetParent());
+    //Instantiate<Enemy>(GetParent());
+    //Instantiate<Enemy>(GetParent());
+    //Instantiate<Enemy>(GetParent());
+    //Instantiate<Enemy>(GetParent());
+    //Instantiate<Enemy>(GetParent());
+    //Instantiate<Enemy>(GetParent());
+    //Instantiate<Enemy>(GetParent());
+    //Instantiate<Enemy>(GetParent());
+    //Instantiate<Enemy>(GetParent());
+    //Instantiate<Enemy>(GetParent());
     Instantiate<Skybox>(GetParent());
     Instantiate<Reticle>(GetParent());
     const float SCALE{0.75f};
