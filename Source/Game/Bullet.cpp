@@ -2,6 +2,8 @@
 #include "Model.hpp"
 #include <imgui.h>
 #include <algorithm>
+#include "Stage.hpp"
+
 #undef min
 #undef max
 
@@ -21,12 +23,12 @@ Bullet::~Bullet()
 
 void Bullet::Init()
 {
-
-
     hModel_ = Model::Load("Models/Weapon/bullet.fbx");
     pCollider_ = new SphereCollider(XMFLOAT3(0, 0.25, 0), 0.25f);
     AddCollider(pCollider_);
 
+    Stage* pStage = static_cast<Stage*>(FindObject<Stage>("Stage"));
+    hStage_ = pStage->GetModelHandle();
 }
 
 void Bullet::Update()
@@ -98,19 +100,35 @@ void Bullet::UpdateCorn()
 
         lifeLimitCounter_++;
 
-        XMFLOAT3 dir;
-        XMStoreFloat3(&dir, vDir_);
+        //XMFLOAT3 dir;
+        //XMStoreFloat3(&dir, vDir_);
 
-        dir.y -= 0.01f;
+        //dir.y -= 0.01f;
+         XMVectorSetY(vDir_, XMVectorGetY(vDir_) - 0.01f);
 
-        vDir_ = XMLoadFloat3(&dir);
-        deceleration_ = -0.02f;
+        //vDir_ = XMLoadFloat3(&dir);
+        deceleration_ = -0.02f / 60;
 
         if (isTouchDown_ == false)
         {
             speed_ += deceleration_;
 
-            speed_ = std::max(speed_, 0.1f);
+            speed_ = std::max(speed_, 0.01f);
+        }
+
+        RayCastData toWall{};
+        XMFLOAT3 start{};
+        XMFLOAT3 dir{};
+        XMStoreFloat3(&start, vPos);
+        XMStoreFloat3(&dir,   vDir_);
+        toWall.start = start;
+        toWall.dir   = dir;
+        Model::RayCast(hStage_, &toWall);
+
+        if (toWall.dist <= 1.0f)
+        {
+            speed_ = 0.0f;
+            isTouchDown_ = true;
         }
 
         XMStoreFloat3(&transform.position, vPos);
@@ -123,6 +141,7 @@ void Bullet::UpdatePopCorn()
     DeleteCollider();
     //if (not(isAvailable_))
     {
+#ifdef _DEBUG
         ImGui::Begin("Bullet Info");
         ImGui::InputFloat("BulletX", &transform.position.x);
         ImGui::InputFloat("BulletY", &transform.position.y);
@@ -133,6 +152,7 @@ void Bullet::UpdatePopCorn()
         ImGui::Text("BulletDirZ:%f", XMVectorGetZ(vDir_));
 
         ImGui::End();
+#endif
 
         XMVECTOR vPos{ XMLoadFloat3(&transform.position) };
 
@@ -159,15 +179,36 @@ void Bullet::UpdatePopCorn()
         XMStoreFloat3(&dir, vDir_);
 
         dir.y -= 0.8f;
+        //XMVectorSetY(vDir_, XMVectorGetY(vDir_) - 0.01f);
 
         vDir_ = XMLoadFloat3(&dir);
 
-        deceleration_ = -0.8f;
+        deceleration_ = -0.8f / 60;
         if (isTouchDown_ == false)
         {
             speed_ += deceleration_;
 
-            speed_ = std::max(speed_, 0.005f);
+            speed_ = std::max(speed_, 0.1f);
+        }
+
+        RayCastData toWall{};
+        XMFLOAT3 start{};
+        XMFLOAT3 dirw{};
+        XMStoreFloat3(&start, vPos);
+        XMStoreFloat3(&dirw, vDir_);
+        toWall.start = start;
+        toWall.dir = dirw;
+
+        if (dir.y >= -0.9f)
+        {
+            Model::RayCast(hStage_, &toWall);
+
+            if (toWall.dist <= 1.0f)
+            {
+                speed_ = 0.0f;
+                isTouchDown_ = true;
+                DeleteCollider();
+            }
         }
 
         XMStoreFloat3(&transform.position, vPos);

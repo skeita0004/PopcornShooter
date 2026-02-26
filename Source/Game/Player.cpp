@@ -84,17 +84,19 @@ void Player::Update()
     {
         vMoveDir += XMVectorNegate(vRight);
     }
-    if (Input::IsKeyDown(DIK_SPACE))
-    {
-        if (not(isJump_)) //二段ジャンプを禁ずる（禁固5年に処す）
-        {
-            isJump_ = true;
-        }
-    }
+
+    // 壁にめり込んじゃうのでジャンプ禁止(禁固2年または5000万円以下の罰金)
+    //if (Input::IsKeyDown(DIK_SPACE))
+    //{
+    //    if (not(isJump_)) //二段ジャンプを禁ずる（禁固5年に処す）
+    //    {
+    //        isJump_ = true;
+    //    }
+    //}
 
     if (Input::IsMouseButton(Input::MOUSE::LEFT))
     {
-        Bullet* pBullet = (Bullet*)Instantiate<Bullet>(GetParent());
+        Bullet* pBullet = static_cast<Bullet*>(Instantiate<Bullet>(GetParent()));
         pBullet->GetTransform()->position = XMFLOAT3(transform.position.x,
                                                      transform.position.y + 2.25f,
                                                      transform.position.z);
@@ -158,12 +160,28 @@ void Player::Update()
 
     XMStoreFloat3(&velocity_, velocity);
 
+
     vPos = XMVectorAdd(vPos, velocity);
     vPos = XMVectorAdd(vPos, padVelocity);
+
+    RayCastData toWall{};
+    XMFLOAT3 toWallStart{};
+    XMFLOAT3 toWallDir{};
+    XMStoreFloat3(&toWallStart, vPos);
+    XMStoreFloat3(&toWallDir, vMoveDir);
+    toWall.dir = toWallDir;
+    toWall.start = toWallStart;
+    Model::RayCast(hGround_, &toWall);
+
+    if (toWall.dist <= 3.f)
+    {
+        vPos -= velocity;
+    }
+
 #pragma endregion
 
     // 地面との当たり判定(読みにくい)
-    const XMFLOAT3 OFFSET{ 0, 100.f, 0 };
+    const XMFLOAT3 OFFSET{ 0, 2.f, 0 };
 
     RayCastData rayCastData{};
     XMFLOAT3 rayCastStart{};
@@ -297,6 +315,8 @@ void Player::OnCollision(GameObject* _pTarget)
 {
     if (_pTarget->GetObjectName() == "Enemy") // 相手のコライダーの種類を取得できるようにする)
     {
+        // 2D用の当たり判定処理にする（とてもシンプル）
+
         XMFLOAT3 targetPos = _pTarget->GetTransform()->position;
         XMFLOAT3 targetSize = _pTarget->GetBoxColliderSize();
         XMFLOAT3 size = GetBoxColliderSize();
@@ -355,7 +375,7 @@ void Player::OnCollision(GameObject* _pTarget)
             }
         }
 
-        const float SLOP{ 0.1f };
+        const float SLOP{ 0.0001f };
 
         vPos += dir * ((penetration - SLOP) * 0.5);
         vTargetPos += -dir * ((penetration - SLOP) * 0.5);
@@ -371,5 +391,11 @@ void Player::OnCollision(GameObject* _pTarget)
 
         XMStoreFloat3(&_pTarget->GetTransform()->position, vTargetPos);
         XMStoreFloat3(&transform.position, vPos);
+    }
+
+    if (_pTarget->GetObjectName() == "EnemyBullet")
+    {
+        // hp -= 5;
+        _pTarget->DeleteMe();
     }
 }

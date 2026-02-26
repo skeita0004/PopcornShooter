@@ -15,5 +15,7 @@ public:
     int GetModelHandle() { return hModel_; }
 
 private:
+    void PutEnemy(int _enemyNum, XMFLOAT3 _enemyPos);
+
     int hModel_;
 };

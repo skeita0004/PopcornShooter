@@ -67,4 +67,6 @@ private:
     bool isTouchDown_;
     int  lifeLimitCounter_;
     float deceleration_;
+
+    int hStage_;
 };

@@ -4,6 +4,7 @@
 #include "Screen.hpp"
 
 class Player;
+class Stage;
 
 class Enemy : public GameObject
 {
@@ -53,7 +54,7 @@ private:
     int currAnimFrame_;
     int attackInterval_;
 
-    inline static const float SPEED{0.57899999f};
+    inline static const float SPEED{0.56f};
     inline static const int ATTACK_INTERVAL_TIME{2 * Screen::FPS};
 
     int32_t hp_;
@@ -62,4 +63,7 @@ private:
     bool isAlive_;
 
     Player* pPlayer_;
+
+    Stage*  pStage_;
+    int     hStage_;
 };

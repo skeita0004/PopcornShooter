@@ -3,6 +3,8 @@
 #include <imgui.h>
 #include "Player.hpp"
 #include <algorithm>
+#include "Stage.hpp"
+#include "Bullet.hpp"
 
 Enemy::Enemy(GameObject* _pParent) :
     GameObject(_pParent, "Enemy"),
@@ -20,12 +22,16 @@ void Enemy::Init()
     AddCollider(pBoxCollider_);
     hModel_ = Model::Load("Models/Enemy/ps_enemy.fbx");
     transform.position = {0.f, 0.f, 0.f};
-    state_ = CHASE;
-    SetAnimation(EA_RUN);
+    const float SCALE{1.5f};
+    transform.scale = {SCALE, SCALE, SCALE};
+    state_ = IDLE;
+    SetAnimation(EA_IDLE);
     hp_ = 100;
     isAlive_ = true;
 
     pPlayer_ = static_cast<Player*>(FindObject<Player>("Player"));
+    pStage_  = static_cast<Stage*>(FindObject<Stage>("Stage"));
+    hStage_  = pStage_->GetModelHandle();
 }
 
 void Enemy::Update()
@@ -71,9 +77,20 @@ void Enemy::Release()
 
 void Enemy::UpdateIdle()
 {
-    if (true) // プレイヤーが視界内に入ったら
+    XMVECTOR vPlayerPos{XMLoadFloat3(&pPlayer_->GetTransform()->position)};
+    XMVECTOR vPos{XMLoadFloat3(&transform.position)};
+
+    vPlayerPos = XMVectorSetY(vPlayerPos, 0);
+    vPos = XMVectorSetY(vPos, 0);
+
+    XMVECTOR vDir{vPlayerPos - vPos};
+
+    float toPlayerDist{XMVectorGetX(XMVector3Length(vDir))};
+
+    if (toPlayerDist <= 10.f) // プレイヤーが視界内に入ったら
     {
         state_ = CHASE;
+        SetAnimation(EA_RUN);
     }
 }
 
@@ -89,32 +106,42 @@ void Enemy::UpdateChase()
 
     float toPlayerDist{XMVectorGetX(XMVector3Length(vDir))};
 
+    if (toPlayerDist <= 6.5f and toPlayerDist >= 6.0f)
+    {
+        state_ = ATTACK;
+    }
+
     if (eaState_ != EA_RUN)
     {
         SetAnimation(EA_RUN);
     }
 
     vDir = XMVector3Normalize(vDir);
-    vPos = vPos + vDir * SPEED;
+
+    if (eaState_ != EA_HIT)
+    {
+        vPos = vPos + vDir * SPEED;
+    }
+
+    RayCastData toWall{};
+    XMFLOAT3 start{};
+    XMFLOAT3 dir{};
+    XMStoreFloat3(&start, vPos);
+    XMStoreFloat3(&dir,   vDir);
+    toWall.start = start;
+    toWall.dir   = dir;
+
+    // RayCastせよ
+    Model::RayCast(hStage_, &toWall);
+
+    if (toWall.dist <= 6.0f)
+    {
+        vPos -= vDir * SPEED;
+    }
+
     XMStoreFloat3(&transform.position, vPos);
 
-    if (toPlayerDist >= 3.0f and toPlayerDist <= 8.0f)
-    {
-        state_ = ATTACK;
-    }
-    else
-    {
-        if (eaState_ != EA_IDLE and eaState_ != EA_HIT)
-        {
-            // 一定時間STATEがCHASEなのにEA_IDLEだったら、STATEをIDLEにする
-            SetAnimation(EA_IDLE);
-        }
-    }
 
-    //if (true) // プレイヤーが視界内から消えたら
-    //{
-    //    state_ = IDLE;
-    //}
 }
 
 void Enemy::UpdateAttack()
@@ -131,7 +158,7 @@ void Enemy::UpdateAttack()
 
     float toPlayerDist{ XMVectorGetX(XMVector3Length(vDir)) };
 
-    if (toPlayerDist >= 12.0f) // プレイヤーが射程距離から離れたら
+    if (toPlayerDist >= 20.0f) // プレイヤーが射程距離から離れたら
     {
         //SetAnimation(EA_RUN);
         state_ = CHASE;
@@ -141,6 +168,14 @@ void Enemy::UpdateAttack()
     {
         attackInterval_ = 0;
         SetAnimation(EA_ATTACK);
+        Bullet* pBullet = static_cast<Bullet*>(Instantiate<Bullet>(GetParent()));
+        pBullet->GetTransform()->position = XMFLOAT3(transform.position.x,
+                                                     transform.position.y + 3.0f,
+                                                     transform.position.z);
+
+        pBullet->SetObjectName("EnemyBullet");
+        pBullet->SetDir(vDir);
+        pBullet->SetSpeed(0.03f);
     }
 
     if (currAnimFrame_ == 189)
@@ -228,6 +263,10 @@ void Enemy::OnCollision(GameObject* _pTarget)
         if ((eaState_ != EA_HIT and eaState_ != EA_DEAD))
         {
             SetAnimation(EA_HIT);
+        }
+        if (state_ != CHASE)
+        {
+            state_ = CHASE;
         }
         hp_ -= 1;
     }
