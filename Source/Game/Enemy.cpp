@@ -264,7 +264,7 @@ void Enemy::OnCollision(GameObject* _pTarget)
         {
             SetAnimation(EA_HIT);
         }
-        if (state_ != CHASE)
+        if (state_ != CHASE && state_ != ATTACK)
         {
             state_ = CHASE;
         }

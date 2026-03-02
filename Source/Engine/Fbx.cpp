@@ -143,6 +143,34 @@ void Fbx::Draw(Transform& transform, int frame)
 	}
 }
 
+void Fbx::DrawSky(Transform& transform, int frame)
+{
+    Direct3D::SetShader(Direct3D::SHADER_SKY);
+    Direct3D::SetBlendMode(Direct3D::BLEND_DEFAULT);
+
+    //パーツを1個ずつ描画
+    for (int k = 0; k < parts_.size(); k++)
+    {
+        // その瞬間の自分の姿勢行列を得る
+        FbxTime     time;
+        time.SetTime(0, 0, 0, frame, 0, 0, _frameRate);
+
+
+        //スキンアニメーション（ボーン有り）の場合
+        if (parts_[k]->GetSkinInfo() != nullptr)
+        {
+            parts_[k]->DrawSkinAnime(transform, time);
+        }
+
+        //メッシュアニメーションの場合
+        else
+        {
+            parts_[k]->DrawMeshAnime(transform, time, pFbxScene_);
+        }
+    }
+    Direct3D::SetShader(Direct3D::SHADER_3D);
+}
+
 
 //レイキャスト（レイを飛ばして当たり判定）
 void Fbx::RayCast(RayCastData * data)

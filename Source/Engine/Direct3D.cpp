@@ -352,6 +352,52 @@ namespace Direct3D
             pDevice_->CreateRasterizerState(&rdc, &shaderBundle[SHADER_BILLBOARD].pRasterizerState);
         }
 
+
+        //SKY
+        {
+            HRESULT result{};
+            // 頂点シェーダの作成（コンパイル）
+            ID3DBlob* pCompileVS = NULL;
+            result = D3DCompileFromFile(L"Shader/Sky.hlsl", nullptr, nullptr, "VS", "vs_5_0", NULL, 0, &pCompileVS, NULL);
+
+            if (FAILED(result))
+            {
+                MessageBox(nullptr, L"FAILED D3DCompile", L"ERROR", MB_OK);
+            }
+            result = pDevice_->CreateVertexShader(pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), NULL, &shaderBundle[SHADER_SKY].pVertexShader);
+
+            if (FAILED(result))
+            {
+                MessageBox(nullptr, L"FAILED CreateVertexShader", L"ERROR", MB_OK);
+            }
+
+            // ピクセルシェーダの作成（コンパイル）
+            ID3DBlob* pCompilePS = NULL;
+            result = D3DCompileFromFile(L"Shader/Sky.hlsl", nullptr, nullptr, "PS", "ps_5_0", NULL, 0, &pCompilePS, NULL);
+            result = pDevice_->CreatePixelShader(pCompilePS->GetBufferPointer(), pCompilePS->GetBufferSize(), NULL, &shaderBundle[SHADER_SKY].pPixelShader);
+
+
+            // 頂点レイアウトの作成（1頂点の情報が何のデータをどんな順番で持っているか）
+            D3D11_INPUT_ELEMENT_DESC layout[] = {
+                { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, vectorSize * 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },	//頂点位置
+                { "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, vectorSize * 1, D3D11_INPUT_PER_VERTEX_DATA, 0 },	//法線
+                { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, vectorSize * 2, D3D11_INPUT_PER_VERTEX_DATA, 0 },	//テクスチャ（UV）座標
+            };
+            result = pDevice_->CreateInputLayout(layout, 3, pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &shaderBundle[SHADER_3D].pVertexLayout);
+
+
+            //シェーダーが無事作成できたので、コンパイルしたやつはいらない
+            pCompileVS->Release();
+            pCompilePS->Release();
+
+            //ラスタライザ作成
+            D3D11_RASTERIZER_DESC rdc = {};
+            rdc.CullMode = D3D11_CULL_BACK;
+            rdc.FillMode = D3D11_FILL_SOLID;
+            rdc.FrontCounterClockwise = FALSE;	//反時計回りは表面じゃない
+            pDevice_->CreateRasterizerState(&rdc, &shaderBundle[SHADER_SKY].pRasterizerState);
+        }
+
     }
 
 
@@ -380,17 +426,13 @@ namespace Direct3D
     {
         //何か準備できてないものがあったら諦める
 
-        // ここ、比較演算子と代入演算子の間違いによるエラーを防止する目的でこうしてるんでしょうけれど、
-        // バカみたいだからやめたほうがいいわよ。
-        // あと、ただ戻るだけだと描画されない原因がわからなくなっちゃうんじゃないかしら。
-        // (西麻布のママより)
         if (NULL == pDevice_) return;
         if (NULL == pContext_) return;
         if (NULL == pRenderTargetView_) return;
         if (NULL == pSwapChain_) return;
 
         //背景の色
-        const float clearColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };//R,G,B,A
+        const float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };//R,G,B,A
 
         //画面をクリア
         pContext_->ClearRenderTargetView(pRenderTargetView_, clearColor);

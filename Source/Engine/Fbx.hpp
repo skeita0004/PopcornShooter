@@ -29,8 +29,6 @@ class Fbx
 	//FbxPartのprivateな関数にもアクセス可
 	friend class FbxParts;
 
-
-
 	//モデルの各パーツ（複数あるかも）
 	std::vector<FbxParts*>	parts_;
 
@@ -50,17 +48,10 @@ class Fbx
 	//アニメーションの最初と最後のフレーム
 	int _startFrame, _endFrame;
 
-
-
-
-
 	//ノードの中身を調べる
 	//引数：pNode		調べるノード
 	//引数：pPartsList	パーツのリスト
 	void CheckNode(FbxNode* pNode, std::vector<FbxParts*> *pPartsList);
-
-
-
 
 public:
 	Fbx();
@@ -74,6 +65,8 @@ public:
 	//描画
 	//引数：World	ワールド行列
 	void    Draw(Transform& transform, int frame);
+
+    void    DrawSky(Transform& transform, int frame);
 
 	//解放
 	void    Release();

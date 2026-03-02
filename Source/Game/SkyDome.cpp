@@ -44,7 +44,7 @@ void Skybox::Update()
 void Skybox::Draw()
 {
     Model::SetTransform(hModel_, transform);
-    Model::Draw(hModel_);
+    Model::DrawSky(hModel_);
 }
 
 void Skybox::Release()
