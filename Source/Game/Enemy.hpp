@@ -66,4 +66,6 @@ private:
 
     Stage*  pStage_;
     int     hStage_;
+
+    inline static int instanceCount_{0}; // 敵の数
 };

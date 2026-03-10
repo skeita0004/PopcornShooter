@@ -14,6 +14,7 @@ Enemy::Enemy(GameObject* _pParent) :
 
 Enemy::~Enemy()
 {
+    instanceCount_ -= 1;
 }
 
 void Enemy::Init()
@@ -32,6 +33,8 @@ void Enemy::Init()
     pPlayer_ = static_cast<Player*>(FindObject<Player>("Player"));
     pStage_  = static_cast<Stage*>(FindObject<Stage>("Stage"));
     hStage_  = pStage_->GetModelHandle();
+
+    instanceCount_ += 1;
 }
 
 void Enemy::Update()
