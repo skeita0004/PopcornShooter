@@ -1,4 +1,6 @@
-﻿#include "Enemy.hpp"
+﻿#define _CRT_SECURE_NO_WARNINGS
+
+#include "Enemy.hpp"
 #include "Model.hpp"
 #include <imgui.h>
 #include "Player.hpp"
@@ -39,6 +41,10 @@ void Enemy::Init()
 
 void Enemy::Update()
 {
+    char buf[64]{};
+    sprintf(buf, "%d", instanceCount_);
+    OutputDebugStringA(buf);
+
     switch (state_)
     {
         case Enemy::IDLE:

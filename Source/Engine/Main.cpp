@@ -1,4 +1,6 @@
-﻿#include <Windows.h>
+﻿#define _CRT_SECURE_NO_WARNINGS
+
+#include <Windows.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <time.h>
