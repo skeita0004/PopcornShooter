@@ -9,6 +9,7 @@
 #include "Bullet.hpp"
 #include <imgui.h>
 #include <cstdarg>
+#include "SceneManager.hpp"
 
 #undef min
 #undef max
@@ -25,6 +26,7 @@ Player::~Player()
 
 void Player::Init()
 {
+    hp_ = 200;
     Stage* pStage = FindObject<Stage>("Stage");
     hGround_ = pStage->GetModelHandle();
 
@@ -36,6 +38,7 @@ void Player::Init()
     gunTemp_ = 0.0f;
 
     transform.position = XMFLOAT3( 75.f, 0.f, -75.f );
+    pSM_ = static_cast<SceneManager*>(FindObject<SceneManager>("SceneManager"));
 }
 
 void Player::Update()
@@ -68,19 +71,19 @@ void Player::Update()
 
 #pragma region GetInput
     // 入力取得
-    if (Input::IsKey(DIK_W))
+    if (Input::IsKey(DIK_W) or Input::IsPadButton(XINPUT_GAMEPAD_DPAD_UP))
     {
         vMoveDir += vForward;
     }
-    if (Input::IsKey(DIK_S))
+    if (Input::IsKey(DIK_S) or Input::IsPadButton(XINPUT_GAMEPAD_DPAD_DOWN))
     {
         vMoveDir += XMVectorNegate(vForward);
     }
-    if (Input::IsKey(DIK_A))
+    if (Input::IsKey(DIK_A) or Input::IsPadButton(XINPUT_GAMEPAD_DPAD_LEFT))
     {
         vMoveDir += vRight;
     }
-    if (Input::IsKey(DIK_D))
+    if (Input::IsKey(DIK_D) or Input::IsPadButton(XINPUT_GAMEPAD_DPAD_RIGHT))
     {
         vMoveDir += XMVectorNegate(vRight);
     }
@@ -94,7 +97,7 @@ void Player::Update()
     //    }
     //}
 
-    if (Input::IsMouseButton(Input::MOUSE::LEFT))
+    if (Input::IsMouseButton(Input::MOUSE::LEFT) or Input::GetPadTrrigerR() > 0.0f)
     {
         Bullet* pBullet = static_cast<Bullet*>(Instantiate<Bullet>(GetParent()));
         pBullet->GetTransform()->position = XMFLOAT3(transform.position.x,
@@ -117,7 +120,7 @@ void Player::Update()
             pBullet->SetState(Bullet::B_POPCORN);
         }
     }
-    if (not(Input::IsMouseButton(Input::MOUSE::LEFT))) // 発射時、ここは通らない
+    if (not(Input::IsMouseButton(Input::MOUSE::LEFT) or Input::GetPadTrrigerR() > 0.0f)) // 発射時、ここは通らない
     {
         gunTemp_ -= 0.3f / 60;
         gunTemp_ = std::max(gunTemp_, 0.0f);
@@ -130,7 +133,7 @@ void Player::Update()
 
 #pragma region ComputeMove
     // 正規化する
-    XMVector3Normalize(vStick);
+   vStick =  XMVector3Normalize(vStick);
     vStick = XMVector3TransformCoord(vStick, rotYMat);
 
     vForward = XMVector3Normalize(vForward);
@@ -230,6 +233,7 @@ void Player::Update()
 
 
     XMStoreFloat3(&transform.position, vPos);
+
 } // End Update
 
 void Player::Draw()
@@ -375,7 +379,7 @@ void Player::OnCollision(GameObject* _pTarget)
             }
         }
 
-        const float SLOP{ 0.0001f };
+        const float SLOP{ 0.1f };
 
         vPos += dir * ((penetration - SLOP) * 0.5);
         vTargetPos += -dir * ((penetration - SLOP) * 0.5);
@@ -395,7 +399,7 @@ void Player::OnCollision(GameObject* _pTarget)
 
     if (_pTarget->GetObjectName() == "EnemyBullet")
     {
-        // hp -= 5;
+         hp_ -= 5;
         _pTarget->DeleteMe();
     }
 }

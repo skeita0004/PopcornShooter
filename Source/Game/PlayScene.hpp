@@ -2,6 +2,8 @@
 #include "GameObject.hpp"
 
 class SceneManager;
+class Text;
+class Stage;
 
 class PlayScene : public GameObject
 {
@@ -16,4 +18,6 @@ public:
 private:
     SceneManager* pSceneManager_;
     int hReticle_;
+    Text* pText_;
+    Stage* pStage_;
 };

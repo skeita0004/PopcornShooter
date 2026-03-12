@@ -20,18 +20,7 @@ Stage::~Stage()
 void Stage::Init()
 {
     hModel_ = Model::Load("Models/Stage/StagePlane.fbx");
-    Instantiate<Player>(GetParent());
-
-    Instantiate<Enemy>(GetParent());
-    Instantiate<Enemy>(GetParent());
-    Instantiate<Enemy>(GetParent());
-    Instantiate<Enemy>(GetParent());
-    Instantiate<Enemy>(GetParent());
-    Instantiate<Enemy>(GetParent());
-    Instantiate<Enemy>(GetParent());
-    Instantiate<Enemy>(GetParent());
-    Instantiate<Enemy>(GetParent());
-    Instantiate<Enemy>(GetParent());
+    pPlayer_ = static_cast<Player*>(Instantiate<Player>(GetParent()));
 
     struct EnemyInfo
     {
@@ -76,6 +65,18 @@ void Stage::Init()
 
 void Stage::Update()
 {
+    // 倒されたEnemyは削除
+    for (auto it = pEnemys_.begin(); it != pEnemys_.end();)
+    {
+        if ((*it)->IsDelete())
+        {
+            it = pEnemys_.erase(it);
+        }
+        else
+        {
+            it++;
+        }
+    }
     //CameraSet camera{};
     //camera.GetCurrent()->GetTransform().position = { 0, 100, 0 };
     //camera.GetCurrent()->GetTargetTransform().position = {0, 0, 0};
@@ -91,12 +92,21 @@ void Stage::Release()
 {
 }
 
+int Stage::GetEnemyNum()
+{
+    return pEnemys_.size();
+}
+
+bool Stage::PlayerIsDead()
+{
+    return (pPlayer_->GetHp() < 0);
+}
+
 void Stage::PutEnemy(int _enemyNum, XMFLOAT3 _enemyPos)
 {
     for (int i = 0; i < _enemyNum; i++)
     {
-        Enemy* enemy{};
-        enemy = static_cast<Enemy*>(Instantiate<Enemy>(GetParent()));
-        enemy->GetTransform()->position = _enemyPos;
+        pEnemys_.push_back(static_cast<Enemy*>(Instantiate<Enemy>(GetParent())));
+        pEnemys_.back()->GetTransform()->position = _enemyPos;
     }
 }

@@ -15,4 +15,6 @@ public:
 
 private:
     SceneManager* pSceneManager_;
+    int hImage_;
+    int hReturnToTilteImage_;
 };

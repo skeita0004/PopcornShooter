@@ -7,6 +7,7 @@
 #include <algorithm>
 #include "Stage.hpp"
 #include "Bullet.hpp"
+#include "SceneManager.hpp"
 
 Enemy::Enemy(GameObject* _pParent) :
     GameObject(_pParent, "Enemy"),
@@ -34,6 +35,7 @@ void Enemy::Init()
 
     pPlayer_ = static_cast<Player*>(FindObject<Player>("Player"));
     pStage_  = static_cast<Stage*>(FindObject<Stage>("Stage"));
+    pSM_     = static_cast<SceneManager*>(FindObject<SceneManager>("SceneManager"));
     hStage_  = pStage_->GetModelHandle();
 
     instanceCount_ += 1;
@@ -41,10 +43,6 @@ void Enemy::Init()
 
 void Enemy::Update()
 {
-    char buf[64]{};
-    sprintf(buf, "%d", instanceCount_);
-    OutputDebugStringA(buf);
-
     switch (state_)
     {
         case Enemy::IDLE:
@@ -115,7 +113,8 @@ void Enemy::UpdateChase()
 
     float toPlayerDist{XMVectorGetX(XMVector3Length(vDir))};
 
-    if (toPlayerDist <= 6.5f and toPlayerDist >= 6.0f)
+    // プレイヤーから6.0離れていて、かつプレイヤーから6.5以内の場所にいれば
+    if (toPlayerDist <= 7.f and toPlayerDist >= 6.0f)
     {
         state_ = ATTACK;
     }

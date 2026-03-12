@@ -3,6 +3,7 @@
 #include "BoxCollider.hpp"
 
 class Gun;
+class SceneManager;
 
 class Player : public GameObject
 {
@@ -21,6 +22,16 @@ public:
 
     //開放
     void Release() override;
+
+    int GetHp()
+    {
+        return hp_;
+    }
+
+    float GetGunTemp()
+    {
+        return gunTemp_;
+    }
 
 private:
     float Jump();
@@ -68,4 +79,6 @@ private:
 
     XMFLOAT3 velocity_;
 
+    int hp_;
+    SceneManager* pSM_;
 };

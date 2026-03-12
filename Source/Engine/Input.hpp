@@ -115,9 +115,6 @@ namespace Input
 	//振動させる
 	void SetPadVibration(int l, int r, int padID = 0);
 
-
-
-
-	//開放
+    //開放
 	void Release();
 };

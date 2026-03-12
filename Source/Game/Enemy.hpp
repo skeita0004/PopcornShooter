@@ -5,6 +5,7 @@
 
 class Player;
 class Stage;
+class SceneManager;
 
 class Enemy : public GameObject
 {
@@ -16,6 +17,11 @@ public:
     void Update() override;
     void Draw() override;
     void Release() override;
+
+    int GetInstanceCount()
+    {
+        return instanceCount_;
+    }
 
 private:
     enum EnemyAnimation
@@ -66,6 +72,10 @@ private:
 
     Stage*  pStage_;
     int     hStage_;
+
+    SceneManager* pSM_;
+
+    XMFLOAT3 velocity_;
 
     inline static int instanceCount_{0}; // 敵の数
 };
