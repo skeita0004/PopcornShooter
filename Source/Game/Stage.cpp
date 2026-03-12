@@ -50,7 +50,7 @@ void Stage::Init()
         PutEnemy(enemies[i].num, enemies[i].pos);
     }
 
-    Instantiate<Skybox>(GetParent());
+    //Instantiate<Skybox>(GetParent());
     Instantiate<Reticle>(GetParent());
     const float SCALE{0.75f};
     transform.scale = { SCALE, 0.5, SCALE };
